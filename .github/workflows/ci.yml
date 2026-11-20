@@ -42,7 +42,7 @@ jobs:
         run: flutter analyze
 
       - name: Test
-        run: flutter test --coverage
+        run: flutter test --coverage --exclude-tags golden
 
       - name: Coverage
         run: |

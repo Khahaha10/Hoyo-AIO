@@ -61,6 +61,43 @@ abstract final class AppTextStyles {
     letterSpacing: 11 * 0.08,
   );
 
+  static const button = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 16,
+    height: 20 / 16,
+    fontWeight: FontWeight.w600,
+  );
+  static const buttonSmall = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 15,
+    height: 20 / 15,
+    fontWeight: FontWeight.w600,
+  );
+  static const chip = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 14,
+    height: 18 / 14,
+    fontWeight: FontWeight.w600,
+  );
+  static const rowTitle = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 15,
+    height: 20 / 15,
+    fontWeight: FontWeight.w600,
+  );
+  static const rowSubtitle = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 13,
+    height: 18 / 13,
+    fontWeight: FontWeight.w400,
+  );
+  static const badge = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 12,
+    height: 16 / 12,
+    fontWeight: FontWeight.w600,
+  );
+
   static TextStyle tabular(TextStyle style) =>
       style.copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
 

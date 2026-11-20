@@ -11,6 +11,7 @@ abstract final class AppDurations {
   static const reducedMotion = Duration(milliseconds: 150);
   static const snackbar = Duration(seconds: 4);
   static const snackbarWithAction = Duration(seconds: 6);
+  static const press = Duration(milliseconds: 100);
 }
 
 abstract final class AppCurves {
