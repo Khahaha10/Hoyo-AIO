@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 
 enum AppIconSize {
   regular(20),
+  tile(18),
   inline(16),
   badge(14);
 

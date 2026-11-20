@@ -7,13 +7,34 @@ import 'package:hoyo_aio/core/design_system/tokens/app_text_styles.dart';
 import 'package:hoyo_aio/core/design_system/tokens/brand_colors.dart';
 import 'package:material_ui/material_ui.dart';
 
-enum AppButtonVariant { primary, secondary, text }
+enum AppButtonVariant { primary, secondary, text, danger }
+
+enum AppButtonSize {
+  regular(height: 52, horizontalPadding: 24, textStyle: AppTextStyles.button),
+  medium(height: 48, horizontalPadding: 24, textStyle: AppTextStyles.button),
+  small(
+    height: 44,
+    horizontalPadding: 18,
+    textStyle: AppTextStyles.buttonSmall,
+  );
+
+  const AppButtonSize({
+    required this.height,
+    required this.horizontalPadding,
+    required this.textStyle,
+  });
+
+  final double height;
+  final double horizontalPadding;
+  final TextStyle textStyle;
+}
 
 class AppButton extends StatelessWidget {
   const AppButton({
     required this.label,
     required this.onPressed,
     this.variant = AppButtonVariant.primary,
+    this.size = AppButtonSize.regular,
     this.icon,
     this.isLoading = false,
     this.expand = true,
@@ -23,6 +44,7 @@ class AppButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
   final AppButtonVariant variant;
+  final AppButtonSize size;
   final IconData? icon;
   final bool isLoading;
   final bool expand;
@@ -30,6 +52,7 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final interactive = onPressed != null && !isLoading;
+    final scheme = Theme.of(context).colorScheme;
     return Semantics(
       button: true,
       enabled: onPressed != null,
@@ -41,9 +64,10 @@ class AppButton extends StatelessWidget {
         builder: (context, pressed) => _ButtonBody(
           spec: _ButtonSpec.resolve(
             variant: variant,
+            size: size,
             colors: context.colors,
-            primary: Theme.of(context).colorScheme.primary,
-            onPrimary: Theme.of(context).colorScheme.onPrimary,
+            primary: scheme.primary,
+            onPrimary: scheme.onPrimary,
             enabled: onPressed != null,
             pressed: pressed,
           ),
@@ -126,37 +150,51 @@ class _ButtonSpec {
 
   factory _ButtonSpec.resolve({
     required AppButtonVariant variant,
+    required AppButtonSize size,
     required AppColors colors,
     required Color primary,
     required Color onPrimary,
     required bool enabled,
     required bool pressed,
   }) {
+    _ButtonSpec sized({
+      required Color? background,
+      required Color foreground,
+      Color? border,
+    }) => _ButtonSpec(
+      height: size.height,
+      horizontalPadding: size.horizontalPadding,
+      gap: 8,
+      textStyle: size.textStyle,
+      background: background,
+      foreground: foreground,
+      border: border,
+    );
+
     return switch (variant) {
-      AppButtonVariant.primary => _ButtonSpec(
-        height: 52,
-        horizontalPadding: 24,
-        gap: 8,
-        textStyle: AppTextStyles.button,
+      AppButtonVariant.primary => sized(
         background: !enabled
             ? colors.surface3
             : pressed
             ? _pressedFill(primary)
             : primary,
         foreground: enabled ? onPrimary : colors.text3,
-        border: null,
       ),
-      AppButtonVariant.secondary => _ButtonSpec(
-        height: 52,
-        horizontalPadding: 24,
-        gap: 8,
-        textStyle: AppTextStyles.button,
+      AppButtonVariant.danger => sized(
+        background: !enabled
+            ? colors.surface3
+            : pressed
+            ? _pressedFill(colors.danger)
+            : colors.danger,
+        foreground: enabled ? colors.bg : colors.text3,
+      ),
+      AppButtonVariant.secondary => sized(
         background: pressed ? colors.surface2 : colors.surface,
         foreground: enabled ? colors.text : colors.text3,
         border: enabled ? colors.border2 : colors.border,
       ),
       AppButtonVariant.text => _ButtonSpec(
-        height: 44,
+        height: AppButtonSize.small.height,
         horizontalPadding: 16,
         gap: 6,
         textStyle: AppTextStyles.buttonSmall,
@@ -167,9 +205,9 @@ class _ButtonSpec {
     };
   }
 
-  static Color _pressedFill(Color primary) => primary == BrandColors.lime
+  static Color _pressedFill(Color fill) => fill == BrandColors.lime
       ? BrandColors.limePressed
-      : Color.alphaBlend(const Color.fromRGBO(0, 0, 0, .08), primary);
+      : Color.alphaBlend(const Color.fromRGBO(0, 0, 0, .08), fill);
 
   final double height;
   final double horizontalPadding;
