@@ -7,14 +7,18 @@ class CheckInEndpoint {
     required this.basePath,
     required this.actId,
     required this.signGame,
+    required this.headers,
     this.paramsInBody = false,
+    this.sendsTimestamp = false,
   });
 
   final String host;
   final String basePath;
   final String actId;
   final String? signGame;
+  final Map<String, String> headers;
   final bool paramsInBody;
+  final bool sendsTimestamp;
 
   Uri get signUri => Uri.https(host, '$basePath/sign');
   Uri get infoUri => Uri.https(host, '$basePath/info');
@@ -52,6 +56,10 @@ abstract final class HoyolabConfig {
   static const actOrigin = 'https://act.hoyolab.com';
   static const actReferer = 'https://act.hoyolab.com/';
 
+  static const mobileChromeUserAgent =
+      'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) '
+      'Chrome/124.0.0.0 Mobile Safari/537.36';
+
   static const languageEnglish = 'en-us';
   static const languageIndonesian = 'id-id';
 
@@ -67,25 +75,39 @@ abstract final class HoyolabConfig {
       basePath: '/event/sol',
       actId: 'e202102251931481',
       signGame: null,
+      headers: {
+        'Referer': actReferer,
+        'x-rpc-platform': platformCheckIn,
+        'User-Agent': mobileChromeUserAgent,
+      },
     ),
     Game.starRail: CheckInEndpoint(
       host: publicEventHost,
       basePath: '/event/luna/os',
       actId: 'e202303301540311',
       signGame: 'hkrpg',
+      headers: {'Referer': gameRecordReferer},
     ),
     Game.zzz: CheckInEndpoint(
       host: publicEventHost,
       basePath: '/event/luna/zzz/os',
       actId: 'e202406031448091',
       signGame: 'zzz',
+      headers: {
+        'Origin': actOrigin,
+        'Referer': actReferer,
+        'x-rpc-client_type': clientTypeCheckIn,
+        'x-rpc-platform': platformCheckIn,
+      },
       paramsInBody: true,
+      sendsTimestamp: true,
     ),
     Game.hi3: CheckInEndpoint(
       host: publicEventHost,
       basePath: '/event/mani',
       actId: 'e202110291205111',
       signGame: 'bh3',
+      headers: {'Referer': gameRecordReferer},
     ),
   };
 
