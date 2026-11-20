@@ -1,4 +1,5 @@
 import 'package:hoyo_aio/app/flavor.dart';
+import 'package:hoyo_aio/core/design_system/theme/app_theme.dart';
 import 'package:material_ui/material_ui.dart';
 
 class App extends StatelessWidget {
@@ -11,6 +12,8 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: flavor.appTitle,
       debugShowCheckedModeBanner: flavor == Flavor.dev,
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
       home: const Scaffold(body: SizedBox.shrink()),
     );
   }
