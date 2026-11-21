@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/home_widget_repositories.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/widget_snapshot.dart';
@@ -12,6 +13,7 @@ class HomeWidgetBridgeImpl implements HomeWidgetBridge {
 
   static const appGroupId = 'group.com.hoyoaio.app';
   static const snapshotKey = 'hoyo_aio_snapshot';
+  static const iosKind = 'HoYoWidgets';
   static const androidReceivers = [
     'com.hoyoaio.app.widget.SmallWidgetReceiver',
     'com.hoyoaio.app.widget.MediumWidgetReceiver',
@@ -25,6 +27,10 @@ class HomeWidgetBridgeImpl implements HomeWidgetBridge {
       snapshotKey,
       jsonEncode(snapshot.toJson()),
     );
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      await HomeWidget.updateWidget(iOSName: iosKind);
+      return;
+    }
     for (final receiver in androidReceivers) {
       await HomeWidget.updateWidget(qualifiedAndroidName: receiver);
     }

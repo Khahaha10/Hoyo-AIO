@@ -76,5 +76,8 @@ jobs:
           flutter gen-l10n
           dart run build_runner build
 
+      - name: Add widget extension target
+        run: ruby ios/scripts/add_widget_extension.rb
+
       - name: Build iOS (no codesign)
         run: flutter build ios -t lib/main_prod.dart --no-codesign
