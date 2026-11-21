@@ -431,5 +431,12 @@
   "settingsDynamicColorSubtitle": "Pakai warna dari wallpaper",
   "settingsLanguage": "Bahasa",
   "settingsLanguageName": "{code, select, en{English} id{Bahasa Indonesia} other{Sistem}}",
-  "settingsRolesCount": "{count, plural, =1{1 role game} other{{count} role game}}"
+  "settingsRolesCount": "{count, plural, =1{1 role game} other{{count} role game}}",
+  "backupTitle": "Cadangan",
+  "backupExport": "Ekspor",
+  "backupImport": "Impor",
+  "backupImportTitle": "Impor Cadangan?",
+  "backupImportBody": "{count, plural, =1{Cadangan ini berisi 1 akun.} other{Cadangan ini berisi {count} akun.}} Pengaturan dan widget di perangkat ini akan diganti. Akun yang sudah ada tetap login; akun baru perlu login dulu. Cookie tidak pernah ikut dicadangkan.",
+  "backupImported": "{count, plural, =0{Cadangan diimpor} =1{Cadangan diimpor · 1 akun perlu login} other{Cadangan diimpor · {count} akun perlu login}}",
+  "backupInvalidFile": "File ini bukan cadangan HoYo AIO, atau rusak."
 }

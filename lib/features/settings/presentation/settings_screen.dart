@@ -14,6 +14,7 @@ import 'package:hoyo_aio/features/accounts/presentation/providers/selected_role_
 import 'package:hoyo_aio/features/notifications/presentation/notification_permission_banner.dart';
 import 'package:hoyo_aio/features/notifications/presentation/providers/notification_sync_provider.dart';
 import 'package:hoyo_aio/features/settings/presentation/appearance_card.dart';
+import 'package:hoyo_aio/features/settings/presentation/backup_row.dart';
 import 'package:hoyo_aio/features/settings/presentation/profile_card.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
@@ -90,6 +91,7 @@ class SettingsScreen extends ConsumerWidget {
                   ],
                 ),
               ),
+              const BackupRow(),
             ],
           ),
           Padding(

@@ -1194,5 +1194,26 @@
         "type": "int"
       }
     }
-  }
+  },
+  "backupTitle": "Backup",
+  "backupExport": "Export",
+  "backupImport": "Import",
+  "backupImportTitle": "Import Backup?",
+  "backupImportBody": "{count, plural, =1{This backup has 1 account.} other{This backup has {count} accounts.}} Settings and widgets on this device are replaced. Accounts already here keep their login; new accounts need a login before they work. Cookies are never part of a backup.",
+  "@backupImportBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupImported": "{count, plural, =0{Backup imported} =1{Backup imported · 1 account needs login} other{Backup imported · {count} accounts need login}}",
+  "@backupImported": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupInvalidFile": "This file is not a HoYo AIO backup, or it is damaged."
 }
