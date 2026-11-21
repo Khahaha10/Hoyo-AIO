@@ -14,6 +14,7 @@ import 'package:hoyo_aio/features/accounts/presentation/add_account_screen.dart'
 import 'package:hoyo_aio/features/accounts/presentation/paste_cookie_screen.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/has_accounts_provider.dart';
 import 'package:hoyo_aio/features/accounts/presentation/select_roles_placeholder_screen.dart';
+import 'package:hoyo_aio/features/accounts/presentation/webview_login_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/splash_screen.dart';
 import 'package:material_ui/material_ui.dart';
@@ -108,9 +109,7 @@ List<RouteBase> _routes(Flavor flavor) => [
   ),
   GoRoute(
     path: AppRoutes.webViewLogin,
-    builder: (context, _) => Scaffold(
-      body: PlaceholderScreen(title: context.l10n.webViewPlaceholderTitle),
-    ),
+    builder: (_, _) => const WebViewLoginScreen(),
   ),
   GoRoute(
     path: AppRoutes.selectRoles,

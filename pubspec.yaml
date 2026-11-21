@@ -28,6 +28,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  flutter_inappwebview: 6.2.0-beta.3
+  url_launcher: ^6.3.3
+  cryptography: ^2.9.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

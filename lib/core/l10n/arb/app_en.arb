@@ -117,7 +117,6 @@
   },
   "errorUnknown": "Something went wrong. Try again.",
   "commonRetry": "Retry",
-  "webViewPlaceholderTitle": "HoYoLAB Login",
   "selectRolesPlaceholderTitle": "Select Game Roles",
   "selectRolesFound": "{count, plural, =0{No roles found} =1{Found 1 role} other{Found {count} roles}}",
   "@selectRolesFound": {
@@ -126,5 +125,9 @@
         "type": "int"
       }
     }
-  }
+  },
+  "webViewLoginTitle": "Log In With HoYoLAB",
+  "webViewLoginHint": "Sign in below with your HoYoverse account. We continue automatically once you're logged in.",
+  "webViewSigningIn": "Signing you in…",
+  "webViewReload": "Reload"
 }

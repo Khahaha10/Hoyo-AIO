@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hoyo_aio/core/error/app_exception.dart';
+import 'package:hoyo_aio/core/storage/cookie_cipher.dart';
 import 'package:hoyo_aio/core/storage/hoyolab_cookie.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -10,7 +11,9 @@ class CookieVault {
   CookieVault([FlutterSecureStorage? storage])
     : _storage =
           storage ??
-          const FlutterSecureStorage(aOptions: _android, iOptions: _ios);
+          const FlutterSecureStorage(aOptions: _android, iOptions: _ios) {
+    _cipher = CookieCipher(_storage);
+  }
 
   static const _android = AndroidOptions();
   static const _ios = IOSOptions(
@@ -19,20 +22,33 @@ class CookieVault {
   static const _keyPrefix = 'hoyolab_cookie.';
 
   final FlutterSecureStorage _storage;
+  late final CookieCipher _cipher;
 
   Future<void> save(String accountId, HoyolabCookie cookie) async {
     if (!cookie.isUsable) throw const CookieExpiredException();
-    await _guard(
-      () => _storage.write(key: _key(accountId), value: cookie.serialize()),
-    );
+    await _guard(() async {
+      final sealed = await _cipher.encrypt(
+        cookie.serialize(),
+        accountId: accountId,
+      );
+      await _storage.write(key: _key(accountId), value: sealed);
+    });
   }
 
-  Future<HoyolabCookie?> read(String accountId) async {
-    final raw = await _guard(() => _storage.read(key: _key(accountId)));
-    if (raw == null) return null;
-    final cookie = HoyolabCookie.parse(raw);
+  Future<HoyolabCookie?> read(String accountId) => _guard(() async {
+    final stored = await _storage.read(key: _key(accountId));
+    if (stored == null) return null;
+    if (!CookieCipher.isEncrypted(stored)) {
+      final legacy = HoyolabCookie.parse(stored);
+      if (!legacy.isUsable) return null;
+      await save(accountId, legacy);
+      return legacy;
+    }
+    final clear = await _cipher.decrypt(stored, accountId: accountId);
+    if (clear == null) return null;
+    final cookie = HoyolabCookie.parse(clear);
     return cookie.isUsable ? cookie : null;
-  }
+  });
 
   Future<String?> cookieHeader(String accountId) async =>
       (await read(accountId))?.serialize();

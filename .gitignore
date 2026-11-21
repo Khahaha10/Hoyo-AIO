@@ -55,3 +55,4 @@ key.properties
 
 # Generated localizations (flutter gen-l10n)
 lib/core/l10n/generated/
+/android/build/

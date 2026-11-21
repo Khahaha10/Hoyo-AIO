@@ -65,7 +65,10 @@
   "errorServer": "HoYoLAB mengembalikan error (kode {code}).",
   "errorUnknown": "Terjadi kesalahan. Coba lagi.",
   "commonRetry": "Coba Lagi",
-  "webViewPlaceholderTitle": "Login HoYoLAB",
   "selectRolesPlaceholderTitle": "Pilih Peran Game",
-  "selectRolesFound": "{count, plural, =0{Tidak ada peran} other{Ditemukan {count} peran}}"
+  "selectRolesFound": "{count, plural, =0{Tidak ada peran} other{Ditemukan {count} peran}}",
+  "webViewLoginTitle": "Masuk dengan HoYoLAB",
+  "webViewLoginHint": "Masuk di bawah dengan akun HoYoverse kamu. Kami lanjut otomatis setelah kamu login.",
+  "webViewSigningIn": "Sedang memasukkan kamu…",
+  "webViewReload": "Muat Ulang"
 }
