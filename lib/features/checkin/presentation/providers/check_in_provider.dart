@@ -1,9 +1,13 @@
 import 'package:hoyo_aio/core/hoyolab/game.dart';
+import 'package:hoyo_aio/core/time/clock.dart';
 import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/accounts_provider.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/selected_role_provider.dart';
+import 'package:hoyo_aio/features/checkin/data/check_in_history_repository_impl.dart';
 import 'package:hoyo_aio/features/checkin/data/check_in_repository_impl.dart';
 import 'package:hoyo_aio/features/checkin/domain/check_in_month.dart';
+import 'package:hoyo_aio/features/checkin/domain/check_in_record.dart';
+import 'package:hoyo_aio/features/checkin/domain/run_auto_checkin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'check_in_provider.g.dart';
@@ -77,3 +81,18 @@ class CheckInCalendar extends _$CheckInCalendar {
     return outcome;
   }
 }
+
+@Riverpod(keepAlive: true)
+Stream<AutoCheckInSettings> autoCheckInSettings(Ref ref) =>
+    ref.watch(checkInHistoryRepositoryProvider).watchSettings();
+
+@riverpod
+Stream<List<CheckInRun>> checkInRuns(Ref ref) =>
+    ref.watch(checkInHistoryRepositoryProvider).watchRuns(limit: 10);
+
+@Riverpod(keepAlive: true)
+RunAutoCheckIn runAutoCheckIn(Ref ref) => RunAutoCheckIn(
+  ref.watch(checkInRepositoryProvider),
+  ref.watch(checkInHistoryRepositoryProvider),
+  ref.watch(clockProvider),
+);

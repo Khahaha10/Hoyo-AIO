@@ -23,13 +23,18 @@ class AppDatabase extends _$AppDatabase {
   static const fileName = 'hoyo_aio';
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) async {
       await m.createAll();
       await into(appSettings).insert(const AppSettingsCompanion(id: Value(1)));
+    },
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        await m.addColumn(appSettings, appSettings.autoCheckInGames);
+      }
     },
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');

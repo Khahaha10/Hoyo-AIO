@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hoyo_aio/app/flavor_provider.dart';
 import 'package:hoyo_aio/core/design_system/components/app_badge.dart';
+import 'package:hoyo_aio/core/design_system/components/app_button.dart';
 import 'package:hoyo_aio/core/design_system/components/app_snackbar.dart';
 import 'package:hoyo_aio/core/design_system/components/game_switcher_chip.dart';
 import 'package:hoyo_aio/core/design_system/components/skeleton.dart';
@@ -15,10 +17,13 @@ import 'package:hoyo_aio/core/l10n/game_labels.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
 import 'package:hoyo_aio/features/checkin/domain/check_in_month.dart';
+import 'package:hoyo_aio/features/checkin/presentation/auto_checkin_section.dart';
 import 'package:hoyo_aio/features/checkin/presentation/check_in_format.dart';
 import 'package:hoyo_aio/features/checkin/presentation/providers/check_in_provider.dart';
 import 'package:hoyo_aio/features/checkin/presentation/widgets/check_in_calendar_card.dart';
+import 'package:hoyo_aio/features/checkin/presentation/widgets/check_in_history_card.dart';
 import 'package:hoyo_aio/features/checkin/presentation/widgets/check_in_today_card.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/dashboard_format.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/states/dashboard_error.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
@@ -32,6 +37,31 @@ class CheckInScreen extends ConsumerStatefulWidget {
 
 class _CheckInScreenState extends ConsumerState<CheckInScreen> {
   final _claiming = <Game>{};
+  var _running = false;
+
+  Future<void> _runNow() async {
+    final settings = ref.read(autoCheckInSettingsProvider).value;
+    if (settings == null) return;
+    setState(() => _running = true);
+    try {
+      final run = await ref.read(runAutoCheckInProvider)(
+        roles: ref.read(checkInRolesProvider),
+        games: settings.games,
+      );
+      ref.invalidate(checkInCalendarProvider);
+      if (!mounted) return;
+      showAppSnackbar(
+        context,
+        message: context.l10n.checkInRunDone(
+          run.successCount,
+          run.records.length,
+        ),
+        icon: LucideIcons.check,
+      );
+    } finally {
+      if (mounted) setState(() => _running = false);
+    }
+  }
 
   Future<void> _claim(SavedRole role, CheckInMonth month) async {
     setState(() => _claiming.add(role.game));
@@ -86,6 +116,13 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
         ? null
         : ref.watch(checkInCalendarProvider(role.accountId, role.game));
     final month = calendar?.value;
+    final settings = ref.watch(autoCheckInSettingsProvider).value;
+    final autoRunAt = settings != null && settings.games.contains(role?.game)
+        ? context.l10n.clockTime(
+            DateTime(0).add(Duration(minutes: settings.runAtMinutes)),
+          )
+        : null;
+    final showRunNow = ref.watch(flavorProvider).galleryEnabled;
     return SafeArea(
       bottom: false,
       child: Column(
@@ -104,6 +141,13 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
                     calendar: calendar,
                     isClaiming: _claiming.contains(role.game),
                     onClaim: (month) => unawaited(_claim(role, month)),
+                    autoRunAt: autoRunAt,
+                    onRunNow: !showRunNow
+                        ? null
+                        : _running
+                        ? () {}
+                        : () => unawaited(_runNow()),
+                    isRunning: _running,
                     onRefresh: ref
                         .read(
                           checkInCalendarProvider(
@@ -126,12 +170,18 @@ class _Body extends StatelessWidget {
     required this.isClaiming,
     required this.onClaim,
     required this.onRefresh,
+    required this.autoRunAt,
+    required this.onRunNow,
+    required this.isRunning,
   });
 
   final AsyncValue<CheckInMonth> calendar;
   final bool isClaiming;
   final ValueChanged<CheckInMonth> onClaim;
   final Future<void> Function() onRefresh;
+  final String? autoRunAt;
+  final VoidCallback? onRunNow;
+  final bool isRunning;
 
   @override
   Widget build(BuildContext context) {
@@ -149,10 +199,24 @@ class _Body extends StatelessWidget {
             CheckInTodayCard(
               month: month,
               isClaiming: isClaiming,
+              autoRunAt: autoRunAt,
               onClaim: calendar.isLoading ? null : () => onClaim(month),
             ),
             const SizedBox(height: AppSpacing.cardGap),
             CheckInCalendarCard(month: month),
+            _SectionLabel(context.l10n.checkInAutoSection),
+            const AutoCheckInSection(),
+            if (onRunNow case final onRunNow?) ...[
+              const SizedBox(height: AppSpacing.s12),
+              AppButton(
+                label: context.l10n.checkInRunNow,
+                variant: AppButtonVariant.secondary,
+                isLoading: isRunning,
+                onPressed: onRunNow,
+              ),
+            ],
+            _SectionLabel(context.l10n.checkInHistorySection),
+            const _History(),
           ],
           AsyncError(:final error) => [
             DashboardError(error: error, onRetry: () => unawaited(onRefresh())),
@@ -267,4 +331,33 @@ class _CheckInSkeleton extends StatelessWidget {
       ),
     );
   }
+}
+
+class _SectionLabel extends StatelessWidget {
+  const _SectionLabel(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.fromLTRB(
+      AppSpacing.s4,
+      AppSpacing.s24,
+      AppSpacing.s4,
+      AppSpacing.s8,
+    ),
+    child: Text(
+      text.toUpperCase(),
+      style: AppTextStyles.overline.copyWith(color: context.colors.text2),
+    ),
+  );
+}
+
+class _History extends ConsumerWidget {
+  const _History();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) => CheckInHistoryCard(
+    runs: ref.watch(checkInRunsProvider).value ?? const [],
+  );
 }

@@ -549,5 +549,89 @@
   "checkInStatusToday": "today",
   "checkInStatusMissed": "missed",
   "checkInStatusUpcoming": "upcoming",
-  "checkInNoRoles": "No game roles yet. Turn on roles in Accounts."
+  "checkInNoRoles": "No game roles yet. Turn on roles in Accounts.",
+  "checkInAutoSection": "Auto Check-in",
+  "checkInHistorySection": "History",
+  "checkInAutoRunAt": "Auto run at {time}",
+  "@checkInAutoRunAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "checkInNextRunToday": "Next run today {time}",
+  "@checkInNextRunToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "checkInNextRunTomorrow": "Next run tomorrow {time}",
+  "@checkInNextRunTomorrow": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "checkInAutoOff": "Off",
+  "checkInRunTime": "Run Time",
+  "checkInRunTimeHint": "Retries if HoYoLAB is busy",
+  "checkInRunTimeSemantics": "Auto check-in time {time}",
+  "@checkInRunTimeSemantics": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "checkInAutoToggleSemantics": "Auto check-in for {game}",
+  "@checkInAutoToggleSemantics": {
+    "placeholders": {
+      "game": {
+        "type": "String"
+      }
+    }
+  },
+  "checkInRunNow": "Run Now",
+  "checkInRunDone": "Check-in run: {success} of {total} games",
+  "@checkInRunDone": {
+    "placeholders": {
+      "success": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "checkInHistoryEmpty": "No check-in runs yet.",
+  "checkInHistoryTitle": "{date} · {time}",
+  "@checkInHistoryTitle": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "checkInHistoryFailure": "{game}: {reason}",
+  "@checkInHistoryFailure": {
+    "placeholders": {
+      "game": {
+        "type": "String"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "checkInResultCaptcha": "Captcha required",
+  "checkInResultCookieExpired": "Cookie expired",
+  "checkInResultNoRole": "No game role",
+  "checkInResultFailed": "Failed"
 }

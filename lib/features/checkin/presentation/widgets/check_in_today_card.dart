@@ -17,6 +17,7 @@ class CheckInTodayCard extends StatelessWidget {
     required this.month,
     required this.isClaiming,
     required this.onClaim,
+    this.autoRunAt,
     super.key,
   });
 
@@ -25,6 +26,7 @@ class CheckInTodayCard extends StatelessWidget {
   final CheckInMonth month;
   final bool isClaiming;
   final VoidCallback? onClaim;
+  final String? autoRunAt;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +67,12 @@ class CheckInTodayCard extends StatelessWidget {
                     l10n.rewardLabel(reward),
                     style: AppTextStyles.tabular(AppTextStyles.titleM)
                         .copyWith(color: colors.text),
+                  ),
+                if (autoRunAt case final time? when !month.signedToday)
+                  Text(
+                    l10n.checkInAutoRunAt(time),
+                    style: AppTextStyles.tabular(AppTextStyles.caption)
+                        .copyWith(color: colors.text2),
                   ),
               ],
             ),

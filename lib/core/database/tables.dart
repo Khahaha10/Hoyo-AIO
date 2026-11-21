@@ -90,6 +90,8 @@ class AppSettings extends Table {
       boolean().withDefault(const Constant(false))();
   IntColumn get autoCheckInMinutes =>
       integer().withDefault(const Constant(20 * 60))();
+  TextColumn get autoCheckInGames =>
+      text().withDefault(const Constant('genshin,starRail,zzz,hi3'))();
   IntColumn get refreshIntervalMinutes =>
       integer().withDefault(const Constant(30))();
 
