@@ -12,6 +12,11 @@ class HomeWidgetBridgeImpl implements HomeWidgetBridge {
 
   static const appGroupId = 'group.com.hoyoaio.app';
   static const snapshotKey = 'hoyo_aio_snapshot';
+  static const androidReceivers = [
+    'com.hoyoaio.app.widget.SmallWidgetReceiver',
+    'com.hoyoaio.app.widget.MediumWidgetReceiver',
+    'com.hoyoaio.app.widget.LargeWidgetReceiver',
+  ];
 
   @override
   Future<void> publish(WidgetSnapshot snapshot) async {
@@ -20,6 +25,9 @@ class HomeWidgetBridgeImpl implements HomeWidgetBridge {
       snapshotKey,
       jsonEncode(snapshot.toJson()),
     );
+    for (final receiver in androidReceivers) {
+      await HomeWidget.updateWidget(qualifiedAndroidName: receiver);
+    }
   }
 }
 

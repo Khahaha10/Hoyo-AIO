@@ -39,6 +39,7 @@ abstract final class WidgetSnapshotBuilder {
     return WidgetRoleSnapshot(
       roleId: role.id,
       game: role.game,
+      uid: role.uid,
       name: role.nickname,
       fetchedAt: note.fetchedAt.toUtc(),
       stale: result.isStale,

@@ -24,6 +24,7 @@ abstract class WidgetRoleSnapshot with _$WidgetRoleSnapshot {
   const factory WidgetRoleSnapshot({
     required int roleId,
     required Game game,
+    required String uid,
     required String name,
     required DateTime fetchedAt,
     required bool stale,

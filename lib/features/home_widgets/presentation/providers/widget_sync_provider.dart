@@ -2,6 +2,7 @@ import 'package:hoyo_aio/app/app_settings_provider.dart';
 import 'package:hoyo_aio/core/l10n/resolve_l10n.dart';
 import 'package:hoyo_aio/core/time/clock.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/selected_role_provider.dart';
+import 'package:hoyo_aio/features/background/background_dispatcher.dart';
 import 'package:hoyo_aio/features/checkin/data/check_in_history_repository_impl.dart';
 import 'package:hoyo_aio/features/checkin/presentation/providers/check_in_provider.dart';
 import 'package:hoyo_aio/features/dashboard/data/notes_repository_impl.dart';
@@ -24,6 +25,11 @@ UpdateHomeWidgets updateHomeWidgets(Ref ref) => UpdateHomeWidgets(
 );
 
 @Riverpod(keepAlive: true)
+Future<void> homeWidgetInteractivity(Ref ref) async {
+  await registerHomeWidgetCallback();
+}
+
+@Riverpod(keepAlive: true)
 Future<int> widgetSync(Ref ref) async {
   final roles = ref.watch(dashboardRolesProvider);
   final checkIn = ref.watch(autoCheckInSettingsProvider).value;
@@ -33,6 +39,7 @@ Future<int> widgetSync(Ref ref) async {
     ..watch(checkInRunsProvider);
   final locale = ref.watch(appPreferencesProvider).value?.locale;
   if (checkIn == null) return 0;
+  await ref.watch(homeWidgetInteractivityProvider.future);
   final snapshot = await ref.read(updateHomeWidgetsProvider)(
     roles: roles,
     checkInGames: checkIn.games.intersection(gamesWithRoles),

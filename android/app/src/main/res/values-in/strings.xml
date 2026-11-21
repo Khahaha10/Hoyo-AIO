@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_empty">Buka HoYo AIO untuk memuat catatan</string>
+    <string name="widget_refresh">Muat ulang</string>
+    <string name="widget_small_description">Stamina dan waktu sampai penuh</string>
+    <string name="widget_medium_description">Stamina dengan tiga item harian</string>
+    <string name="widget_large_description">Stamina hingga tiga game dan check-in</string>
+</resources>

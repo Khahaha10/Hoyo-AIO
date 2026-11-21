@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:hoyo_aio/app/flavor.dart';
 import 'package:hoyo_aio/app/flavor_provider.dart';
 import 'package:hoyo_aio/app/provider_retry.dart';
@@ -13,6 +14,30 @@ abstract final class BackgroundTasks {
   static const autoCheckIn = 'com.hoyoaio.app.autoCheckIn';
   static const flavorKey = 'flavor';
 }
+
+@pragma('vm:entry-point')
+Future<void> homeWidgetCallback(Uri? uri) async {
+  if (uri?.host != 'refresh') return;
+  DartPluginRegistrant.ensureInitialized();
+  final flavor =
+      Flavor.values
+          .asNameMap()[uri?.queryParameters[BackgroundTasks.flavorKey]] ??
+      Flavor.prod;
+  final container = ProviderContainer(
+    retry: noProviderRetry,
+    overrides: [flavorProvider.overrideWithValue(flavor)],
+  );
+  try {
+    await BackgroundJobs(container).refreshNotes();
+  } on AppException {
+    return;
+  } finally {
+    container.dispose();
+  }
+}
+
+Future<void> registerHomeWidgetCallback() =>
+    HomeWidget.registerInteractivityCallback(homeWidgetCallback);
 
 @pragma('vm:entry-point')
 void backgroundDispatcher() {

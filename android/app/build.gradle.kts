@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("dev.flutter.flutter-gradle-plugin")
 }
 
@@ -24,6 +25,7 @@ android {
 
     buildFeatures {
         resValues = true
+        compose = true
     }
 
     flavorDimensions += "env"
@@ -59,4 +61,5 @@ flutter {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    implementation("androidx.glance:glance-appwidget:1.2.0")
 }
