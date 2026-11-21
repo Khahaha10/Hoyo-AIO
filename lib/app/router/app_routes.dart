@@ -11,6 +11,7 @@ abstract final class AppRoutes {
   static const pasteCookie = '/accounts/paste';
   static const webViewLogin = '/accounts/webview';
   static const selectRoles = '/accounts/roles';
+  static const notifications = '/notifications';
   static const gallery = '/gallery';
   static const apiDebug = '/debug/api';
 

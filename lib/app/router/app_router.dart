@@ -18,6 +18,7 @@ import 'package:hoyo_aio/features/accounts/presentation/select_roles_screen.dart
 import 'package:hoyo_aio/features/accounts/presentation/webview_login_screen.dart';
 import 'package:hoyo_aio/features/checkin/presentation/check_in_screen.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_screen.dart';
+import 'package:hoyo_aio/features/notifications/presentation/notifications_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/splash_screen.dart';
 import 'package:hoyo_aio/features/settings/presentation/settings_screen.dart';
@@ -106,6 +107,10 @@ List<RouteBase> _routes(Flavor flavor) => [
     builder: (_, _) => const WebViewLoginScreen(),
   ),
   GoRoute(path: AppRoutes.accounts, builder: (_, _) => const AccountsScreen()),
+  GoRoute(
+    path: AppRoutes.notifications,
+    builder: (_, _) => const NotificationsScreen(),
+  ),
   GoRoute(
     path: AppRoutes.selectRoles,
     builder: (_, _) => const SelectRolesScreen(),

@@ -20,6 +20,18 @@ abstract class NotificationSettings with _$NotificationSettings {
     @Default(7 * 60) int quietEndMinutes,
   }) = _NotificationSettings;
 
+  const NotificationSettings._();
+
+  int get activeAlertCount => [
+    stamina,
+    expeditions,
+    currency,
+    transformer,
+    dailyReminder,
+    checkInResult,
+    true,
+  ].where((on) => on).length;
+
   factory NotificationSettings.fromJson(Map<String, dynamic> json) =>
       _$NotificationSettingsFromJson(json);
 }

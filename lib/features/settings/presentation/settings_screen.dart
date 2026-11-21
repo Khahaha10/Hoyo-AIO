@@ -10,6 +10,7 @@ import 'package:hoyo_aio/core/design_system/tokens/app_text_styles.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/accounts_provider.dart';
 import 'package:hoyo_aio/features/notifications/presentation/notification_permission_banner.dart';
+import 'package:hoyo_aio/features/notifications/presentation/providers/notification_sync_provider.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -22,6 +23,7 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = context.l10n;
     final attention = ref.watch(accountsNeedingAttentionProvider);
     final count = ref.watch(accountsProvider).value?.length ?? 0;
+    final notifications = ref.watch(notificationSettingsProvider).value;
     return SafeArea(
       child: ListView(
         padding: const EdgeInsets.all(AppSpacing.gutter),
@@ -37,6 +39,19 @@ class SettingsScreen extends ConsumerWidget {
           const NotificationPermissionBanner(),
           SettingsCard(
             children: [
+              SettingsRow(
+                icon: LucideIcons.bell,
+                title: l10n.notificationsTitle,
+                value: switch (notifications) {
+                  null => null,
+                  final settings when !settings.enabled =>
+                    l10n.settingsNotificationsOff,
+                  final settings => l10n.settingsNotificationsOn(
+                    settings.activeAlertCount,
+                  ),
+                },
+                onTap: () => context.push(AppRoutes.notifications),
+              ),
               SettingsRow(
                 icon: LucideIcons.users,
                 title: l10n.settingsAccounts,

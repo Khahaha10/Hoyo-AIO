@@ -688,5 +688,80 @@
         "type": "String"
       }
     }
-  }
+  },
+  "notificationsTitle": "Notifications",
+  "notificationsAllow": "Allow Notifications",
+  "notificationsAllowBody": "Delivered even when the app is closed",
+  "notificationsAlertsSection": "Alerts",
+  "notificationsStamina": "Stamina Nearly Full",
+  "notificationsStaminaBody": "Resin, Power, Battery",
+  "notificationsNotifyAt": "Notify at",
+  "notificationsThresholdPercent": "{percent}%",
+  "@notificationsThresholdPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsThresholdValue": "{percent}% · {value}/{max} {stamina}",
+  "@notificationsThresholdValue": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      },
+      "value": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      },
+      "stamina": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsExpeditions": "Expeditions Complete",
+  "notificationsExpeditionsBody": "When all are back",
+  "notificationsCurrency": "Realm Currency Full",
+  "notificationsTransformer": "Transformer Ready",
+  "notificationsGenshinOnly": "Genshin Impact",
+  "notificationsDailyReminder": "Dailies Reminder",
+  "notificationsDailyReminderBody": "Every day",
+  "notificationsTimeSemantics": "{label} time {time}",
+  "@notificationsTimeSemantics": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsCheckIn": "Check-in Result",
+  "notificationsCheckInBody": "Only when it fails",
+  "notificationsCookieExpired": "Cookie Expired",
+  "notificationsAlwaysOn": "Always on",
+  "notificationsQuietHours": "Quiet Hours",
+  "notificationsQuietRange": "{start} – {end}",
+  "@notificationsQuietRange": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsNotificationsOn": "{count} on",
+  "@settingsNotificationsOn": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsNotificationsOff": "Off"
 }
