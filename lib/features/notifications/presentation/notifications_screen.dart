@@ -236,6 +236,16 @@ class _AlertsCard extends StatelessWidget {
           ),
         ),
         SettingsRow(
+          icon: LucideIcons.calendarDays,
+          title: l10n.notificationsEvents,
+          subtitle: l10n.notificationsEventsBody,
+          trailing: toggle(
+            l10n.notificationsEvents,
+            value: settings.events,
+            onSet: (v) => onChanged(settings.copyWith(events: v)),
+          ),
+        ),
+        SettingsRow(
           icon: LucideIcons.cookie,
           title: l10n.notificationsCookieExpired,
           subtitle: l10n.notificationsAlwaysOn,

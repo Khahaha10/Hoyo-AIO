@@ -928,5 +928,78 @@
   },
   "codesRedeem": "Redeem",
   "codesAgain": "Again",
-  "codesNoRewardInfo": "Rewards not listed"
+  "codesNoRewardInfo": "Rewards not listed",
+  "codesEventsTitle": "Codes & Events",
+  "codesTabCodes": "Codes ({count})",
+  "@codesTabCodes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "codesTabEvents": "Events ({count})",
+  "@codesTabEvents": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "eventsShortcut": "Events",
+  "eventsRunning": "Running",
+  "eventsUpcoming": "Upcoming",
+  "eventsEnded": "Ended",
+  "eventsEmpty": "No events here.",
+  "eventsEndsIn": "Ends in {time}",
+  "@eventsEndsIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "eventsStartsIn": "Starts in {time}",
+  "@eventsStartsIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "eventsEndedOn": "Ended {time}",
+  "@eventsEndedOn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "eventsRemind": "Remind me a day before it ends",
+  "eventsOpen": "Open",
+  "notificationsEvents": "Web Events",
+  "notificationsEventsBody": "New events and reminders you turned on",
+  "notificationChannelNewEvents": "New Events",
+  "notificationChannelNewEventsDescription": "New HoYoLAB web events for your games.",
+  "notificationChannelEventEnding": "Event Ending",
+  "notificationChannelEventEndingDescription": "Events you asked to be reminded about end soon.",
+  "notifyNewEventsTitle": "{count, plural, =1{New event · {game}} other{{count} new events · {game}}}",
+  "@notifyNewEventsTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "game": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyEventEndingTitle": "Event ends within a day · {game}",
+  "@notifyEventEndingTitle": {
+    "placeholders": {
+      "game": {
+        "type": "String"
+      }
+    }
+  }
 }

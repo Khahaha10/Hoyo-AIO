@@ -119,7 +119,13 @@ List<RouteBase> _routes(Flavor flavor) => [
       );
     },
   ),
-  GoRoute(path: AppRoutes.codes, builder: (_, _) => const CodesScreen()),
+  GoRoute(
+    path: AppRoutes.codes,
+    builder: (_, state) => CodesScreen(
+      startOnEvents:
+          state.uri.queryParameters[AppRoutes.tabParam] == AppRoutes.eventsTab,
+    ),
+  ),
   GoRoute(
     path: AppRoutes.notifications,
     builder: (_, _) => const NotificationsScreen(),

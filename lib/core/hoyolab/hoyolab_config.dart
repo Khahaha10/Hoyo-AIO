@@ -57,7 +57,8 @@ abstract final class HoyolabConfig {
   static const codesModuleType = 7;
   static const eventsPath = '/community/community_contribution/wapi/event/list';
   static const eventsPageSize = 15;
-  static const hoyolabWebUrl = 'https://www.hoyolab.com';
+  static const hoyolabWebHost = 'www.hoyolab.com';
+  static const hoyolabWebUrl = 'https://$hoyolabWebHost';
   static const redeemUrls = <Game, String>{
     Game.genshin: 'https://genshin.hoyoverse.com/en/gift?code=',
     Game.starRail: 'https://hsr.hoyoverse.com/gift?code=',

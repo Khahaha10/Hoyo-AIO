@@ -9,6 +9,7 @@ import 'package:hoyo_aio/core/design_system/tokens/app_text_styles.dart';
 import 'package:hoyo_aio/core/design_system/tokens/brand_colors.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/codes/data/codes_repository_impl.dart';
+import 'package:hoyo_aio/features/events/data/events_repository_impl.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -19,6 +20,7 @@ class DashboardShortcuts extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final unread = ref.watch(unreadCodesProvider);
+    final unreadEvents = ref.watch(unreadEventsProvider);
     return Row(
       spacing: AppSpacing.s8,
       children: [
@@ -30,6 +32,16 @@ class DashboardShortcuts extends ConsumerWidget {
                 ? l10n.codesNewCount(unread)
                 : l10n.codesNoneNew,
             onTap: () => context.push(AppRoutes.codes),
+          ),
+        ),
+        Expanded(
+          child: _Shortcut(
+            icon: LucideIcons.calendarDays,
+            title: l10n.eventsShortcut,
+            subtitle: unreadEvents > 0
+                ? l10n.codesNewCount(unreadEvents)
+                : l10n.codesNoneNew,
+            onTap: () => context.push(AppRoutes.events),
           ),
         ),
       ],

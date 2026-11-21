@@ -13,6 +13,9 @@ abstract final class AppRoutes {
   static const selectRoles = '/accounts/roles';
   static const notifications = '/notifications';
   static const codes = '/codes';
+  static const tabParam = 'tab';
+  static const eventsTab = 'events';
+  static const events = '$codes?$tabParam=$eventsTab';
   static const widgetEditorPath = '/widgets/edit';
   static const widgetIdParam = 'id';
   static const widgetSizeParam = 'size';

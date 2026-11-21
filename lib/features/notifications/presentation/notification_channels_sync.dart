@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hoyo_aio/app/router/app_router.dart';
+import 'package:hoyo_aio/app/router/app_routes.dart';
 import 'package:hoyo_aio/app/router/deep_link.dart';
+import 'package:hoyo_aio/core/hoyolab/hoyolab_config.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/core/logging/app_logger.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/has_accounts_provider.dart';
@@ -63,7 +65,16 @@ class _NotificationChannelsSyncState
       return;
     }
     final uri = payload == null ? null : Uri.tryParse(payload);
-    if (uri == null || !DeepLink.isDeepLink(uri) || !mounted) return;
+    if (uri == null || !mounted) return;
+    if (uri.scheme == 'https' && uri.host == HoyolabConfig.hoyolabWebHost) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+      return;
+    }
+    if (payload == AppRoutes.events) {
+      unawaited(ref.read(appRouterProvider).push(AppRoutes.events));
+      return;
+    }
+    if (!DeepLink.isDeepLink(uri)) return;
     ref.read(appRouterProvider).go(DeepLink.toLocation(uri));
   }
 

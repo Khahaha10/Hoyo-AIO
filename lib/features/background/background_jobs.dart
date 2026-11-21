@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hoyo_aio/app/router/app_routes.dart';
 import 'package:hoyo_aio/core/database/app_database.dart';
 import 'package:hoyo_aio/core/database/database_enums.dart';
 import 'package:hoyo_aio/core/error/app_exception.dart';
@@ -17,6 +18,8 @@ import 'package:hoyo_aio/features/codes/data/codes_repository_impl.dart';
 import 'package:hoyo_aio/features/codes/domain/redeem_code.dart';
 import 'package:hoyo_aio/features/codes/presentation/code_format.dart';
 import 'package:hoyo_aio/features/dashboard/data/notes_repository_impl.dart';
+import 'package:hoyo_aio/features/events/data/events_repository_impl.dart';
+import 'package:hoyo_aio/features/events/domain/web_event.dart';
 import 'package:hoyo_aio/features/home_widgets/data/widget_labels.dart';
 import 'package:hoyo_aio/features/home_widgets/presentation/providers/widget_sync_provider.dart';
 import 'package:hoyo_aio/features/notifications/data/notification_scheduler_impl.dart';
@@ -32,6 +35,9 @@ class BackgroundJobs {
   static const _cookieIdBase = 100000;
   static const _cookieIdRange = 100000;
   static const _codeIdBase = 300000;
+  static const _eventIdBase = 400000;
+  static const _endingIdBase = 500000;
+  static const _endingWindow = Duration(days: 1);
 
   final ProviderContainer _container;
 
@@ -58,6 +64,7 @@ class BackgroundJobs {
     }
     await _checkInIfDue();
     await _checkCodes(before);
+    await _checkEvents(before);
     await _afterJob(before);
   }
 
@@ -93,6 +100,53 @@ class BackgroundJobs {
             payload: codePayload(code.game, code.code),
             actions: [('copy', l10n.codesCopy), ('redeem', l10n.codesRedeem)],
           );
+    }
+  }
+
+  Future<void> _checkEvents(List<AccountSummary> accounts) async {
+    final repository = _container.read(eventsRepositoryProvider);
+    final List<WebEvent> added;
+    try {
+      added = await repository.refresh();
+    } on AppException catch (error) {
+      _container
+          .read(appLoggerProvider)
+          .warning('events check: ${error.runtimeType}');
+      return;
+    }
+    final ending = await repository.takeEndingSoon(_endingWindow);
+    final settings = await _container
+        .read(notificationSettingsRepositoryProvider)
+        .read();
+    if (!settings.enabled || !settings.events) return;
+    final games = {
+      for (final account in accounts)
+        for (final role in account.enabledRoles) role.game,
+    };
+    final l10n = NotificationSchedulerImpl.resolveL10n(await _localeCode());
+    final service = _container.read(notificationServiceProvider);
+    for (final game in games) {
+      final fresh = [
+        for (final event in added)
+          if (event.game == game) event,
+      ];
+      if (fresh.isEmpty) continue;
+      await service.showNow(
+        id: _eventIdBase + game.index,
+        kind: NotificationKind.newEvents,
+        title: l10n.notifyNewEventsTitle(fresh.length, l10n.gameName(game)),
+        body: fresh.map((event) => event.name).join(' · '),
+        payload: AppRoutes.events,
+      );
+    }
+    for (final event in ending) {
+      await service.showNow(
+        id: _endingIdBase + event.id.hashCode.abs() % _cookieIdRange,
+        kind: NotificationKind.eventEnding,
+        title: l10n.notifyEventEndingTitle(l10n.gameName(event.game)),
+        body: event.name,
+        payload: eventUri(event).toString(),
+      );
     }
   }
 

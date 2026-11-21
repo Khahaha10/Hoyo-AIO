@@ -209,6 +209,14 @@ class NotificationService {
       l10n.notificationChannelNewCodes,
       l10n.notificationChannelNewCodesDescription,
     ),
+    NotificationKind.newEvents => (
+      l10n.notificationChannelNewEvents,
+      l10n.notificationChannelNewEventsDescription,
+    ),
+    NotificationKind.eventEnding => (
+      l10n.notificationChannelEventEnding,
+      l10n.notificationChannelEventEndingDescription,
+    ),
   };
 }
 

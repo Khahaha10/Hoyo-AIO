@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hoyo_aio/core/design_system/components/app_icon_button.dart';
+import 'package:hoyo_aio/core/design_system/components/app_segmented_control.dart';
 import 'package:hoyo_aio/core/design_system/components/app_snackbar.dart';
 import 'package:hoyo_aio/core/design_system/components/game_switcher_chip.dart';
 import 'package:hoyo_aio/core/design_system/theme/theme_context.dart';
@@ -19,12 +20,17 @@ import 'package:hoyo_aio/features/codes/data/codes_repository_impl.dart';
 import 'package:hoyo_aio/features/codes/domain/redeem_code.dart';
 import 'package:hoyo_aio/features/codes/presentation/widgets/code_card.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/states/dashboard_error.dart';
+import 'package:hoyo_aio/features/events/data/events_repository_impl.dart';
+import 'package:hoyo_aio/features/events/domain/web_event.dart';
+import 'package:hoyo_aio/features/events/presentation/widgets/events_list.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CodesScreen extends ConsumerStatefulWidget {
-  const CodesScreen({super.key});
+  const CodesScreen({this.startOnEvents = false, super.key});
+
+  final bool startOnEvents;
 
   @override
   ConsumerState<CodesScreen> createState() => _CodesScreenState();
@@ -34,6 +40,7 @@ class _CodesScreenState extends ConsumerState<CodesScreen> {
   Game? _filter;
   var _showExpired = false;
   var _refreshing = false;
+  late var _showEvents = widget.startOnEvents;
 
   @override
   void initState() {
@@ -45,6 +52,7 @@ class _CodesScreenState extends ConsumerState<CodesScreen> {
     setState(() => _refreshing = true);
     try {
       await ref.read(codesRepositoryProvider).refresh();
+      await ref.read(eventsRepositoryProvider).refresh();
     } on AppException catch (error) {
       if (mounted) {
         showAppSnackbar(
@@ -56,6 +64,7 @@ class _CodesScreenState extends ConsumerState<CodesScreen> {
     } finally {
       if (mounted) setState(() => _refreshing = false);
       unawaited(ref.read(codesRepositoryProvider).markAllRead());
+      unawaited(ref.read(eventsRepositoryProvider).markAllRead());
     }
   }
 
@@ -97,6 +106,14 @@ class _CodesScreenState extends ConsumerState<CodesScreen> {
       for (final code in codes)
         if (code.isExpiredAt(now)) code,
     ];
+    final events = [
+      for (final event
+          in ref.watch(webEventsProvider).value ?? const <WebEvent>[])
+        if (_filter == null || event.game == _filter) event,
+    ];
+    final running = events
+        .where((event) => event.phaseAt(now) == EventPhase.running)
+        .length;
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
@@ -119,7 +136,7 @@ class _CodesScreenState extends ConsumerState<CodesScreen> {
                   ),
                   Expanded(
                     child: Text(
-                      l10n.codesTitle,
+                      l10n.codesEventsTitle,
                       style: AppTextStyles.screenTitle.copyWith(
                         color: colors.text,
                       ),
@@ -131,6 +148,21 @@ class _CodesScreenState extends ConsumerState<CodesScreen> {
                     onPressed: _refreshing ? null : () => unawaited(_refresh()),
                   ),
                 ],
+              ),
+              const SizedBox(height: AppSpacing.s12),
+              AppSegmentedControl<bool>(
+                options: [
+                  SegmentOption(
+                    value: false,
+                    label: l10n.codesTabCodes(active.length),
+                  ),
+                  SegmentOption(
+                    value: true,
+                    label: l10n.codesTabEvents(running),
+                  ),
+                ],
+                selected: _showEvents,
+                onChanged: (value) => setState(() => _showEvents = value),
               ),
               const SizedBox(height: AppSpacing.s12),
               SingleChildScrollView(
@@ -153,53 +185,58 @@ class _CodesScreenState extends ConsumerState<CodesScreen> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  AppSpacing.s4,
-                  AppSpacing.s16,
-                  AppSpacing.s4,
-                  AppSpacing.s8,
-                ),
-                child: Text(
-                  l10n.codesActiveCount(active.length).toUpperCase(),
-                  style: AppTextStyles.overline.copyWith(color: colors.text2),
-                ),
-              ),
-              if (active.isEmpty)
-                Text(
-                  l10n.codesEmpty,
-                  style: AppTextStyles.bodyM.copyWith(color: colors.text2),
-                ),
-              for (final code in active) ...[
-                CodeCard(
-                  code: code,
-                  now: now,
-                  onCopy: () => unawaited(_copy(code)),
-                  onRedeem: () => unawaited(_redeem(code)),
-                ),
-                const SizedBox(height: AppSpacing.cardGap),
-              ],
-              if (expired.isNotEmpty) ...[
-                const SizedBox(height: AppSpacing.s8),
-                TextButton.icon(
-                  onPressed: () => setState(() => _showExpired = !_showExpired),
-                  icon: Icon(
-                    _showExpired
-                        ? LucideIcons.chevronUp
-                        : LucideIcons.chevronDown,
+              if (_showEvents)
+                EventsList(events: events, now: now)
+              else ...[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.s4,
+                    AppSpacing.s16,
+                    AppSpacing.s4,
+                    AppSpacing.s8,
                   ),
-                  label: Text(l10n.codesExpiredCount(expired.length)),
+                  child: Text(
+                    l10n.codesActiveCount(active.length).toUpperCase(),
+                    style: AppTextStyles.overline.copyWith(color: colors.text2),
+                  ),
                 ),
-                if (_showExpired)
-                  for (final code in expired) ...[
-                    CodeCard(
-                      code: code,
-                      now: now,
-                      onCopy: null,
-                      onRedeem: null,
+                if (active.isEmpty)
+                  Text(
+                    l10n.codesEmpty,
+                    style: AppTextStyles.bodyM.copyWith(color: colors.text2),
+                  ),
+                for (final code in active) ...[
+                  CodeCard(
+                    code: code,
+                    now: now,
+                    onCopy: () => unawaited(_copy(code)),
+                    onRedeem: () => unawaited(_redeem(code)),
+                  ),
+                  const SizedBox(height: AppSpacing.cardGap),
+                ],
+                if (expired.isNotEmpty) ...[
+                  const SizedBox(height: AppSpacing.s8),
+                  TextButton.icon(
+                    onPressed: () =>
+                        setState(() => _showExpired = !_showExpired),
+                    icon: Icon(
+                      _showExpired
+                          ? LucideIcons.chevronUp
+                          : LucideIcons.chevronDown,
                     ),
-                    const SizedBox(height: AppSpacing.cardGap),
-                  ],
+                    label: Text(l10n.codesExpiredCount(expired.length)),
+                  ),
+                  if (_showExpired)
+                    for (final code in expired) ...[
+                      CodeCard(
+                        code: code,
+                        now: now,
+                        onCopy: null,
+                        onRedeem: null,
+                      ),
+                      const SizedBox(height: AppSpacing.cardGap),
+                    ],
+                ],
               ],
             ],
           ),

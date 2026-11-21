@@ -29,6 +29,7 @@ import 'package:hoyo_aio/features/dashboard/presentation/states/dashboard_skelet
 import 'package:hoyo_aio/features/dashboard/presentation/states/refreshing_indicator.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/dashboard_header.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/role_switcher_sheet.dart';
+import 'package:hoyo_aio/features/events/data/events_repository_impl.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -148,7 +149,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               : null,
           onRefresh: notes.isLoading ? null : notifier.refresh,
           onOpenCodes: () => context.push(AppRoutes.codes),
-          unreadCount: ref.watch(unreadCodesProvider),
+          unreadCount:
+              ref.watch(unreadCodesProvider) + ref.watch(unreadEventsProvider),
         ),
         Expanded(
           child: RefreshIndicator(

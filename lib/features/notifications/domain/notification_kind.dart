@@ -6,7 +6,9 @@ enum NotificationKind {
   dailyReminder,
   checkInResult,
   cookieExpired,
-  newCodes;
+  newCodes,
+  newEvents,
+  eventEnding;
 
   String get channelId => 'hoyo_aio_$name';
 }

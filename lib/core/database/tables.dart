@@ -114,3 +114,21 @@ class SeenCodes extends Table {
   @override
   Set<Column<Object>> get primaryKey => {game, code};
 }
+
+class SeenEvents extends Table {
+  TextColumn get id => text()();
+  TextColumn get game => textEnum<Game>()();
+  TextColumn get name => text()();
+  TextColumn get summary => text().withDefault(const Constant(''))();
+  DateTimeColumn get startAt => dateTime()();
+  DateTimeColumn get endAt => dateTime()();
+  TextColumn get webPath => text()();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
+  BoolColumn get remind => boolean().withDefault(const Constant(false))();
+  DateTimeColumn get firstSeenAt => dateTime()();
+  DateTimeColumn get readAt => dateTime().nullable()();
+  DateTimeColumn get endingNotifiedAt => dateTime().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
