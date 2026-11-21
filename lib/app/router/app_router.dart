@@ -10,8 +10,10 @@ import 'package:hoyo_aio/app/router/deep_link.dart';
 import 'package:hoyo_aio/core/design_system/gallery/gallery_screen.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/core/network/debug/api_debug_screen.dart';
-import 'package:hoyo_aio/features/accounts/presentation/add_account_placeholder_screen.dart';
+import 'package:hoyo_aio/features/accounts/presentation/add_account_screen.dart';
+import 'package:hoyo_aio/features/accounts/presentation/paste_cookie_screen.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/has_accounts_provider.dart';
+import 'package:hoyo_aio/features/accounts/presentation/select_roles_placeholder_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/splash_screen.dart';
 import 'package:material_ui/material_ui.dart';
@@ -98,8 +100,21 @@ List<RouteBase> _routes(Flavor flavor) => [
   ),
   GoRoute(
     path: AppRoutes.addAccount,
-    builder: (_, _) =>
-        AddAccountPlaceholderScreen(showDevTools: flavor.galleryEnabled),
+    builder: (_, _) => AddAccountScreen(showDevTools: flavor.galleryEnabled),
+  ),
+  GoRoute(
+    path: AppRoutes.pasteCookie,
+    builder: (_, _) => const PasteCookieScreen(),
+  ),
+  GoRoute(
+    path: AppRoutes.webViewLogin,
+    builder: (context, _) => Scaffold(
+      body: PlaceholderScreen(title: context.l10n.webViewPlaceholderTitle),
+    ),
+  ),
+  GoRoute(
+    path: AppRoutes.selectRoles,
+    builder: (_, _) => const SelectRolesPlaceholderScreen(),
   ),
   if (flavor.galleryEnabled) ...[
     GoRoute(path: AppRoutes.gallery, builder: (_, _) => const GalleryScreen()),

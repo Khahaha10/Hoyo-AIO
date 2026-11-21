@@ -65,7 +65,66 @@
       }
     }
   },
-  "addAccountPlaceholderTitle": "Add a HoYoLAB Account",
-  "addAccountPlaceholderBody": "Connect HoYoLAB to read your game notes. Coming in the next update of this build.",
-  "addAccountPlaceholderAction": "Add Account"
+  "commonBack": "Back",
+  "addAccountTitle": "Add Account",
+  "addAccountSubtitle": "Connect a HoYoLAB account to read your game notes. You can add more accounts later.",
+  "addAccountWebViewTitle": "Log In With HoYoLAB",
+  "addAccountWebViewBody": "Sign in on the HoYoLAB page inside the app. We pick up the session cookie for you.",
+  "addAccountRecommended": "Recommended",
+  "addAccountPasteTitle": "Paste Cookie",
+  "addAccountPasteBody": "For advanced users. Copy your cookie from a desktop browser and paste it here.",
+  "addAccountStorageNote": "Stored on this device only. Your cookie is used just to talk to HoYoLAB and is never sent to us.",
+  "addAccountContinue": "Continue",
+  "addAccountWhy": "Why Do We Need This?",
+  "whyCookieTitle": "Why a cookie?",
+  "whyCookieBody": "HoYoLAB has no public API. Your game notes and daily check-in are only available to a logged-in HoYoLAB session, and the cookie is that session.",
+  "whyCookieSafety": "The cookie is encrypted on this device, sent only to official HoYoLAB servers, and never included in exports. You can delete it at any time from Accounts.",
+  "whyCookieClose": "Got It",
+  "pasteCookieTitle": "Paste Cookie",
+  "pasteCookieFieldLabel": "HoYoLAB Cookie",
+  "pasteCookieHint": "ltuid_v2=…; ltoken_v2=…; cookie_token_v2=…",
+  "pasteCookiePaste": "Paste",
+  "pasteCookieValid": "{count, plural, =1{Looks valid · 1 key found} other{Looks valid · {count} keys found}}",
+  "@pasteCookieValid": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pasteCookieMissing": "Missing ltuid_v2 or ltoken_v2",
+  "pasteCookieGuideTitle": "How to Get Your Cookie",
+  "pasteCookieStep1": "Open hoyolab.com in a desktop browser and log in.",
+  "pasteCookieStep2": "Press F12 and open the `Application` tab.",
+  "pasteCookieStep3": "Go to Storage › Cookies › hoyolab.com.",
+  "pasteCookieStep4": "Copy `ltuid_v2`, `ltoken_v2` and `cookie_token_v2`.",
+  "pasteCookieStep5": "Paste them above as `name=value;` pairs.",
+  "pasteCookieWarning": "Never share your cookie. Anyone with it can use your HoYoLAB account.",
+  "pasteCookieVerify": "Verify Cookie",
+  "errorCookieExpired": "HoYoLAB rejected this cookie. Log in again and copy a fresh one.",
+  "errorNetwork": "Couldn't reach HoYoLAB. Check your connection and try again.",
+  "errorTimeout": "HoYoLAB took too long to answer. Try again.",
+  "errorRateLimited": "Too many requests to HoYoLAB. Wait a moment and try again.",
+  "errorNoRoles": "No game roles were found on this HoYoLAB account.",
+  "errorCaptcha": "HoYoLAB asked for a captcha. Open HoYoLAB in a browser, then try again.",
+  "errorServer": "HoYoLAB returned an error (code {code}).",
+  "@errorServer": {
+    "placeholders": {
+      "code": {
+        "type": "int"
+      }
+    }
+  },
+  "errorUnknown": "Something went wrong. Try again.",
+  "commonRetry": "Retry",
+  "webViewPlaceholderTitle": "HoYoLAB Login",
+  "selectRolesPlaceholderTitle": "Select Game Roles",
+  "selectRolesFound": "{count, plural, =0{No roles found} =1{Found 1 role} other{Found {count} roles}}",
+  "@selectRolesFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

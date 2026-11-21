@@ -22,6 +22,9 @@ void main() {
         .where((f) => f.path.endsWith('.dart'))
         .where((f) => !f.path.endsWith('.g.dart'))
         .where((f) => !f.path.endsWith('.freezed.dart'))
+        .where(
+          (f) => !f.path.replaceAll(r'\', '/').contains('l10n/generated/'),
+        )
         .where((f) => f.path.replaceAll(r'\', '/') != _configFile);
     for (final file in files) {
       final source = file.readAsStringSync();

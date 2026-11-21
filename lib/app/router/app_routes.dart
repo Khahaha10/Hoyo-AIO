@@ -5,7 +5,11 @@ abstract final class AppRoutes {
   static const settings = '/settings';
   static const splash = '/splash';
   static const onboarding = '/onboarding';
+  static const accountsPrefix = '/accounts';
   static const addAccount = '/accounts/add';
+  static const pasteCookie = '/accounts/paste';
+  static const webViewLogin = '/accounts/webview';
+  static const selectRoles = '/accounts/roles';
   static const gallery = '/gallery';
   static const apiDebug = '/debug/api';
 

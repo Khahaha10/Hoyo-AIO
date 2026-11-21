@@ -17,7 +17,9 @@ String? resolveRedirect({
       : !hasAccounts
       ? AppRoutes.addAccount
       : null;
+  final inAccountFlow = path.startsWith(AppRoutes.accountsPrefix);
+  if (target == AppRoutes.addAccount && inAccountFlow) return null;
   if (target != null) return path == target ? null : target;
-  if (path == AppRoutes.addAccount) return null;
+  if (inAccountFlow) return null;
   return AppRoutes.entryFlow.contains(path) ? AppRoutes.dashboard : null;
 }
