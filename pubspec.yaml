@@ -35,6 +35,7 @@ dependencies:
   timezone: ^0.11.2
   workmanager: ^0.10.10
   home_widget: ^0.10.0
+  share_plus: ^13.3.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

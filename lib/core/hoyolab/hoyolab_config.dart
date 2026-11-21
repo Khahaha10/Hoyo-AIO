@@ -100,7 +100,7 @@ abstract final class HoyolabConfig {
     Game.zzz: 'real_gacha_type',
   };
   static const gachaBanners = <Game, List<String>>{
-    Game.genshin: ['301', '302', '500', '200', '100'],
+    Game.genshin: ['301', '302', '200', '500', '100'],
     Game.starRail: ['11', '12', '1', '2'],
     Game.zzz: ['2', '3', '1', '5'],
   };
@@ -119,6 +119,29 @@ abstract final class HoyolabConfig {
     'zzz.3': (80, 64),
     'zzz.1': (90, 74),
     'zzz.5': (80, 64),
+  };
+  static const gachaLimitedBanners = {'genshin.301', 'starRail.11', 'zzz.2'};
+  static const gachaStandardPool = <Game, Set<String>>{
+    Game.genshin: {
+      'Diluc',
+      'Jean',
+      'Keqing',
+      'Mona',
+      'Qiqi',
+      'Tighnari',
+      'Dehya',
+      'Yumemizuki Mizuki',
+    },
+    Game.starRail: {
+      'Bailu',
+      'Bronya',
+      'Clara',
+      'Gepard',
+      'Himeko',
+      'Welt',
+      'Yanqing',
+    },
+    Game.zzz: {'Grace', 'Koleda', 'Lycaon', 'Nekomata', 'Rina', 'Soldier 11'},
   };
   static const gachaPullCost = <Game, int>{
     Game.genshin: 160,

@@ -7,6 +7,7 @@ import 'package:hoyo_aio/app/router/app_routes.dart';
 import 'package:hoyo_aio/app/router/app_shell.dart';
 import 'package:hoyo_aio/app/router/deep_link.dart';
 import 'package:hoyo_aio/core/design_system/gallery/gallery_screen.dart';
+import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/core/network/debug/api_debug_screen.dart';
 import 'package:hoyo_aio/features/accounts/presentation/accounts_screen.dart';
 import 'package:hoyo_aio/features/accounts/presentation/add_account_screen.dart';
@@ -24,6 +25,8 @@ import 'package:hoyo_aio/features/notifications/presentation/notifications_scree
 import 'package:hoyo_aio/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/splash_screen.dart';
 import 'package:hoyo_aio/features/settings/presentation/settings_screen.dart';
+import 'package:hoyo_aio/features/tracker/presentation/tracker_history_screen.dart';
+import 'package:hoyo_aio/features/tracker/presentation/tracker_screen.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -125,6 +128,27 @@ List<RouteBase> _routes(Flavor flavor) => [
       startOnEvents:
           state.uri.queryParameters[AppRoutes.tabParam] == AppRoutes.eventsTab,
     ),
+  ),
+  GoRoute(
+    path: AppRoutes.tracker,
+    builder: (_, state) => TrackerScreen(
+      game:
+          Game.values
+              .asNameMap()[state.uri.queryParameters[AppRoutes.gameParam]] ??
+          Game.genshin,
+    ),
+  ),
+  GoRoute(
+    path: AppRoutes.trackerHistoryPath,
+    builder: (_, state) {
+      final params = state.uri.queryParameters;
+      return TrackerHistoryScreen(
+        game:
+            Game.values.asNameMap()[params[AppRoutes.gameParam]] ??
+            Game.genshin,
+        banner: params[AppRoutes.bannerParam] ?? '',
+      );
+    },
   ),
   GoRoute(
     path: AppRoutes.notifications,

@@ -7,9 +7,14 @@ import 'package:hoyo_aio/core/design_system/theme/theme_context.dart';
 import 'package:hoyo_aio/core/design_system/tokens/app_spacing.dart';
 import 'package:hoyo_aio/core/design_system/tokens/app_text_styles.dart';
 import 'package:hoyo_aio/core/design_system/tokens/brand_colors.dart';
+import 'package:hoyo_aio/core/hoyolab/game.dart';
+import 'package:hoyo_aio/core/hoyolab/hoyolab_config.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
+import 'package:hoyo_aio/features/accounts/presentation/providers/selected_role_provider.dart';
 import 'package:hoyo_aio/features/codes/data/codes_repository_impl.dart';
 import 'package:hoyo_aio/features/events/data/events_repository_impl.dart';
+import 'package:hoyo_aio/features/tracker/presentation/providers/tracker_providers.dart';
+import 'package:hoyo_aio/features/tracker/presentation/tracker_labels.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -21,6 +26,11 @@ class DashboardShortcuts extends ConsumerWidget {
     final l10n = context.l10n;
     final unread = ref.watch(unreadCodesProvider);
     final unreadEvents = ref.watch(unreadEventsProvider);
+    final game = ref.watch(selectedRoleProvider)?.game ?? Game.genshin;
+    final banner = HoyolabConfig.gachaBanners[game]?.first ?? '';
+    final hasRecords =
+        ref.watch(gachaRecordsProvider(game)).value?.isNotEmpty ?? false;
+    final pity = ref.watch(bannerPityProvider(game, banner));
     return Row(
       spacing: AppSpacing.s8,
       children: [
@@ -28,9 +38,7 @@ class DashboardShortcuts extends ConsumerWidget {
           child: _Shortcut(
             icon: LucideIcons.ticket,
             title: l10n.codesShortcut,
-            subtitle: unread > 0
-                ? l10n.codesNewCount(unread)
-                : l10n.codesNoneNew,
+            subtitle: l10n.codesNewCount(unread),
             onTap: () => context.push(AppRoutes.codes),
           ),
         ),
@@ -38,10 +46,18 @@ class DashboardShortcuts extends ConsumerWidget {
           child: _Shortcut(
             icon: LucideIcons.calendarDays,
             title: l10n.eventsShortcut,
-            subtitle: unreadEvents > 0
-                ? l10n.codesNewCount(unreadEvents)
-                : l10n.codesNoneNew,
+            subtitle: l10n.codesNewCount(unreadEvents),
             onTap: () => context.push(AppRoutes.events),
+          ),
+        ),
+        Expanded(
+          child: _Shortcut(
+            icon: LucideIcons.sparkles,
+            title: l10n.trackerChip(game),
+            subtitle: hasRecords
+                ? l10n.trackerPityShort(pity.pity5)
+                : l10n.trackerImportShort,
+            onTap: () => context.push(AppRoutes.trackerFor(game)),
           ),
         ),
       ],

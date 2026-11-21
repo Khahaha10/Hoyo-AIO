@@ -636,3 +636,5 @@ Expected `data.list[]` item: `uid`, `gacha_type`, `item_id`, `name`, `item_type`
 - Getting the link: open the history screen in game, then copy the URL that contains `authkey=` (PC: the game's web cache file; mobile: no simple way). Exact steps per platform ⚠️ VERIFY with the owner.
 - HI3: no public gacha log → not supported.
 - Record `time` is server time; GI global servers use the region's offset ⚠️ VERIFY before computing local dates.
+
+- **50/50 (app logic):** on the limited character banners (GI `301`, HSR `11`, ZZZ `2`) a 5★ whose name is in `HoyolabConfig.gachaStandardPool` counts as a lost 50/50; the next 5★ is "guaranteed". The standard-pool lists are hand-kept ⚠️ VERIFY after every version that adds a standard character (GI's "Capturing Radiance" is not modelled).

@@ -870,7 +870,6 @@
       }
     }
   },
-  "codesNoneNew": "Nothing new",
   "codesActiveCount": "Active · {count}",
   "@codesActiveCount": {
     "placeholders": {
@@ -1008,5 +1007,161 @@
   "widgetsAddManual": "Long-press your home screen, choose Widgets and find HoYo AIO.",
   "widgetItemRealm": "Realm",
   "widgetItemCommissions": "Commissions",
-  "errorAuthkeyExpired": "The history link expired. Paste a new one from the game."
+  "errorAuthkeyExpired": "The history link expired. Paste a new one from the game.",
+  "trackerWishes": "Wishes",
+  "trackerWarps": "Warps",
+  "trackerSignals": "Signal Search",
+  "trackerWishTitle": "Wish Tracker",
+  "trackerWarpTitle": "Warp Tracker",
+  "trackerSignalTitle": "Signal Tracker",
+  "trackerWishHistory": "Wish History",
+  "trackerWarpHistory": "Warp History",
+  "trackerSignalHistory": "Signal History",
+  "trackerWishCount": "{count, plural, =1{1 wish} other{{count} wishes}}",
+  "@trackerWishCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trackerWarpCount": "{count, plural, =1{1 warp} other{{count} warps}}",
+  "@trackerWarpCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trackerSignalCount": "{count, plural, =1{1 signal} other{{count} signals}}",
+  "@trackerSignalCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trackerPrimogem": "Primogem",
+  "trackerStellarJade": "Stellar Jade",
+  "trackerPolychrome": "Polychrome",
+  "trackerBannerCharacter": "Character",
+  "trackerBannerWeapon": "Weapon",
+  "trackerBannerLightCone": "Light Cone",
+  "trackerBannerAgent": "Agent",
+  "trackerBannerWEngine": "W-Engine",
+  "trackerBannerChronicled": "Chronicled",
+  "trackerBannerBangboo": "Bangboo",
+  "trackerBannerBeginner": "Beginner",
+  "trackerBannerStandard": "Standard",
+  "trackerPityTitle": "5★ pity · {banner}",
+  "@trackerPityTitle": {
+    "placeholders": {
+      "banner": {
+        "type": "String"
+      }
+    }
+  },
+  "trackerGuaranteed": "Next 5★ guaranteed",
+  "trackerSoftPity": "Soft pity {value}",
+  "@trackerSoftPity": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "trackerFourStarPity": "4★ Pity",
+  "trackerToSoftPity": "Est. to soft pity",
+  "trackerTotal": "Total",
+  "trackerAverage": "Avg 5★ pity",
+  "trackerFiftyFifty": "50/50 won",
+  "trackerOf": "{won} of {total}",
+  "@trackerOf": {
+    "placeholders": {
+      "won": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "trackerFiveStarHistory": "5★ History",
+  "trackerAll": "All {count}",
+  "@trackerAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trackerNoFiveStar": "No 5★ on this banner yet.",
+  "trackerLost": "Lost 50/50",
+  "trackerWon": "Won 50/50",
+  "trackerPity": "pity",
+  "trackerEmptyTitle": "Import your history",
+  "trackerEmptyBody": "Paste the link from the in-game history page once. HoYo AIO keeps the history on this device and updates it while the link is valid (about 24 hours).",
+  "trackerImport": "Paste History Link",
+  "trackerImportTitle": "Paste the history link",
+  "trackerImportSteps": "1. Open the game and open the Wish / Warp / Signal history page.\n2. Copy that page's link (on PC it is in the game's web cache; on mobile use a link-capture tool).\n3. Paste it here. Only the authkey is kept.",
+  "trackerImportSafety": "The link holds a temporary key (about 24 hours). It is stored encrypted on this device and sent only to the official HoYoverse history server.",
+  "trackerPaste": "Paste",
+  "trackerLinkInvalid": "That is not a history link from the game.",
+  "trackerFetched": "Fetched {count} records…",
+  "@trackerFetched": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trackerExport": "Export CSV",
+  "trackerNewestFirst": "Newest first",
+  "trackerNoRecords": "No records for these rarities.",
+  "trackerSynced": "Synced {time}",
+  "@trackerSynced": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "trackerLinkValid": "Link valid for {time}",
+  "@trackerLinkValid": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "trackerLinkExpired": "Link expired",
+  "trackerUpdateHint": "Open {screen} in game, then tap Update",
+  "@trackerUpdateHint": {
+    "placeholders": {
+      "screen": {
+        "type": "String"
+      }
+    }
+  },
+  "trackerUpdate": "Update",
+  "trackerBatch": "{date} · {count}× pull",
+  "@trackerBatch": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trackerPityShort": "Pity {value}",
+  "@trackerPityShort": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "trackerImportShort": "Import"
 }
