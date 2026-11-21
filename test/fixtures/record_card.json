@@ -1,0 +1,66 @@
+{
+  "retcode": 0,
+  "message": "OK",
+  "data": {
+    "list": [
+      {
+        "game_id": 2,
+        "game_role_id": "800000001",
+        "nickname": "Traveler",
+        "region": "os_asia",
+        "region_name": "Asia Server",
+        "level": 60,
+        "has_role": true
+      },
+      {
+        "game_id": 6,
+        "game_role_id": "800000002",
+        "nickname": "Trailblazer",
+        "region": "prod_official_usa",
+        "region_name": "America Server",
+        "level": 70,
+        "has_role": true
+      },
+      {
+        "game_id": 8,
+        "game_role_id": "1000000003",
+        "nickname": "Proxy",
+        "region": "prod_gf_eu",
+        "region_name": "Europe Server",
+        "level": 50,
+        "has_role": true
+      },
+      {
+        "game_id": 1,
+        "game_role_id": "800000004",
+        "nickname": "Captain",
+        "region": "overseas01",
+        "region_name": "Asia",
+        "level": 88,
+        "has_role": true
+      },
+      {
+        "game_id": 99,
+        "game_role_id": "800000005",
+        "nickname": "Unknown",
+        "region": "x",
+        "level": 1
+      },
+      {
+        "game_id": 2,
+        "game_role_id": "",
+        "nickname": "Empty",
+        "region": "os_euro",
+        "level": 1
+      },
+      {
+        "game_id": 6,
+        "game_role_id": "800000006",
+        "nickname": "NoRole",
+        "region": "prod_official_asia",
+        "level": 1,
+        "has_role": false
+      }
+    ]
+  }
+}
