@@ -649,5 +649,44 @@
   "notificationChannelCookieExpired": "Cookie Expired",
   "notificationChannelCookieExpiredDescription": "HoYoLAB rejected a saved cookie.",
   "notificationPermissionBody": "Notifications are off. Turn them on to get stamina, expedition and check-in alerts.",
-  "notificationPermissionAllow": "Allow Notifications"
+  "notificationPermissionAllow": "Allow Notifications",
+  "notifyStaminaThreshold": "{stamina} at {value}/{max}",
+  "@notifyStaminaThreshold": {
+    "placeholders": {
+      "stamina": {
+        "type": "String"
+      },
+      "value": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "notifyStaminaFull": "{stamina} is full",
+  "@notifyStaminaFull": {
+    "placeholders": {
+      "stamina": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyExpeditionsDone": "Expeditions are done",
+  "notifyAssignmentsDone": "Assignments are done",
+  "notifyCurrencyFull": "Realm Currency is full",
+  "notifyTransformerReady": "Parametric Transformer is ready",
+  "notifyDailyReminder": "Daily reminder",
+  "notifyDailyReminderBody": "Finish your dailies before the reset.",
+  "notifyRoleLine": "{name} · {game}",
+  "@notifyRoleLine": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "game": {
+        "type": "String"
+      }
+    }
+  }
 }

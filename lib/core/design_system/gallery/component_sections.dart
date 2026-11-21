@@ -243,7 +243,7 @@ class _NavDemoState extends State<_NavDemo> {
       currentIndex: _index,
       onTap: (i) => setState(() => _index = i),
       items: const [
-        AppNavItem(icon: LucideIcons.gauge, label: 'Dashboard'),
+        AppNavItem(icon: LucideIcons.house, label: 'Dashboard'),
         AppNavItem(icon: LucideIcons.calendarCheck, label: 'Check-in'),
         AppNavItem(icon: LucideIcons.layoutGrid, label: 'Widgets'),
         AppNavItem(icon: LucideIcons.settings, label: 'Settings'),

@@ -319,7 +319,7 @@ void main() {
           currentIndex: 0,
           onTap: (i) => tapped = i,
           items: const [
-            AppNavItem(icon: LucideIcons.gauge, label: 'Dashboard'),
+            AppNavItem(icon: LucideIcons.house, label: 'Dashboard'),
             AppNavItem(icon: LucideIcons.calendarCheck, label: 'Check-in'),
             AppNavItem(icon: LucideIcons.layoutGrid, label: 'Widgets'),
             AppNavItem(icon: LucideIcons.settings, label: 'Settings'),
@@ -332,7 +332,7 @@ void main() {
       );
       expect(
         tester.widget<Text>(find.text('Widgets')).style?.color,
-        AppColors.light.text3,
+        AppColors.light.text2,
       );
       expect(tester.getSize(find.byType(AppBottomNavBar)).height, 88);
       await tester.tap(find.text('Settings'));

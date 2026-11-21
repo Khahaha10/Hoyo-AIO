@@ -21,7 +21,7 @@ class AppShell extends StatelessWidget {
           initialLocation: index == navigationShell.currentIndex,
         ),
         items: [
-          AppNavItem(icon: LucideIcons.gauge, label: l10n.navDashboard),
+          AppNavItem(icon: LucideIcons.house, label: l10n.navDashboard),
           AppNavItem(icon: LucideIcons.calendarCheck, label: l10n.navCheckIn),
           AppNavItem(icon: LucideIcons.layoutGrid, label: l10n.navWidgets),
           AppNavItem(icon: LucideIcons.settings, label: l10n.navSettings),

@@ -54,7 +54,7 @@ class _SheetB extends StatelessWidget {
         currentIndex: 0,
         onTap: (_) {},
         items: const [
-          AppNavItem(icon: LucideIcons.gauge, label: 'Dashboard'),
+          AppNavItem(icon: LucideIcons.house, label: 'Dashboard'),
           AppNavItem(icon: LucideIcons.calendarCheck, label: 'Check-in'),
           AppNavItem(icon: LucideIcons.layoutGrid, label: 'Widgets'),
           AppNavItem(icon: LucideIcons.settings, label: 'Settings'),

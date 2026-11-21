@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/notifications/data/notification_service.dart';
+import 'package:hoyo_aio/features/notifications/presentation/providers/notification_sync_provider.dart';
 import 'package:material_ui/material_ui.dart';
 
 class NotificationChannelsSync extends ConsumerStatefulWidget {
@@ -29,5 +30,8 @@ class _NotificationChannelsSyncState
   }
 
   @override
-  Widget build(BuildContext context) => widget.child;
+  Widget build(BuildContext context) {
+    ref.watch(notificationSyncProvider);
+    return widget.child;
+  }
 }

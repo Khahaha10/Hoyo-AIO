@@ -23,7 +23,7 @@ class AppDatabase extends _$AppDatabase {
   static const fileName = 'hoyo_aio';
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -34,6 +34,9 @@ class AppDatabase extends _$AppDatabase {
     onUpgrade: (m, from, to) async {
       if (from < 2) {
         await m.addColumn(appSettings, appSettings.autoCheckInGames);
+      }
+      if (from < 3) {
+        await m.addColumn(appSettings, appSettings.notificationSettings);
       }
     },
     beforeOpen: (details) async {
@@ -53,6 +56,9 @@ class AppDatabase extends _$AppDatabase {
               updatedAt: Value(DateTime.now()),
             ),
           );
+
+  Stream<Set<TableUpdate>> noteSnapshotChanges() =>
+      tableUpdates(TableUpdateQuery.onTable(noteSnapshots));
 
   static QueryExecutor _openDefault() => driftDatabase(
     name: fileName,

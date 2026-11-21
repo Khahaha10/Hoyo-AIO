@@ -2,8 +2,27 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/notifications/domain/notification_kind.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 part 'notification_service.g.dart';
+
+class ScheduledMessage {
+  const ScheduledMessage({
+    required this.id,
+    required this.kind,
+    required this.at,
+    required this.title,
+    required this.body,
+    this.payload,
+  });
+
+  final int id;
+  final NotificationKind kind;
+  final DateTime at;
+  final String title;
+  final String body;
+  final String? payload;
+}
 
 class NotificationService {
   NotificationService(this._plugin);
@@ -78,6 +97,30 @@ class NotificationService {
           false;
     }
     return false;
+  }
+
+  Future<void> replaceScheduled(List<ScheduledMessage> messages) async {
+    await initialize();
+    for (final pending in await _plugin.pendingNotificationRequests()) {
+      await _plugin.cancel(id: pending.id);
+    }
+    for (final message in messages) {
+      await _plugin.zonedSchedule(
+        id: message.id,
+        scheduledDate: tz.TZDateTime.from(message.at.toUtc(), tz.UTC),
+        notificationDetails: NotificationDetails(
+          android: AndroidNotificationDetails(
+            message.kind.channelId,
+            message.kind.name,
+          ),
+          iOS: const DarwinNotificationDetails(),
+        ),
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        title: message.title,
+        body: message.body,
+        payload: message.payload,
+      );
+    }
   }
 
   Future<void> openSystemSettings() async {

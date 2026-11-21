@@ -44,7 +44,7 @@ class AppBottomNavBar extends StatelessWidget {
         math.max(bottomInset, _minBottomPadding),
       ),
       decoration: BoxDecoration(
-        color: colors.surface,
+        color: colors.bg,
         border: Border(top: BorderSide(color: colors.border)),
       ),
       child: Row(
@@ -78,9 +78,10 @@ class AppBottomNavBar extends StatelessWidget {
                 color: active ? BrandColors.lime : null,
                 borderRadius: BorderRadius.circular(AppRadius.pill),
               ),
+              alignment: Alignment.center,
               child: AppIcon(
                 item.icon,
-                color: active ? BrandColors.ink : colors.text3,
+                color: active ? BrandColors.ink : colors.text2,
               ),
             ),
             Text(
@@ -89,7 +90,7 @@ class AppBottomNavBar extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: AppTextStyles.caption.copyWith(
                 fontWeight: active ? FontWeight.w700 : FontWeight.w500,
-                color: active ? colors.text : colors.text3,
+                color: active ? colors.text : colors.text2,
               ),
             ),
           ],

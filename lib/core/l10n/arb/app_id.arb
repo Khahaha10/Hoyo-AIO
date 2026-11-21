@@ -230,5 +230,14 @@
   "notificationChannelCookieExpired": "Cookie Kedaluwarsa",
   "notificationChannelCookieExpiredDescription": "HoYoLAB menolak cookie yang tersimpan.",
   "notificationPermissionBody": "Notifikasi mati. Nyalakan untuk menerima pengingat stamina, ekspedisi, dan check-in.",
-  "notificationPermissionAllow": "Izinkan Notifikasi"
+  "notificationPermissionAllow": "Izinkan Notifikasi",
+  "notifyStaminaThreshold": "{stamina} sudah {value}/{max}",
+  "notifyStaminaFull": "{stamina} penuh",
+  "notifyExpeditionsDone": "Ekspedisi selesai",
+  "notifyAssignmentsDone": "Assignment selesai",
+  "notifyCurrencyFull": "Realm Currency penuh",
+  "notifyTransformerReady": "Parametric Transformer siap",
+  "notifyDailyReminder": "Pengingat harian",
+  "notifyDailyReminderBody": "Selesaikan daily sebelum reset.",
+  "notifyRoleLine": "{name} · {game}"
 }
