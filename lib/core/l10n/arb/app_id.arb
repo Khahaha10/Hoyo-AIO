@@ -1,0 +1,12 @@
+{
+  "@@locale": "id",
+  "navDashboard": "Dasbor",
+  "navCheckIn": "Check-in",
+  "navWidgets": "Widget",
+  "navSettings": "Pengaturan",
+  "placeholderComingSoon": "Segera hadir",
+  "dashboardDeepLinkTarget": "Dibuka untuk {game} · peran {role}",
+  "onboardingPlaceholderTitle": "Selamat datang di HoYo AIO",
+  "onboardingPlaceholderBody": "Tambahkan akun HoYoLAB untuk melihat catatan game kamu.",
+  "onboardingPlaceholderAction": "Tambah Akun"
+}

@@ -4,10 +4,14 @@ import 'package:hoyo_aio/app/flavor.dart';
 import 'package:hoyo_aio/core/design_system/theme/extensions/app_colors.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../helpers/app_overrides.dart';
+
 void main() {
   for (final flavor in Flavor.values) {
     testWidgets('App uses the ${flavor.name} title', (tester) async {
-      await tester.pumpWidget(App(flavor: flavor));
+      await tester.pumpWidget(
+        withAppScope(App(flavor: flavor), flavor: flavor),
+      );
 
       final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(app.title, flavor.appTitle);
@@ -18,7 +22,10 @@ void main() {
   testWidgets('App follows the system theme with light and dark tokens', (
     tester,
   ) async {
-    await tester.pumpWidget(const App(flavor: Flavor.prod));
+    await tester.pumpWidget(
+      withAppScope(const App(flavor: Flavor.prod), flavor: Flavor.prod),
+    );
+    await tester.pump();
 
     final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(app.themeMode, ThemeMode.system);

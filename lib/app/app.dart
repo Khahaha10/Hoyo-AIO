@@ -1,35 +1,36 @@
-import 'package:go_router/go_router.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'
+    show GlobalWidgetsLocalizations;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hoyo_aio/app/app_settings_provider.dart';
 import 'package:hoyo_aio/app/flavor.dart';
 import 'package:hoyo_aio/app/router/app_router.dart';
 import 'package:hoyo_aio/core/design_system/theme/app_theme.dart';
+import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:material_ui/material_ui.dart';
 
-class App extends StatefulWidget {
+class App extends ConsumerWidget {
   const App({required this.flavor, super.key});
 
   final Flavor flavor;
 
   @override
-  State<App> createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  late final GoRouter _router = buildAppRouter(widget.flavor);
-
-  @override
-  void dispose() {
-    _router.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final preferences =
+        ref.watch(appPreferencesProvider).value ?? AppPreferences.fallback;
     return MaterialApp.router(
-      title: widget.flavor.appTitle,
-      debugShowCheckedModeBanner: widget.flavor == Flavor.dev,
+      title: flavor.appTitle,
+      debugShowCheckedModeBanner: flavor == Flavor.dev,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
-      routerConfig: _router,
+      themeMode: preferences.themeMode,
+      locale: preferences.locale,
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      routerConfig: ref.watch(appRouterProvider),
     );
   }
 }

@@ -1,0 +1,17 @@
+{
+  "@@locale": "en",
+  "navDashboard": "Dashboard",
+  "navCheckIn": "Check-in",
+  "navWidgets": "Widgets",
+  "navSettings": "Settings",
+  "placeholderComingSoon": "Coming soon",
+  "@placeholderComingSoon": { "description": "Shown on tabs that are not built yet." },
+  "dashboardDeepLinkTarget": "Opened for {game} · role {role}",
+  "@dashboardDeepLinkTarget": {
+    "description": "Dev hint showing which game/role a deep link selected.",
+    "placeholders": { "game": { "type": "String" }, "role": { "type": "String" } }
+  },
+  "onboardingPlaceholderTitle": "Welcome to HoYo AIO",
+  "onboardingPlaceholderBody": "Add a HoYoLAB account to see your game notes.",
+  "onboardingPlaceholderAction": "Add Account"
+}
