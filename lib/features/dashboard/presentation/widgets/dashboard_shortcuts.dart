@@ -53,7 +53,9 @@ class DashboardShortcuts extends ConsumerWidget {
         Expanded(
           child: _Shortcut(
             icon: LucideIcons.sparkles,
-            title: l10n.trackerChip(game),
+            title: game == Game.zzz
+                ? l10n.dashboardSignalsShortcut
+                : l10n.trackerChip(game),
             subtitle: hasRecords
                 ? l10n.trackerPityShort(pity.pity5)
                 : l10n.trackerImportShort,
