@@ -10,3 +10,9 @@ targets:
       freezed:
         options:
           format: true
+      drift_dev:
+        options:
+          databases:
+            app_database: lib/core/database/app_database.dart
+          schema_dir: drift_schemas/
+          store_date_time_values_as_text: true
