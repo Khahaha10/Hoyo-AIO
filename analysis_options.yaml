@@ -10,6 +10,7 @@ analyzer:
     - ios/**
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - test/core/database/generated/**
     - lib/core/l10n/generated/**
   language:
     strict-casts: true
