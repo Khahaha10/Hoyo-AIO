@@ -857,5 +857,76 @@
   "widgetAccentLime": "Lime",
   "widgetAccentBlue": "Blue",
   "widgetAccentViolet": "Violet",
-  "widgetAccentNeutral": "Neutral"
+  "widgetAccentNeutral": "Neutral",
+  "notificationChannelNewCodes": "New Codes",
+  "notificationChannelNewCodesDescription": "A new redeem code was published on HoYoLAB.",
+  "notifyNewCodeTitle": "New code · {game}",
+  "@notifyNewCodeTitle": {
+    "placeholders": {
+      "game": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsCodes": "Redeem Codes",
+  "notificationsCodesBody": "When HoYoLAB posts a new code",
+  "codesTitle": "Redeem Codes",
+  "codesShortcut": "Codes",
+  "codesNewCount": "{count} new",
+  "@codesNewCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "codesNoneNew": "Nothing new",
+  "codesActiveCount": "Active · {count}",
+  "@codesActiveCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "codesEmpty": "No active codes right now.",
+  "codesExpiredCount": "{count, plural, =1{1 expired code} other{{count} expired codes}}",
+  "@codesExpiredCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "codesNew": "New",
+  "codesRedeemed": "Redeemed",
+  "codesRedeemedAt": "Redeemed {date}",
+  "@codesRedeemedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "codesExpiresAt": "Expires {date}",
+  "@codesExpiresAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "codesNoExpiry": "No expiry announced",
+  "codesCopy": "Copy",
+  "codesCopied": "{code} copied",
+  "@codesCopied": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "codesRedeem": "Redeem",
+  "codesAgain": "Again",
+  "codesNoRewardInfo": "Rewards not listed"
 }

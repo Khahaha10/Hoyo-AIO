@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hoyo_aio/core/hoyolab/game.dart';
 
-enum HeaderProfile { gameRecord, zzzNotes, checkIn }
+enum HeaderProfile { gameRecord, zzzNotes, checkIn, community }
 
 abstract final class HoyolabExtras {
   static const accountId = 'hoyo.accountId';
@@ -21,6 +21,9 @@ Options hoyolabOptions({
     HoyolabExtras.game: ?game,
   },
 );
+
+Options communityOptions() =>
+    Options(extra: {HoyolabExtras.profile: HeaderProfile.community});
 
 extension HoyolabRequestOptions on RequestOptions {
   String? get hoyolabAccountId => extra[HoyolabExtras.accountId] as String?;

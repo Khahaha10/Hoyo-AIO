@@ -15,6 +15,7 @@ import 'package:hoyo_aio/features/accounts/presentation/providers/has_accounts_p
 import 'package:hoyo_aio/features/accounts/presentation/select_roles_screen.dart';
 import 'package:hoyo_aio/features/accounts/presentation/webview_login_screen.dart';
 import 'package:hoyo_aio/features/checkin/presentation/check_in_screen.dart';
+import 'package:hoyo_aio/features/codes/presentation/codes_screen.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/home_widget_repositories.dart';
 import 'package:hoyo_aio/features/home_widgets/presentation/widget_editor_screen.dart';
@@ -118,6 +119,7 @@ List<RouteBase> _routes(Flavor flavor) => [
       );
     },
   ),
+  GoRoute(path: AppRoutes.codes, builder: (_, _) => const CodesScreen()),
   GoRoute(
     path: AppRoutes.notifications,
     builder: (_, _) => const NotificationsScreen(),

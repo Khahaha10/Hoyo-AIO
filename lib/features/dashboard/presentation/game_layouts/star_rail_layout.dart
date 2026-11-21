@@ -2,6 +2,7 @@ import 'package:hoyo_aio/core/design_system/tokens/app_spacing.dart';
 import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/dashboard/domain/game_note.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/widgets/dashboard_shortcuts.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/expedition_list_card.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/progress_tile.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/stamina_card.dart';
@@ -74,6 +75,7 @@ class StarRailLayout extends StatelessWidget {
             ),
           ],
         ),
+        const DashboardShortcuts(),
         if (note.assignments.isNotEmpty)
           ExpeditionListCard(
             game: _game,

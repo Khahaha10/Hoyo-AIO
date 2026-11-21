@@ -7,6 +7,7 @@ import 'package:hoyo_aio/features/dashboard/domain/game_note.dart';
 import 'package:hoyo_aio/features/dashboard/domain/task_progress.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_format.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/dashboard_list_card.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/widgets/dashboard_shortcuts.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/progress_tile.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/stamina_card.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/tile_grid.dart';
@@ -83,6 +84,7 @@ class ZzzLayout extends StatelessWidget {
               ),
           ],
         ),
+        const DashboardShortcuts(),
         if (weekly != null || bounty != null)
           DashboardListCard(
             title: l10n.zzzWeeklyProgress,

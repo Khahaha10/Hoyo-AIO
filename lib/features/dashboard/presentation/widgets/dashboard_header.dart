@@ -4,6 +4,7 @@ import 'package:hoyo_aio/core/design_system/icons/app_icon.dart';
 import 'package:hoyo_aio/core/design_system/theme/theme_context.dart';
 import 'package:hoyo_aio/core/design_system/tokens/app_spacing.dart';
 import 'package:hoyo_aio/core/design_system/tokens/app_text_styles.dart';
+import 'package:hoyo_aio/core/design_system/tokens/brand_colors.dart';
 import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/core/hoyolab/game_region.dart';
 import 'package:hoyo_aio/core/l10n/game_labels.dart';
@@ -19,6 +20,8 @@ class DashboardHeader extends StatelessWidget {
     required this.onSelectGame,
     required this.onSwitchRole,
     required this.onRefresh,
+    required this.onOpenCodes,
+    required this.unreadCount,
     super.key,
   });
 
@@ -34,6 +37,8 @@ class DashboardHeader extends StatelessWidget {
   final ValueChanged<Game> onSelectGame;
   final VoidCallback? onSwitchRole;
   final VoidCallback? onRefresh;
+  final VoidCallback onOpenCodes;
+  final int unreadCount;
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +120,11 @@ class DashboardHeader extends StatelessWidget {
                       ),
                     ),
                   ),
+                  _BellButton(
+                    count: unreadCount,
+                    label: l10n.codesTitle,
+                    onPressed: onOpenCodes,
+                  ),
                   AppIconButton(
                     icon: LucideIcons.refreshCw,
                     semanticLabel: l10n.dashboardRefresh,
@@ -172,6 +182,63 @@ class _Avatar extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _BellButton extends StatelessWidget {
+  const _BellButton({
+    required this.count,
+    required this.label,
+    required this.onPressed,
+  });
+
+  static const double _badge = 20;
+  static const double _ring = 2;
+  static const double _offset = -4;
+  static const double _badgePadding = 5;
+  static const double _badgeFont = 11;
+
+  final int count;
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        AppIconButton(
+          icon: LucideIcons.bell,
+          semanticLabel: label,
+          onPressed: onPressed,
+        ),
+        if (count > 0)
+          Positioned(
+            top: _offset,
+            right: _offset,
+            child: Container(
+              constraints: const BoxConstraints(minWidth: _badge),
+              height: _badge,
+              padding: const EdgeInsets.symmetric(horizontal: _badgePadding),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: BrandColors.lime,
+                borderRadius: BorderRadius.circular(_badge),
+                border: Border.all(color: colors.bg, width: _ring),
+              ),
+              child: Text(
+                '$count',
+                style: AppTextStyles.tabular(AppTextStyles.badge).copyWith(
+                  fontSize: _badgeFont,
+                  fontWeight: FontWeight.w700,
+                  color: BrandColors.ink,
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

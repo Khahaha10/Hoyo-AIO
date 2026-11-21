@@ -6,6 +6,7 @@ import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/dashboard/domain/game_note.dart';
 import 'package:hoyo_aio/features/dashboard/domain/stamina.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_format.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/widgets/dashboard_shortcuts.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/expedition_list_card.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/progress_tile.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/stamina_card.dart';
@@ -64,6 +65,7 @@ class GenshinLayout extends StatelessWidget {
             _transformer(l10n),
           ],
         ),
+        const DashboardShortcuts(),
         ExpeditionListCard(
           game: Game.genshin,
           title: l10n.genshinExpeditions,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/notifications/domain/notification_kind.dart';
@@ -30,7 +32,17 @@ class NotificationService {
   static const androidIcon = 'ic_notification';
 
   final FlutterLocalNotificationsPlugin _plugin;
+  final _taps = StreamController<String?>.broadcast();
   Future<void>? _initialized;
+
+  Stream<String?> get taps => _taps.stream;
+
+  Future<String?> launchPayload() async {
+    await initialize();
+    final details = await _plugin.getNotificationAppLaunchDetails();
+    if (!(details?.didNotificationLaunchApp ?? false)) return null;
+    return details?.notificationResponse?.payload;
+  }
 
   AndroidFlutterLocalNotificationsPlugin? get _android => _plugin
       .resolvePlatformSpecificImplementation<
@@ -51,6 +63,7 @@ class NotificationService {
         requestSoundPermission: false,
       ),
     ),
+    onDidReceiveNotificationResponse: (response) => _taps.add(response.payload),
   );
 
   Future<void> syncChannels(AppLocalizations l10n) async {
@@ -129,6 +142,7 @@ class NotificationService {
     required String title,
     required String body,
     String? payload,
+    List<(String, String)> actions = const [],
   }) async {
     await initialize();
     await _plugin.show(
@@ -137,7 +151,18 @@ class NotificationService {
       body: body,
       payload: payload,
       notificationDetails: NotificationDetails(
-        android: AndroidNotificationDetails(kind.channelId, kind.name),
+        android: AndroidNotificationDetails(
+          kind.channelId,
+          kind.name,
+          actions: [
+            for (final (actionId, label) in actions)
+              AndroidNotificationAction(
+                actionId,
+                label,
+                showsUserInterface: true,
+              ),
+          ],
+        ),
         iOS: const DarwinNotificationDetails(),
       ),
     );
@@ -179,6 +204,10 @@ class NotificationService {
     NotificationKind.cookieExpired => (
       l10n.notificationChannelCookieExpired,
       l10n.notificationChannelCookieExpiredDescription,
+    ),
+    NotificationKind.newCodes => (
+      l10n.notificationChannelNewCodes,
+      l10n.notificationChannelNewCodesDescription,
     ),
   };
 }

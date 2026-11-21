@@ -5,7 +5,8 @@ enum NotificationKind {
   transformer,
   dailyReminder,
   checkInResult,
-  cookieExpired;
+  cookieExpired,
+  newCodes;
 
   String get channelId => 'hoyo_aio_$name';
 }

@@ -63,4 +63,7 @@ class FakeNotificationService extends NotificationService {
 
   @override
   Future<void> openSystemSettings() async {}
+
+  @override
+  Future<String?> launchPayload() async => null;
 }

@@ -100,3 +100,17 @@ class AppSettings extends Table {
   @override
   Set<Column<Object>> get primaryKey => {id};
 }
+
+class SeenCodes extends Table {
+  TextColumn get game => textEnum<Game>()();
+  TextColumn get code => text()();
+  TextColumn get rewards => text().withDefault(const Constant('[]'))();
+  DateTimeColumn get expiresAt => dateTime().nullable()();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
+  DateTimeColumn get firstSeenAt => dateTime()();
+  DateTimeColumn get readAt => dateTime().nullable()();
+  DateTimeColumn get redeemedAt => dateTime().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {game, code};
+}

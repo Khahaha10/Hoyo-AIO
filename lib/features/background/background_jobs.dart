@@ -13,6 +13,9 @@ import 'package:hoyo_aio/features/checkin/data/check_in_history_repository_impl.
 import 'package:hoyo_aio/features/checkin/domain/check_in_record.dart';
 import 'package:hoyo_aio/features/checkin/domain/run_auto_checkin.dart';
 import 'package:hoyo_aio/features/checkin/presentation/providers/check_in_provider.dart';
+import 'package:hoyo_aio/features/codes/data/codes_repository_impl.dart';
+import 'package:hoyo_aio/features/codes/domain/redeem_code.dart';
+import 'package:hoyo_aio/features/codes/presentation/code_format.dart';
 import 'package:hoyo_aio/features/dashboard/data/notes_repository_impl.dart';
 import 'package:hoyo_aio/features/home_widgets/data/widget_labels.dart';
 import 'package:hoyo_aio/features/home_widgets/presentation/providers/widget_sync_provider.dart';
@@ -28,6 +31,7 @@ class BackgroundJobs {
   static const checkInResultId = 2;
   static const _cookieIdBase = 100000;
   static const _cookieIdRange = 100000;
+  static const _codeIdBase = 300000;
 
   final ProviderContainer _container;
 
@@ -53,7 +57,43 @@ class BackgroundJobs {
       }
     }
     await _checkInIfDue();
+    await _checkCodes(before);
     await _afterJob(before);
+  }
+
+  Future<void> _checkCodes(List<AccountSummary> accounts) async {
+    final logger = _container.read(appLoggerProvider);
+    final List<RedeemCode> added;
+    try {
+      added = await _container.read(codesRepositoryProvider).refresh();
+    } on AppException catch (error) {
+      logger.warning('codes check: ${error.runtimeType}');
+      return;
+    }
+    final settings = await _container
+        .read(notificationSettingsRepositoryProvider)
+        .read();
+    if (!settings.enabled || !settings.codes) return;
+    final games = {
+      for (final account in accounts)
+        for (final role in account.enabledRoles) role.game,
+    };
+    final l10n = NotificationSchedulerImpl.resolveL10n(await _localeCode());
+    for (final code in added) {
+      if (!games.contains(code.game)) continue;
+      await _container
+          .read(notificationServiceProvider)
+          .showNow(
+            id:
+                _codeIdBase +
+                '${code.game.name}${code.code}'.hashCode.abs() % _cookieIdRange,
+            kind: NotificationKind.newCodes,
+            title: l10n.notifyNewCodeTitle(l10n.gameName(code.game)),
+            body: '${code.code} · ${l10n.codeRewards(code.rewards)}',
+            payload: codePayload(code.game, code.code),
+            actions: [('copy', l10n.codesCopy), ('redeem', l10n.codesRedeem)],
+          );
+    }
   }
 
   Future<void> autoCheckIn() async {

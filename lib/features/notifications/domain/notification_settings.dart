@@ -15,6 +15,7 @@ abstract class NotificationSettings with _$NotificationSettings {
     @Default(false) bool dailyReminder,
     @Default(21 * 60) int dailyReminderMinutes,
     @Default(true) bool checkInResult,
+    @Default(true) bool codes,
     @Default(false) bool quietHours,
     @Default(23 * 60) int quietStartMinutes,
     @Default(7 * 60) int quietEndMinutes,
@@ -29,6 +30,7 @@ abstract class NotificationSettings with _$NotificationSettings {
     transformer,
     dailyReminder,
     checkInResult,
+    codes,
     true,
   ].where((on) => on).length;
 

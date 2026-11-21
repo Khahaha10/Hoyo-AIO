@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hoyo_aio/app/router/app_routes.dart';
 import 'package:hoyo_aio/core/design_system/components/app_snackbar.dart';
 import 'package:hoyo_aio/core/design_system/icons/app_icon.dart';
 import 'package:hoyo_aio/core/design_system/theme/theme_context.dart';
@@ -12,6 +14,7 @@ import 'package:hoyo_aio/core/time/clock.dart';
 import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/accounts_provider.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/selected_role_provider.dart';
+import 'package:hoyo_aio/features/codes/data/codes_repository_impl.dart';
 import 'package:hoyo_aio/features/dashboard/domain/game_note.dart';
 import 'package:hoyo_aio/features/dashboard/domain/note_result.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_format.dart';
@@ -144,6 +147,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 )
               : null,
           onRefresh: notes.isLoading ? null : notifier.refresh,
+          onOpenCodes: () => context.push(AppRoutes.codes),
+          unreadCount: ref.watch(unreadCodesProvider),
         ),
         Expanded(
           child: RefreshIndicator(
