@@ -40,6 +40,11 @@ jobs:
           flutter gen-l10n
           dart run build_runner build
 
+      - name: Translation parity
+        run: |
+          cat build/untranslated_messages.json
+          test "$(tr -d '[:space:]' < build/untranslated_messages.json)" = "{}"
+
       - name: Analyze
         run: flutter analyze
 
