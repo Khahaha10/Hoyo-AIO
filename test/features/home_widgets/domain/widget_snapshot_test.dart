@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hoyo_aio/core/database/database_enums.dart';
 import 'package:hoyo_aio/core/hoyolab/game.dart';
+import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
 import 'package:hoyo_aio/features/dashboard/domain/note_result.dart';
 import 'package:hoyo_aio/features/home_widgets/data/widget_labels.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/widget_snapshot.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/widget_snapshot_builder.dart';
-import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../_support/widget_fixtures.dart';

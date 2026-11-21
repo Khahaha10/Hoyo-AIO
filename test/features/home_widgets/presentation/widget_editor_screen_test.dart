@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hoyo_aio/core/design_system/components/app_icon_button.dart';
 import 'package:hoyo_aio/core/design_system/components/app_slider.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/core/time/clock.dart';
@@ -45,11 +46,11 @@ Future<_Harness> _pump(
     ..listen(widgetSyncProvider, (_, _) {});
   await tester.runAsync(() async {
     await container.read(widgetConfigsProvider.future);
-    await container.read(widgetSyncProvider.future);
   });
   final router = await pumpRouted(
     tester,
     container: container,
+    size: const Size(1080, 6000),
     routes: [
       GoRoute(
         path: '/',
@@ -62,7 +63,7 @@ Future<_Harness> _pump(
     ],
   );
   unawaitedPush(router);
-  await tester.pumpAndSettle();
+  await _settle(tester);
   return _Harness(container, configs, bridge);
 }
 
@@ -71,7 +72,13 @@ void unawaitedPush(GoRouter router) => router.push<void>('/edit').ignore();
 Future<void> _tapSave(WidgetTester tester) async {
   await tester.ensureVisible(find.text(_l10n.widgetEditorSave));
   await tester.tap(find.text(_l10n.widgetEditorSave));
-  await tester.pumpAndSettle();
+  await _settle(tester);
+}
+
+Future<void> _settle(WidgetTester tester) async {
+  for (var i = 0; i < 5; i++) {
+    await tester.pump(const Duration(milliseconds: 300));
+  }
 }
 
 void main() {
@@ -134,7 +141,7 @@ void main() {
     await tester.tap(find.text(_l10n.widgetThemeClear));
     await tester.pump();
     await _tapSave(tester);
-    await tester.pumpAndSettle();
+    await _settle(tester);
 
     expect(harness.bridge.published.length, greaterThan(before));
     expect(harness.bridge.published.last.widgets.single.theme, 'clear');
@@ -156,8 +163,8 @@ void main() {
     final harness = await _pump(tester);
     expect(find.text(_l10n.widgetEditorVisibleItems(3, 3)), findsOneWidget);
 
-    await tester.ensureVisible(find.text('Realm'));
-    await tester.tap(find.text('Realm'));
+    await tester.ensureVisible(find.text('Realm').last);
+    await tester.tap(find.text('Realm').last);
     await tester.pump();
     expect(find.text(_l10n.widgetEditorVisibleItems(2, 3)), findsOneWidget);
 
@@ -187,14 +194,16 @@ void main() {
   ) async {
     final harness = await _pump(
       tester,
-      existing: [config(visibleItems: const ['realm'])],
+      existing: [
+        config(visibleItems: const ['realm']),
+      ],
     );
 
     await tester.ensureVisible(find.text('Tester1 · Genshin Impact'));
     await tester.tap(find.text('Tester1 · Genshin Impact'));
-    await tester.pumpAndSettle();
+    await _settle(tester);
     await tester.tap(find.textContaining('Tester2').last);
-    await tester.pumpAndSettle();
+    await _settle(tester);
     await _tapSave(tester);
 
     final saved = harness.configs.saved.single.$1;
@@ -205,8 +214,12 @@ void main() {
   testWidgets('back button returns without saving', (tester) async {
     final harness = await _pump(tester);
 
-    await tester.tap(find.bySemanticsLabel(_l10n.commonBack));
-    await tester.pumpAndSettle();
+    await tester.tap(
+      find.byWidgetPredicate(
+        (w) => w is AppIconButton && w.semanticLabel == _l10n.commonBack,
+      ),
+    );
+    await _settle(tester);
 
     expect(find.text('home'), findsOneWidget);
     expect(harness.configs.saved, isEmpty);

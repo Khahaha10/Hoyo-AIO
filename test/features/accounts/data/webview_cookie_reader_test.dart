@@ -40,23 +40,22 @@ void main() {
     setUp(() => manager = _MockCookieManager());
 
     test('keeps only needed cookie keys from the HoYoLAB urls', () async {
-      when(() => manager.getCookies(url: any(named: 'url'))).thenAnswer(
-        (invocation) async {
-          final url = invocation.namedArguments[#url] as WebUri;
-          return url.host == 'www.hoyolab.com'
-              ? [
-                  Cookie(name: 'ltuid_v2', value: '800000001'),
-                  Cookie(name: 'ltoken_v2', value: 'fake'),
-                  Cookie(name: '_ga', value: 'tracker'),
-                  Cookie(name: 'mi18nLang', value: 'en-us'),
-                ]
-              : [
-                  Cookie(name: 'ltmid_v2', value: 'mid'),
-                  Cookie(name: 'cookie_token_v2', value: ''),
-                  Cookie(name: 'account_id_v2', value: 42),
-                ];
-        },
-      );
+      when(() => manager.getCookies(url: any(named: 'url')))
+          .thenAnswer((invocation) async {
+            final url = invocation.namedArguments[#url] as WebUri;
+            return url.host == 'www.hoyolab.com'
+                ? [
+                    Cookie(name: 'ltuid_v2', value: '800000001'),
+                    Cookie(name: 'ltoken_v2', value: 'fake'),
+                    Cookie(name: '_ga', value: 'tracker'),
+                    Cookie(name: 'mi18nLang', value: 'en-us'),
+                  ]
+                : [
+                    Cookie(name: 'ltmid_v2', value: 'mid'),
+                    Cookie(name: 'cookie_token_v2', value: ''),
+                    Cookie(name: 'account_id_v2', value: 42),
+                  ];
+          });
 
       final cookie = await WebViewCookieReader(cookieManager: manager).read();
 
@@ -73,9 +72,8 @@ void main() {
     });
 
     test('returns an unusable cookie when the user is not logged in', () async {
-      when(
-        () => manager.getCookies(url: any(named: 'url')),
-      ).thenAnswer((_) async => [Cookie(name: '_ga', value: 'x')]);
+      when(() => manager.getCookies(url: any(named: 'url')))
+          .thenAnswer((_) async => [Cookie(name: '_ga', value: 'x')]);
 
       final cookie = await WebViewCookieReader(cookieManager: manager).read();
 

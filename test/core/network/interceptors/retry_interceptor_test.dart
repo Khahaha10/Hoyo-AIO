@@ -68,9 +68,7 @@ void main() {
 
     test('does not retry a non-retryable error', () async {
       final waits = <Duration>[];
-      final adapter = FakeAdapter(
-        (_) => ResponseBody.fromString('', 500),
-      );
+      final adapter = FakeAdapter((_) => ResponseBody.fromString('', 500));
 
       final error = await _error(_dio(adapter, waits).getUri<Object?>(_uri));
 

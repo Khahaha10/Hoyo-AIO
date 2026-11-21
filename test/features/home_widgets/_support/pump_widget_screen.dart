@@ -11,9 +11,10 @@ Future<GoRouter> pumpRouted(
   required List<RouteBase> routes,
   String initialLocation = '/',
   bool dark = false,
+  Size size = const Size(1080, 2400),
 }) async {
   tester.view
-    ..physicalSize = const Size(1080, 2400)
+    ..physicalSize = size
     ..devicePixelRatio = 3;
   addTearDown(tester.view.reset);
   final router = GoRouter(initialLocation: initialLocation, routes: routes);

@@ -36,50 +36,41 @@ GenshinNote genshinNote({
   Stamina? realmCurrency,
   DateTime? transformerReadyAt,
   List<Expedition> expeditions = const [],
-}) =>
-    GameNote.genshin(
-          fetchedAt: fetchedAt,
-          resin: resin ?? stamina(),
-          realmCurrency:
-              realmCurrency ??
-              stamina(
-                current: 1000,
-                max: 2400,
-                interval: const Duration(minutes: 3),
-              ),
-          commissions: _task,
-          commissionBonusClaimed: false,
-          weeklyBossDiscountsLeft: const TaskProgress(done: 3, total: 3),
-          transformerReadyAt: transformerReadyAt,
-          expeditions: expeditions,
-          maxExpeditions: 5,
-        )
-        as GenshinNote;
+}) => GameNote.genshin(
+  fetchedAt: fetchedAt,
+  resin: resin ?? stamina(),
+  realmCurrency:
+      realmCurrency ??
+      stamina(current: 1000, max: 2400, interval: const Duration(minutes: 3)),
+  commissions: _task,
+  commissionBonusClaimed: false,
+  weeklyBossDiscountsLeft: const TaskProgress(done: 3, total: 3),
+  transformerReadyAt: transformerReadyAt,
+  expeditions: expeditions,
+  maxExpeditions: 5,
+) as GenshinNote;
 
 StarRailNote starRailNote({
   Stamina? power,
   List<Expedition> assignments = const [],
-}) =>
-    GameNote.starRail(
-          fetchedAt: fetchedAt,
-          trailblazePower: power ?? stamina(max: 240, interval: const Duration(minutes: 6)),
-          reservedPower: const TaskProgress(done: 0, total: 2400),
-          dailyTraining: const TaskProgress(done: 100, total: 500),
-          echoOfWarLeft: const TaskProgress(done: 3, total: 3),
-          simulatedUniverse: const TaskProgress(done: 0, total: 14000),
-          assignments: assignments,
-          maxAssignments: 4,
-        )
-        as StarRailNote;
+}) => GameNote.starRail(
+  fetchedAt: fetchedAt,
+  trailblazePower:
+      power ?? stamina(max: 240, interval: const Duration(minutes: 6)),
+  reservedPower: const TaskProgress(done: 0, total: 2400),
+  dailyTraining: const TaskProgress(done: 100, total: 500),
+  echoOfWarLeft: const TaskProgress(done: 3, total: 3),
+  simulatedUniverse: const TaskProgress(done: 0, total: 14000),
+  assignments: assignments,
+  maxAssignments: 4,
+) as StarRailNote;
 
-ZzzNote zzzNote({Stamina? battery}) =>
-    GameNote.zzz(
-          fetchedAt: fetchedAt,
-          battery: battery ?? stamina(max: 240, interval: const Duration(minutes: 6)),
-          engagement: const TaskProgress(done: 100, total: 400),
-          scratchCardDone: false,
-          videoStore: VideoStoreState.open,
-          bountyCommission: null,
-          weeklyProgress: null,
-        )
-        as ZzzNote;
+ZzzNote zzzNote({Stamina? battery}) => GameNote.zzz(
+  fetchedAt: fetchedAt,
+  battery: battery ?? stamina(max: 240, interval: const Duration(minutes: 6)),
+  engagement: const TaskProgress(done: 100, total: 400),
+  scratchCardDone: false,
+  videoStore: VideoStoreState.open,
+  bountyCommission: null,
+  weeklyProgress: null,
+) as ZzzNote;

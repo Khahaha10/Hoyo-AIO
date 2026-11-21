@@ -26,12 +26,12 @@ void main() {
     final schema = await verifier.schemaAt(1);
     schema.rawDatabase
       ..execute(
-        "INSERT INTO accounts (id, nickname, status, created_at, updated_at) "
+        'INSERT INTO accounts (id, nickname, status, created_at, updated_at) '
         "VALUES ('800000001', 'Traveler', 'valid', "
         "'2026-11-01T00:00:00.000', '2026-11-01T00:00:00.000')",
       )
       ..execute(
-        "INSERT INTO app_settings (id, onboarding_seen, theme_mode) "
+        'INSERT INTO app_settings (id, onboarding_seen, theme_mode) '
         "VALUES (1, 1, 'dark')",
       );
     final db = AppDatabase(schema.newConnection());

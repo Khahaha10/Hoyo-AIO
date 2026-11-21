@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hoyo_aio/app/router/app_routes.dart';
 import 'package:hoyo_aio/core/database/database_enums.dart';
@@ -17,6 +16,11 @@ import 'package:hoyo_aio/features/accounts/presentation/widgets/role_chip.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../_support/account_fakes.dart';
+
+Future<void> drainTimers(WidgetTester tester) async {
+  await tester.pumpWidget(const SizedBox());
+  await tester.pump(const Duration(minutes: 10));
+}
 
 void main() {
   final valid = accountSummary(
@@ -45,7 +49,7 @@ void main() {
     return pumpRouted(
       tester,
       const AccountsScreen(),
-      initialLocation: "/home/screen",
+      initialLocation: '/home/screen',
       size: const Size(1236, 3200),
       overrides: [
         accountRepositoryProvider.overrideWithValue(repository),
@@ -71,6 +75,7 @@ void main() {
     expect(find.text(enL10n.accountsNoRoles), findsNWidgets(2));
     expect(find.text(enL10n.accountsMetaNeedsLogin), findsOneWidget);
     expect(find.text('?'), findsOneWidget);
+    await drainTimers(tester);
   });
 
   testWidgets('shows a skeleton while loading and an error on failure', (
@@ -90,6 +95,7 @@ void main() {
       find.text(const NetworkException().localizedMessage(enL10n)),
       findsOneWidget,
     );
+    await drainTimers(tester);
   });
 
   testWidgets('unknown errors show the generic message', (tester) async {
@@ -101,6 +107,7 @@ void main() {
     await tester.pump();
 
     expect(find.text(enL10n.errorUnknown), findsOneWidget);
+    await drainTimers(tester);
   });
 
   testWidgets('Refresh Cookie and Add Account open the add flow', (
@@ -125,7 +132,10 @@ void main() {
     await tester.tap(find.text(enL10n.accountsDelete));
     await tester.pumpAndSettle();
 
-    expect(find.text(enL10n.deleteAccountTitle(valid.nickname)), findsOneWidget);
+    expect(
+      find.text(enL10n.deleteAccountTitle(valid.nickname)),
+      findsOneWidget,
+    );
     expect(find.text(enL10n.deleteAccountBody(3, 2)), findsOneWidget);
 
     await tester.tap(find.text(enL10n.commonCancel));

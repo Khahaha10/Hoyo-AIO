@@ -27,8 +27,10 @@ List<PlannedNotification> _plan(
   now: now ?? fetchedAt,
 );
 
-PlannedNotification? _find(List<PlannedNotification> plan, PlannedAlert alert) =>
-    plan.where((p) => p.alert == alert).firstOrNull;
+PlannedNotification? _find(
+  List<PlannedNotification> plan,
+  PlannedAlert alert,
+) => plan.where((p) => p.alert == alert).firstOrNull;
 
 void main() {
   final genshin = noteRole(1, Game.genshin);
@@ -106,18 +108,15 @@ void main() {
   });
 
   test('respects each alert toggle', () {
-    final plan = _plan(
-      [
-        (
-          genshin,
-          genshinNote(
-            transformerReadyAt: DateTime(2026, 11, 6),
-            expeditions: [Expedition(doneAt: DateTime(2026, 11, 5, 12))],
-          ),
+    final plan = _plan([
+      (
+        genshin,
+        genshinNote(
+          transformerReadyAt: DateTime(2026, 11, 6),
+          expeditions: [Expedition(doneAt: DateTime(2026, 11, 5, 12))],
         ),
-      ],
-      settings: _off,
-    );
+      ),
+    ], settings: _off);
 
     expect(plan, isEmpty);
   });
@@ -131,25 +130,21 @@ void main() {
   });
 
   test('no threshold alert at 100 percent', () {
-    final plan = _plan(
-      [(genshin, genshinNote())],
-      settings: _off.copyWith(stamina: true, staminaThresholdPercent: 100),
-    );
+    final plan = _plan([
+      (genshin, genshinNote()),
+    ], settings: _off.copyWith(stamina: true, staminaThresholdPercent: 100));
 
     expect(plan.map((p) => p.alert), [PlannedAlert.staminaFull]);
   });
 
   test('skips times that are not after now', () {
-    final plan = _plan(
-      [
-        (genshin, genshinNote(resin: stamina(current: 200))),
-        (
-          noteRole(2, Game.starRail),
-          starRailNote(power: stamina(current: 230, max: 240)),
-        ),
-      ],
-      settings: _off.copyWith(stamina: true),
-    );
+    final plan = _plan([
+      (genshin, genshinNote(resin: stamina(current: 200))),
+      (
+        noteRole(2, Game.starRail),
+        starRailNote(power: stamina(current: 230, max: 240)),
+      ),
+    ], settings: _off.copyWith(stamina: true));
 
     expect(plan.map((p) => (p.game, p.alert)), [
       (Game.starRail, PlannedAlert.staminaFull),
@@ -157,28 +152,22 @@ void main() {
   });
 
   test('skips everything already past for a late now', () {
-    final plan = _plan(
-      [(genshin, genshinNote())],
-      now: DateTime(2026, 12),
-    );
+    final plan = _plan([(genshin, genshinNote())], now: DateTime(2026, 12));
 
     expect(plan, isEmpty);
   });
 
   test('gives every role and alert a unique id', () {
-    final plan = _plan(
-      [
-        for (var id = 1; id <= 3; id++)
-          (
-            noteRole(id, Game.genshin),
-            genshinNote(
-              transformerReadyAt: DateTime(2026, 11, 6),
-              expeditions: [Expedition(doneAt: DateTime(2026, 11, 5, 12))],
-            ),
+    final plan = _plan([
+      for (var id = 1; id <= 3; id++)
+        (
+          noteRole(id, Game.genshin),
+          genshinNote(
+            transformerReadyAt: DateTime(2026, 11, 6),
+            expeditions: [Expedition(doneAt: DateTime(2026, 11, 5, 12))],
           ),
-      ],
-      settings: const NotificationSettings(dailyReminder: true),
-    );
+        ),
+    ], settings: const NotificationSettings(dailyReminder: true));
 
     expect(plan, hasLength(16));
     expect(plan.map((p) => p.id).toSet(), hasLength(plan.length));

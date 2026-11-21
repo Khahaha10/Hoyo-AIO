@@ -53,7 +53,9 @@ void main() {
       await bridge.publish(snapshot);
 
       expect(calls.first.method, 'setAppGroupId');
-      expect(calls.first.arguments, {'groupId': HomeWidgetBridgeImpl.appGroupId});
+      expect(calls.first.arguments, {
+        'groupId': HomeWidgetBridgeImpl.appGroupId,
+      });
       final save = calls[1];
       expect(save.method, 'saveWidgetData');
       final args = save.arguments as Map<Object?, Object?>;
@@ -72,13 +74,10 @@ void main() {
       await bridge.publish(_snapshot());
 
       final updates = calls.where((c) => c.method == 'updateWidget').toList();
-      expect(
-        [
-          for (final c in updates)
-            (c.arguments as Map<Object?, Object?>)['qualifiedAndroidName'],
-        ],
-        HomeWidgetBridgeImpl.androidReceivers,
-      );
+      expect([
+        for (final c in updates)
+          (c.arguments as Map<Object?, Object?>)['qualifiedAndroidName'],
+      ], HomeWidgetBridgeImpl.androidReceivers);
     });
 
     test('requests a single WidgetKit reload on iOS', () async {
@@ -96,33 +95,39 @@ void main() {
   });
 
   group('placed', () {
-    test('maps installed Android receivers to sizes and skips unknown', () async {
-      debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      respond = (call) => [
-        {
-          'widgetId': 11,
-          'androidClassName': 'com.hoyoaio.app.widget.SmallWidgetReceiver',
-        },
-        {
-          'widgetId': 12,
-          'androidClassName': 'com.hoyoaio.app.widget.MediumWidgetReceiver',
-        },
-        {
-          'widgetId': 13,
-          'androidClassName': 'com.hoyoaio.app.widget.LargeWidgetReceiver',
-        },
-        {'widgetId': 14, 'androidClassName': 'com.other.Receiver'},
-        {'androidClassName': 'com.hoyoaio.app.widget.SmallWidgetReceiver'},
-      ];
+    test(
+      'maps installed Android receivers to sizes and skips unknown',
+      () async {
+        debugDefaultTargetPlatformOverride = TargetPlatform.android;
+        respond = (call) => [
+          {
+            'widgetId': 11,
+            'androidClassName': 'com.hoyoaio.app.widget.SmallWidgetReceiver',
+          },
+          {
+            'widgetId': 12,
+            'androidClassName': 'com.hoyoaio.app.widget.MediumWidgetReceiver',
+          },
+          {
+            'widgetId': 13,
+            'androidClassName': 'com.hoyoaio.app.widget.LargeWidgetReceiver',
+          },
+          {'widgetId': 14, 'androidClassName': 'com.other.Receiver'},
+          {'androidClassName': 'com.hoyoaio.app.widget.SmallWidgetReceiver'},
+        ];
 
-      final placed = await bridge.placed();
+        final placed = await bridge.placed();
 
-      expect([for (final p in placed) (p.widgetId, p.size)], [
-        (11, HomeWidgetSize.small),
-        (12, HomeWidgetSize.medium),
-        (13, HomeWidgetSize.large),
-      ]);
-    });
+        expect(
+          [for (final p in placed) (p.widgetId, p.size)],
+          [
+            (11, HomeWidgetSize.small),
+            (12, HomeWidgetSize.medium),
+            (13, HomeWidgetSize.large),
+          ],
+        );
+      },
+    );
 
     test('returns nothing on iOS without calling the channel', () async {
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
@@ -133,25 +138,29 @@ void main() {
   });
 
   group('pinning', () {
-    test('canPin is true only on Android when the launcher supports it', () async {
-      debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      respond = (_) => true;
-      expect(await bridge.canPin(), isTrue);
+    test(
+      'canPin is true only on Android when the launcher supports it',
+      () async {
+        debugDefaultTargetPlatformOverride = TargetPlatform.android;
+        respond = (_) => true;
+        expect(await bridge.canPin(), isTrue);
 
-      respond = (_) => null;
-      expect(await bridge.canPin(), isFalse);
+        respond = (_) => null;
+        expect(await bridge.canPin(), isFalse);
 
-      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-      respond = (_) => true;
-      expect(await bridge.canPin(), isFalse);
-    });
+        debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+        respond = (_) => true;
+        expect(await bridge.canPin(), isFalse);
+      },
+    );
 
     test('pin requests the receiver for the chosen size', () async {
       await bridge.pin(HomeWidgetSize.medium);
 
       expect(calls.single.method, 'requestPinWidget');
       expect(
-        (calls.single.arguments as Map<Object?, Object?>)['qualifiedAndroidName'],
+        (calls.single.arguments
+            as Map<Object?, Object?>)['qualifiedAndroidName'],
         'com.hoyoaio.app.widget.MediumWidgetReceiver',
       );
     });

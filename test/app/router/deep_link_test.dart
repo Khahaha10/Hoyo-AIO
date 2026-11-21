@@ -17,8 +17,14 @@ void main() {
         _to('hoyoaio://dashboard?game=genshin&role=800000001'),
         '/dashboard?game=genshin&role=800000001',
       );
-      expect(_to('hoyoaio://dashboard?game=starRail'), '/dashboard?game=starRail');
-      expect(_to('hoyoaio://dashboard?role=800000001'), '/dashboard?role=800000001');
+      expect(
+        _to('hoyoaio://dashboard?game=starRail'),
+        '/dashboard?game=starRail',
+      );
+      expect(
+        _to('hoyoaio://dashboard?role=800000001'),
+        '/dashboard?role=800000001',
+      );
     });
 
     test('drops HI3, unknown games and invalid roles', () {
@@ -44,10 +50,7 @@ void main() {
 
   group('AppRoutes builders', () {
     test('build tracker and widget editor locations', () {
-      expect(
-        AppRoutes.trackerFor(DeepLinkTestGame.zzz),
-        '/tracker?game=zzz',
-      );
+      expect(AppRoutes.trackerFor(DeepLinkTestGame.zzz), '/tracker?game=zzz');
       expect(
         AppRoutes.trackerHistory(DeepLinkTestGame.zzz, '2'),
         '/tracker/history?game=zzz&banner=2',

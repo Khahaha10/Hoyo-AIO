@@ -131,7 +131,7 @@ void main() {
       expect(
         records.map((record) => record.id),
         orderedEquals(
-          [...records.map((record) => record.id)]..sort((a, b) => b - a),
+          <int>[...records.map((record) => record.id)]..sort((a, b) => b - a),
         ),
       );
       expect(records.firstWhere((r) => r.id == 140).rank, 5);

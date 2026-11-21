@@ -90,15 +90,17 @@ void main() {
       expect(headers['User-Agent'], HoyolabConfig.mobileChromeUserAgent);
     });
 
-    test('check-in without a game and requests without a profile add nothing',
-        () {
-      final checkIn = _headers(
-        hoyolabOptions(accountId: '1', profile: HeaderProfile.checkIn),
-      );
-      final plain = _headers(Options());
+    test(
+      'check-in without a game and requests without a profile add nothing',
+      () {
+        final checkIn = _headers(
+          hoyolabOptions(accountId: '1', profile: HeaderProfile.checkIn),
+        );
+        final plain = _headers(Options());
 
-      expect(checkIn.containsKey('Accept'), isFalse);
-      expect(plain.containsKey('Accept'), isFalse);
-    });
+        expect(checkIn.containsKey('Accept'), isFalse);
+        expect(plain.containsKey('Accept'), isFalse);
+      },
+    );
   });
 }

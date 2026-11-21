@@ -68,58 +68,60 @@ void main() {
       expect(role.enabled, isTrue);
     });
 
-    test('deleting an account cascades to roles, snapshots and history',
-        () async {
-      final db = _open();
-      addTearDown(db.close);
-      await _addAccount(db, '800000001');
-      final roleId = await _addRole(db, '800000001');
-      await db
-          .into(db.noteSnapshots)
-          .insert(
-            NoteSnapshotsCompanion.insert(
-              roleId: Value(roleId),
-              game: Game.genshin,
-              payload: '{}',
-              fetchedAt: _when,
-            ),
-          );
-      await db
-          .into(db.checkInHistory)
-          .insert(
-            CheckInHistoryCompanion.insert(
-              accountId: '800000001',
-              game: Game.genshin,
-              day: '2026-11-21',
-              result: CheckInResult.claimed,
-              createdAt: _when,
-            ),
-          );
-      await db
-          .into(db.widgetConfigs)
-          .insert(
-            WidgetConfigsCompanion.insert(
-              widgetId: const Value(7),
-              size: WidgetSize.small,
-              accountId: const Value('800000001'),
-              roleId: Value(roleId),
-              theme: WidgetTheme.dark,
-              fontSize: WidgetFontSize.medium,
-              updatedAt: _when,
-            ),
-          );
+    test(
+      'deleting an account cascades to roles, snapshots and history',
+      () async {
+        final db = _open();
+        addTearDown(db.close);
+        await _addAccount(db, '800000001');
+        final roleId = await _addRole(db, '800000001');
+        await db
+            .into(db.noteSnapshots)
+            .insert(
+              NoteSnapshotsCompanion.insert(
+                roleId: Value(roleId),
+                game: Game.genshin,
+                payload: '{}',
+                fetchedAt: _when,
+              ),
+            );
+        await db
+            .into(db.checkInHistory)
+            .insert(
+              CheckInHistoryCompanion.insert(
+                accountId: '800000001',
+                game: Game.genshin,
+                day: '2026-11-21',
+                result: CheckInResult.claimed,
+                createdAt: _when,
+              ),
+            );
+        await db
+            .into(db.widgetConfigs)
+            .insert(
+              WidgetConfigsCompanion.insert(
+                widgetId: const Value(7),
+                size: WidgetSize.small,
+                accountId: const Value('800000001'),
+                roleId: Value(roleId),
+                theme: WidgetTheme.dark,
+                fontSize: WidgetFontSize.medium,
+                updatedAt: _when,
+              ),
+            );
 
-      await (db.delete(
-        db.accounts,
-      )..where((a) => a.id.equals('800000001'))).go();
+        await (db.delete(
+          db.accounts,
+        )..where((a) => a.id.equals('800000001'))).go();
 
-      expect(await db.select(db.gameRoles).get(), isEmpty);
-      expect(await db.select(db.noteSnapshots).get(), isEmpty);
-      expect(await db.select(db.checkInHistory).get(), isEmpty);
-      final widget = await db.select(db.widgetConfigs).getSingle();
-      expect(widget.accountId, isNull);
-      expect(widget.roleId, isNull);
-    });
+        expect(await db.select(db.gameRoles).get(), isEmpty);
+        expect(await db.select(db.noteSnapshots).get(), isEmpty);
+        expect(await db.select(db.checkInHistory).get(), isEmpty);
+        final widget = await db.select(db.widgetConfigs).getSingle();
+        expect(widget.accountId, isNull);
+        expect(widget.roleId, isNull);
+      },
+    );
 
     test('a role id is unique per account, game and uid', () async {
       final db = _open();

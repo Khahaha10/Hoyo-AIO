@@ -7,8 +7,8 @@ import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/core/storage/hoyolab_cookie.dart';
 import 'package:hoyo_aio/core/storage/pending_cookies.dart';
 import 'package:hoyo_aio/features/accounts/data/account_repository_impl.dart';
-import 'package:hoyo_aio/features/accounts/presentation/providers/pending_account_provider.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/has_accounts_provider.dart';
+import 'package:hoyo_aio/features/accounts/presentation/providers/pending_account_provider.dart';
 
 import '../../_support/account_fakes.dart';
 
@@ -97,12 +97,15 @@ void main() {
     expect(pending().read(pendingId), isNull);
   });
 
-  test('confirm without a pending account throws CookieExpiredException', () async {
-    await expectLater(
-      controller().confirm({gi}),
-      throwsA(isA<CookieExpiredException>()),
-    );
-  });
+  test(
+    'confirm without a pending account throws CookieExpiredException',
+    () async {
+      await expectLater(
+        controller().confirm({gi}),
+        throwsA(isA<CookieExpiredException>()),
+      );
+    },
+  );
 
   test('confirm with an empty selection throws NoRolesException', () async {
     await controller().verify(cookie);

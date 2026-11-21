@@ -71,7 +71,10 @@ void main() {
 
     test('dev tools are never redirected', () {
       expect(_redirect(AppRoutes.gallery), isNull);
-      expect(_redirect(AppRoutes.apiDebug, accounts: false, seen: false), isNull);
+      expect(
+        _redirect(AppRoutes.apiDebug, accounts: false, seen: false),
+        isNull,
+      );
     });
 
     test('deep links resolve to a dashboard location', () {

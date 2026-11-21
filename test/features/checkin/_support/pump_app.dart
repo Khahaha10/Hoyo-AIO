@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart'
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hoyo_aio/app/provider_retry.dart';
 import 'package:hoyo_aio/core/database/database_enums.dart';
 import 'package:hoyo_aio/core/design_system/theme/app_theme.dart';
@@ -49,11 +50,21 @@ Future<void> pumpApp(
   bool dark = false,
   bool wrapScaffold = true,
 }) async {
+  final router = GoRouter(
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (_, _) => wrapScaffold ? Scaffold(body: child) : child,
+      ),
+    ],
+  );
+  addTearDown(router.dispose);
   await tester.pumpWidget(
     ProviderScope(
       retry: noProviderRetry,
       overrides: overrides,
-      child: MaterialApp(
+      child: MaterialApp.router(
+        routerConfig: router,
         theme: dark ? AppTheme.dark() : AppTheme.light(),
         debugShowCheckedModeBanner: false,
         locale: const Locale('en'),
@@ -63,7 +74,6 @@ Future<void> pumpApp(
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
-        home: wrapScaffold ? Scaffold(body: child) : child,
       ),
     ),
   );

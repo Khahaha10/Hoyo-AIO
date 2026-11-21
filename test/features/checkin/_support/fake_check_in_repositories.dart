@@ -73,10 +73,9 @@ class FakeCheckInHistoryRepository implements CheckInHistoryRepository {
       games: {Game.genshin},
       runAtMinutes: 9 * 60,
     ),
-    List<CheckInRun> runs = const [],
+    this._runs = const [],
   }) : _settings = StreamController<AutoCheckInSettings>.broadcast(),
-       _current = settings,
-       _runs = runs;
+       _current = settings;
 
   final StreamController<AutoCheckInSettings> _settings;
   AutoCheckInSettings _current;

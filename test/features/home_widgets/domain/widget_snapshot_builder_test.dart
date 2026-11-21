@@ -70,29 +70,35 @@ void main() {
       expect(roles[2].stamina.key, 'battery');
     });
 
-    test('builds Genshin items with realm, tasks, transformer, expeditions', () {
-      final genshin = _build().roles[0];
+    test(
+      'builds Genshin items with realm, tasks, transformer, expeditions',
+      () {
+        final genshin = _build().roles[0];
 
-      expect(genshin.items.map((i) => i.key), [
-        'realm',
-        'commissions',
-        'weeklyBosses',
-        'transformer',
-        'expeditions',
-      ]);
-      final realm = _item(genshin, 'realm');
-      expect((realm.value, realm.max), (1200, 2400));
-      expect(realm.doneAt?.isUtc, isTrue);
-      expect(_item(genshin, 'commissions').value, 2);
-      expect(_item(genshin, 'weeklyBosses').max, 3);
-      expect(
-        _item(genshin, 'transformer').doneAt,
-        fetchedAt.add(const Duration(hours: 5)).toUtc(),
-      );
-      final expeditions = _item(genshin, 'expeditions');
-      expect((expeditions.value, expeditions.max), (1, 3));
-      expect(expeditions.doneAt, fetchedAt.add(const Duration(hours: 6)).toUtc());
-    });
+        expect(genshin.items.map((i) => i.key), [
+          'realm',
+          'commissions',
+          'weeklyBosses',
+          'transformer',
+          'expeditions',
+        ]);
+        final realm = _item(genshin, 'realm');
+        expect((realm.value, realm.max), (1200, 2400));
+        expect(realm.doneAt?.isUtc, isTrue);
+        expect(_item(genshin, 'commissions').value, 2);
+        expect(_item(genshin, 'weeklyBosses').max, 3);
+        expect(
+          _item(genshin, 'transformer').doneAt,
+          fetchedAt.add(const Duration(hours: 5)).toUtc(),
+        );
+        final expeditions = _item(genshin, 'expeditions');
+        expect((expeditions.value, expeditions.max), (1, 3));
+        expect(
+          expeditions.doneAt,
+          fetchedAt.add(const Duration(hours: 6)).toUtc(),
+        );
+      },
+    );
 
     test('builds Star Rail items with empty assignments and no doneAt', () {
       final starRail = _build().roles[1];

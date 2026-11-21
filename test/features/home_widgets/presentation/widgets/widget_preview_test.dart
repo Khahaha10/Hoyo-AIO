@@ -1,8 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hoyo_aio/core/database/database_enums.dart';
 import 'package:hoyo_aio/core/design_system/theme/app_theme.dart';
 import 'package:hoyo_aio/core/design_system/tokens/widget_tokens.dart';
-import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/home_widget_repositories.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/widget_snapshot.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/widget_snapshot_builder.dart';
@@ -234,8 +232,8 @@ void main() {
     );
   });
 
-  for (final accent in ['lime', 'neutral', 'starRail', 'unknown'])
-    for (final fontSize in ['small', 'large'])
+  for (final accent in ['lime', 'neutral', 'starRail', 'unknown']) {
+    for (final fontSize in ['small', 'large']) {
       testWidgets('renders accent $accent with $fontSize text', (tester) async {
         await _pump(
           tester,
@@ -246,4 +244,6 @@ void main() {
         expect(tester.takeException(), isNull);
         expect(find.text('105'), findsOneWidget);
       });
+    }
+  }
 }

@@ -31,7 +31,7 @@ void main() {
       expect(note.realmCurrency.fullAt, t0.add(s(32400)));
       expect(
         note.realmCurrency.recoveryInterval,
-        Duration(microseconds: 32400 * 1000000 ~/ 560),
+        const Duration(microseconds: 32400 * 1000000 ~/ 560),
       );
       expect(note.commissions, const TaskProgress(done: 3, total: 4));
       expect(note.commissionBonusClaimed, isFalse);

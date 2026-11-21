@@ -113,7 +113,10 @@ void main() {
         container.read(pendingCookiesProvider).read(pendingId),
         fakeCookieText,
       );
-      expect(container.read(pendingAccountControllerProvider)?.hoyolabUid, fakeUid);
+      expect(
+        container.read(pendingAccountControllerProvider)?.hoyolabUid,
+        fakeUid,
+      );
       final field = tester.widget<TextField>(
         find.byType(TextField, skipOffstage: false),
       );

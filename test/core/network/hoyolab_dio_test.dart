@@ -98,27 +98,30 @@ void main() {
   });
 
   group('buildHoyolabDio success path', () {
-    test('sends cookie, DS and game record headers to an allowed host', () async {
-      final h = _Harness(FakeAdapter.json({'retcode': 0, 'data': {}}));
+    test(
+      'sends cookie, DS and game record headers to an allowed host',
+      () async {
+        final h = _Harness(FakeAdapter.json({'retcode': 0, 'data': {}}));
 
-      final response = await h.dio.getUri<Map<String, dynamic>>(
-        _recordUri(),
-        options: hoyolabOptions(
-          accountId: '800000001',
-          profile: HeaderProfile.gameRecord,
-        ),
-      );
+        final response = await h.dio.getUri<Map<String, dynamic>>(
+          _recordUri(),
+          options: hoyolabOptions(
+            accountId: '800000001',
+            profile: HeaderProfile.gameRecord,
+          ),
+        );
 
-      final sent = h.adapter.requests.single.headers;
-      expect(response.data?['retcode'], 0);
-      expect(h.cookieReads, ['800000001']);
-      expect(sent['Cookie'], _cookie);
-      expect(sent['DS'], matches(RegExp(r'^\d+,[a-z]{6},[0-9a-f]{32}$')));
-      expect(sent['x-rpc-client_type'], HoyolabConfig.clientTypeGameRecord);
-      expect(sent['x-rpc-app_version'], HoyolabConfig.appVersion);
-      expect(sent['x-rpc-language'], HoyolabConfig.languageEnglish);
-      expect(sent['Referer'], HoyolabConfig.gameRecordReferer);
-    });
+        final sent = h.adapter.requests.single.headers;
+        expect(response.data?['retcode'], 0);
+        expect(h.cookieReads, ['800000001']);
+        expect(sent['Cookie'], _cookie);
+        expect(sent['DS'], matches(RegExp(r'^\d+,[a-z]{6},[0-9a-f]{32}$')));
+        expect(sent['x-rpc-client_type'], HoyolabConfig.clientTypeGameRecord);
+        expect(sent['x-rpc-app_version'], HoyolabConfig.appVersion);
+        expect(sent['x-rpc-language'], HoyolabConfig.languageEnglish);
+        expect(sent['Referer'], HoyolabConfig.gameRecordReferer);
+      },
+    );
 
     test('never sends the cookie to a gacha host', () async {
       final h = _Harness(FakeAdapter.json({'retcode': 0}));

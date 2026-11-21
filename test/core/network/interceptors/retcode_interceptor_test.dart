@@ -71,10 +71,7 @@ void main() {
         exceptionForRetcode(Retcode.alreadyCheckedIntoHoyolab),
         isA<AlreadyCheckedInException>(),
       );
-      expect(
-        exceptionForRetcode(Retcode.invalidInput),
-        isA<ParseException>(),
-      );
+      expect(exceptionForRetcode(Retcode.invalidInput), isA<ParseException>());
     });
 
     test('unknown retcodes become ServerException with the message', () {
@@ -89,7 +86,10 @@ void main() {
   group('mapDioError', () {
     test('keeps an AppException carried by the DioException', () {
       final error = mapDioError(
-        _dioError(DioExceptionType.unknown, error: const CaptchaRequiredException()),
+        _dioError(
+          DioExceptionType.unknown,
+          error: const CaptchaRequiredException(),
+        ),
       );
 
       expect(error, isA<CaptchaRequiredException>());

@@ -301,6 +301,8 @@ void main() {
       ),
     );
 
+    await tester.pump();
+
     expect(find.text('1/2'), findsNWidgets(4));
     expect(
       find.text(

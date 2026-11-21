@@ -58,14 +58,12 @@ List<Override> widgetOverrides({
   homeWidgetInteractivityProvider.overrideWith((_) async {}),
   notesRepositoryProvider.overrideWithValue(
     FakeNotesRepository(
-      notes ??
-          {
-            for (final (role, result) in allNotes) role.id: result,
-          },
+      notes ?? {for (final (role, result) in allNotes) role.id: result},
     ),
   ),
   checkInHistoryRepositoryProvider.overrideWithValue(FakeCheckInHistory()),
   homeWidgetBridgeProvider.overrideWithValue(bridge),
-  if (configs != null) widgetConfigRepositoryProvider.overrideWithValue(configs),
+  if (configs != null)
+    widgetConfigRepositoryProvider.overrideWithValue(configs),
   clockProvider.overrideWithValue(() => widgetNow),
 ];

@@ -81,15 +81,18 @@ void main() {
       );
     });
 
-    test('returns null and publishes nothing before check-in settings load', () async {
-      final bridge = FakeHomeWidgetBridge();
-      final container = _container(bridge, withSettings: false);
+    test(
+      'returns null and publishes nothing before check-in settings load',
+      () async {
+        final bridge = FakeHomeWidgetBridge();
+        final container = _container(bridge, withSettings: false);
 
-      await pumpEventQueue();
+        await pumpEventQueue();
 
-      expect(container.read(widgetSyncProvider).value, isNull);
-      expect(bridge.published, isEmpty);
-    });
+        expect(container.read(widgetSyncProvider).value, isNull);
+        expect(bridge.published, isEmpty);
+      },
+    );
 
     test('republishes with the new config after a widget save', () async {
       final bridge = FakeHomeWidgetBridge();
@@ -169,15 +172,18 @@ void main() {
       expect(canPin, isFalse);
     });
 
-    test('updateHomeWidgetsProvider builds from the overridden sources', () async {
-      final bridge = FakeHomeWidgetBridge();
-      final container = _container(bridge);
+    test(
+      'updateHomeWidgetsProvider builds from the overridden sources',
+      () async {
+        final bridge = FakeHomeWidgetBridge();
+        final container = _container(bridge);
 
-      final WidgetSnapshot snapshot = await container
-          .read(updateHomeWidgetsProvider)
-          .call(roles: [zzzRole], checkInGames: const {}, labels: const {});
+        final WidgetSnapshot snapshot = await container
+            .read(updateHomeWidgetsProvider)
+            .call(roles: [zzzRole], checkInGames: const {}, labels: const {});
 
-      expect(snapshot.roles.single.roleId, zzzRole.id);
-    });
+        expect(snapshot.roles.single.roleId, zzzRole.id);
+      },
+    );
   });
 }

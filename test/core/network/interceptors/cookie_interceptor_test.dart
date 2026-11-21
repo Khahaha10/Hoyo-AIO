@@ -33,10 +33,11 @@ void main() {
   const host = HoyolabConfig.gameRecordHost;
   final reads = <String>[];
 
-  CookieInterceptor interceptor(String? cookie) => CookieInterceptor((id) async {
-    reads.add(id);
-    return cookie;
-  });
+  CookieInterceptor interceptor(String? cookie) =>
+      CookieInterceptor((id) async {
+        reads.add(id);
+        return cookie;
+      });
 
   setUp(reads.clear);
 
@@ -49,9 +50,8 @@ void main() {
   test('attaches the vault cookie and drops any preset Cookie', () async {
     final handler = _Capture();
 
-    await interceptor(
-      'ltuid_v2=1; ltoken_v2=fake',
-    ).onRequest(_request('https://$host/x', accountId: '1'), handler);
+    await interceptor('ltuid_v2=1; ltoken_v2=fake')
+        .onRequest(_request('https://$host/x', accountId: '1'), handler);
 
     expect(handler.passed?.headers['Cookie'], 'ltuid_v2=1; ltoken_v2=fake');
   });
@@ -59,9 +59,10 @@ void main() {
   test('rejects a foreign host on its own without reading the vault', () async {
     final handler = _Capture();
 
-    await interceptor(
-      'x',
-    ).onRequest(_request('https://evil.example.com/x', accountId: '1'), handler);
+    await interceptor('x').onRequest(
+      _request('https://evil.example.com/x', accountId: '1'),
+      handler,
+    );
 
     expect(handler.rejected?.error, isA<ForbiddenHostException>());
     expect(reads, isEmpty);
@@ -79,9 +80,8 @@ void main() {
   test('an empty vault cookie is rejected as expired', () async {
     final handler = _Capture();
 
-    await interceptor(
-      '',
-    ).onRequest(_request('https://$host/x', accountId: '1'), handler);
+    await interceptor('')
+        .onRequest(_request('https://$host/x', accountId: '1'), handler);
 
     expect(handler.rejected?.error, isA<CookieExpiredException>());
   });

@@ -69,22 +69,25 @@ void main() {
     expect(container.read(selectedRoleProvider)?.id, 1);
   });
 
-  test('selectGame prefers the current account and ignores missing games', () async {
-    final container = await _containerWith([healthy, expired]);
-    final notifier = container.read(selectedRoleIdProvider.notifier);
+  test(
+    'selectGame prefers the current account and ignores missing games',
+    () async {
+      final container = await _containerWith([healthy, expired]);
+      final notifier = container.read(selectedRoleIdProvider.notifier);
 
-    notifier.select(5);
-    notifier.selectGame(Game.zzz);
-    expect(container.read(selectedRoleIdProvider), 6);
+      notifier.select(5);
+      notifier.selectGame(Game.zzz);
+      expect(container.read(selectedRoleIdProvider), 6);
 
-    notifier.select(1);
-    notifier.selectGame(Game.zzz);
-    expect(container.read(selectedRoleIdProvider), 6);
+      notifier.select(1);
+      notifier.selectGame(Game.zzz);
+      expect(container.read(selectedRoleIdProvider), 6);
 
-    notifier.select(1);
-    notifier.selectGame(Game.hi3);
-    expect(container.read(selectedRoleIdProvider), 1);
-  });
+      notifier.select(1);
+      notifier.selectGame(Game.hi3);
+      expect(container.read(selectedRoleIdProvider), 1);
+    },
+  );
 
   test('no accounts means no selected role', () async {
     final container = await _containerWith(const []);
@@ -145,8 +148,10 @@ void main() {
 
   test('AccountSummary flags attention for non-valid statuses', () {
     expect(accountSummary().needsAttention, isFalse);
-    expect(accountSummary(status: AccountStatus.needsLogin).needsAttention, isTrue);
+    expect(
+      accountSummary(status: AccountStatus.needsLogin).needsAttention,
+      isTrue,
+    );
     expect(healthy.enabledRoles.map((r) => r.id), [1, 2, 4]);
   });
-
 }

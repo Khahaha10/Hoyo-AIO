@@ -3,15 +3,17 @@ import 'package:hoyo_aio/core/design_system/components/app_slider.dart';
 import 'package:hoyo_aio/core/design_system/components/app_toggle.dart';
 import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/core/platform/system_settings.dart';
+import 'package:hoyo_aio/core/time/clock.dart';
+import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/accounts_provider.dart';
 import 'package:hoyo_aio/features/background/data/background_settings_repository_impl.dart';
 import 'package:hoyo_aio/features/dashboard/data/notes_repository_impl.dart';
 import 'package:hoyo_aio/features/dashboard/domain/note_result.dart';
 import 'package:hoyo_aio/features/dashboard/domain/notes_repository.dart';
-import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
 import 'package:hoyo_aio/features/notifications/data/notification_service.dart';
 import 'package:hoyo_aio/features/notifications/data/notification_settings_repository_impl.dart';
 import 'package:hoyo_aio/features/notifications/domain/notification_settings.dart';
+import 'package:hoyo_aio/features/notifications/presentation/notification_permission_banner.dart';
 import 'package:hoyo_aio/features/notifications/presentation/notifications_screen.dart';
 import 'package:hoyo_aio/features/notifications/presentation/widgets/stamina_threshold_row.dart';
 import 'package:material_ui/material_ui.dart';
@@ -61,6 +63,9 @@ _pump(
       notesRepositoryProvider.overrideWithValue(_Notes()),
       refreshMinutesProvider.overrideWith((_) => const Stream.empty()),
       batteryOptimizationIgnoredProvider.overrideWith((_) async => true),
+      clockTickProvider.overrideWith(
+        (ref) => Stream.value(ref.watch(clockProvider)()),
+      ),
     ],
   );
   await tester.pump();
@@ -68,9 +73,13 @@ _pump(
   return (repository, service);
 }
 
-Finder _toggle(String label) => find.byWidgetPredicate(
-  (w) => w is AppToggle && w.semanticLabel == label,
+Finder get _bannerAllow => find.descendant(
+  of: find.byType(NotificationPermissionBanner),
+  matching: find.text(_l10n.notificationPermissionAllow),
 );
+
+Finder _toggle(String label) =>
+    find.byWidgetPredicate((w) => w is AppToggle && w.semanticLabel == label);
 
 void main() {
   testWidgets('shows every alert row with the locked cookie row', (
@@ -86,7 +95,7 @@ void main() {
     );
     expect(cookie.value, isTrue);
     expect(cookie.onChanged, isNull);
-    expect(find.text(_l10n.notificationPermissionAllow), findsNothing);
+    expect(find.text(_l10n.notificationPermissionBody), findsNothing);
   });
 
   testWidgets('alert toggles save the new settings', (tester) async {
@@ -110,9 +119,7 @@ void main() {
     expect(repository.current.dailyReminder, isTrue);
   });
 
-  testWidgets('turning stamina off hides the threshold slider', (
-    tester,
-  ) async {
+  testWidgets('turning stamina off hides the threshold slider', (tester) async {
     final (repository, _) = await _pump(tester);
 
     await tester.tap(_toggle(_l10n.notificationsStamina));
@@ -146,11 +153,11 @@ void main() {
       ),
       findsOneWidget,
     );
+    await tester.pumpWidget(const SizedBox());
+    await tester.pump(const Duration(minutes: 10));
   });
 
-  testWidgets('master toggle off disables the alert controls', (
-    tester,
-  ) async {
+  testWidgets('master toggle off disables the alert controls', (tester) async {
     final (repository, _) = await _pump(
       tester,
       settings: const NotificationSettings(enabled: false),
@@ -161,16 +168,16 @@ void main() {
       isNull,
     );
     expect(
-      tester.widget<AppToggle>(_toggle(_l10n.notificationsQuietHours)).onChanged,
+      tester
+          .widget<AppToggle>(_toggle(_l10n.notificationsQuietHours))
+          .onChanged,
       isNull,
     );
     expect(tester.widget<AppSlider>(find.byType(AppSlider)).onChanged, isNull);
     expect(repository.saved, isEmpty);
   });
 
-  testWidgets('master toggle on saves and asks for permission', (
-    tester,
-  ) async {
+  testWidgets('master toggle on saves and asks for permission', (tester) async {
     final (repository, service) = await _pump(
       tester,
       settings: const NotificationSettings(enabled: false),
@@ -187,7 +194,10 @@ void main() {
   testWidgets('quiet hours toggle and range picker save', (tester) async {
     final (repository, _) = await _pump(tester);
 
-    expect(find.text(_l10n.notificationsQuietRange('23:00', '07:00')), findsOneWidget);
+    expect(
+      find.text(_l10n.notificationsQuietRange('23:00', '07:00')),
+      findsOneWidget,
+    );
     await tester.tap(_toggle(_l10n.notificationsQuietHours));
     await tester.pumpAndSettle();
     expect(repository.current.quietHours, isTrue);
@@ -236,7 +246,7 @@ void main() {
     service.grant = false;
 
     expect(find.text(_l10n.notificationPermissionBody), findsOneWidget);
-    await tester.tap(find.text(_l10n.notificationPermissionAllow));
+    await tester.tap(_bannerAllow);
     await tester.pumpAndSettle();
 
     expect(service.permissionRequests, 1);
@@ -247,7 +257,7 @@ void main() {
   testWidgets('granting permission hides the banner', (tester) async {
     final (_, service) = await _pump(tester, permission: false);
 
-    await tester.tap(find.text(_l10n.notificationPermissionAllow));
+    await tester.tap(_bannerAllow);
     await tester.pumpAndSettle();
 
     expect(service.settingsOpened, 0);

@@ -60,9 +60,8 @@ void main() {
     await container
         .read(appSettingsActionsProvider.notifier)
         .setAccent(AppAccent.match);
-    await (db.update(db.appSettings)).write(
-      const AppSettingsCompanion(accent: Value('purple')),
-    );
+    await (db.update(db.appSettings))
+        .write(const AppSettingsCompanion(accent: Value('purple')));
 
     expect((await next()).accent, AppAccent.lime);
   });

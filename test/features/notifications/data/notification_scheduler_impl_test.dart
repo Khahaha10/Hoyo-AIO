@@ -40,7 +40,10 @@ void main() {
     expect(messages.map((m) => m.id), [1, 2]);
     expect(messages.first.kind, NotificationKind.stamina);
     expect(messages.first.at, _at);
-    expect(messages.first.title, _en.notifyStaminaThreshold(_en.genshinResin, 180, 200));
+    expect(
+      messages.first.title,
+      _en.notifyStaminaThreshold(_en.genshinResin, 180, 200),
+    );
     expect(messages.first.body, _en.notifyRoleLine('Tester', _en.gameGenshin));
     expect(
       messages.first.payload,

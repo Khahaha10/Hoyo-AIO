@@ -66,10 +66,7 @@ void main() {
   test('save updates the same widget id instead of duplicating', () async {
     await repository.save(config(roleId: null), accountId: null);
 
-    await repository.save(
-      config(roleId: null, theme: 'dark'),
-      accountId: null,
-    );
+    await repository.save(config(roleId: null, theme: 'dark'), accountId: null);
 
     final all = await repository.all();
     expect(all, hasLength(1));
@@ -102,9 +99,6 @@ void main() {
   test('stores no cookie-like column in widget_configs', () {
     final columns = db.widgetConfigs.$columns.map((c) => c.name);
 
-    expect(
-      columns.where((n) => RegExp('cookie|token').hasMatch(n)),
-      isEmpty,
-    );
+    expect(columns.where((n) => RegExp('cookie|token').hasMatch(n)), isEmpty);
   });
 }

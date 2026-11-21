@@ -87,7 +87,8 @@ class FakeAccountRepository implements AccountRepository {
   AppException? saveError;
   AppException? deleteError;
   final detectCalls = <String>[];
-  final saved = <({String accountId, String cookie, Set<DetectedRole> selected})>[];
+  final saved =
+      <({String accountId, String cookie, Set<DetectedRole> selected})>[];
   final deleted = <String>[];
 
   @override

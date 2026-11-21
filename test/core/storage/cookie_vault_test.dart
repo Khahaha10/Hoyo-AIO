@@ -39,9 +39,8 @@ void main() {
 
     test('reuses the stored key across instances', () async {
       final storage = MemorySecureStorage();
-      final sealed = await CookieCipher(
-        storage,
-      ).encrypt(_raw, accountId: '800000001');
+      final sealed = await CookieCipher(storage)
+          .encrypt(_raw, accountId: '800000001');
 
       final other = CookieCipher(storage);
 
@@ -49,9 +48,8 @@ void main() {
     });
 
     test('a new key cannot open an old value', () async {
-      final sealed = await CookieCipher(
-        MemorySecureStorage(),
-      ).encrypt(_raw, accountId: '800000001');
+      final sealed = await CookieCipher(MemorySecureStorage())
+          .encrypt(_raw, accountId: '800000001');
 
       final other = CookieCipher(MemorySecureStorage());
 
@@ -133,10 +131,7 @@ void main() {
     test('platform errors become UnknownException', () async {
       storage.failing = true;
 
-      await expectLater(
-        vault.read('1'),
-        throwsA(isA<UnknownException>()),
-      );
+      await expectLater(vault.read('1'), throwsA(isA<UnknownException>()));
       await expectLater(vault.delete('1'), throwsA(isA<UnknownException>()));
     });
 

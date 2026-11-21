@@ -25,11 +25,8 @@ String _between(String source, String start, String end) {
 
 Map<String, Object> _parseKotlin(String source) {
   final color = RegExp(r'Color\(0x([0-9A-Fa-f]{8})\)');
-  String single(String name) => _hex(
-    color
-        .firstMatch(_between(source, 'val $name = ', '\n'))!
-        .group(1)!,
-  );
+  String single(String name) =>
+      _hex(color.firstMatch(_between(source, 'val $name = ', '\n'))!.group(1)!);
   final palettes = _between(source, 'val palettes = mapOf(', '\n    )\n');
   return {
     'radius': int.parse(
@@ -56,13 +53,13 @@ Map<String, Object> _parseKotlin(String source) {
 Map<String, Object> _parseSwift(String source) {
   final color = RegExp(r'Color\(argb: 0x([0-9A-Fa-f]{8})\)');
   String single(String name) => _hex(
-    color
-        .firstMatch(_between(source, 'static let $name = ', '\n'))!
-        .group(1)!,
+    color.firstMatch(_between(source, 'static let $name = ', '\n'))!.group(1)!,
   );
   return {
     'radius': int.parse(
-      RegExp(r'static let radius: CGFloat = (\d+)').firstMatch(source)!.group(1)!,
+      RegExp(r'static let radius: CGFloat = (\d+)')
+          .firstMatch(source)!
+          .group(1)!,
     ),
     'lime': single('lime'),
     'ink': single('ink'),

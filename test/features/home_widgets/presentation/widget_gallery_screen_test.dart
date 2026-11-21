@@ -42,9 +42,7 @@ final _routes = [
   ),
   GoRoute(
     path: AppRoutes.widgetEditorPath,
-    builder: (_, state) => Scaffold(
-      body: Text('editor ${state.uri.query}'),
-    ),
+    builder: (_, state) => Scaffold(body: Text('editor ${state.uri.query}')),
   ),
 ];
 
@@ -136,21 +134,19 @@ void main() {
     expect(bridge.pinned, isEmpty);
   });
 
-  testWidgets(
-    'BUG: widget_gallery_screen.dart:52 reads the autoDispose '
-    'canPinWidgetProvider with ref.read while it is still loading, so a '
-    'sample tap never pins and always shows the manual snackbar',
-    (tester) async {
-      final bridge = FakeHomeWidgetBridge();
-      await _pump(tester, _container(bridge));
+  testWidgets('BUG: widget_gallery_screen.dart:52 reads the autoDispose '
+      'canPinWidgetProvider with ref.read while it is still loading, so a '
+      'sample tap never pins and always shows the manual snackbar', (
+    tester,
+  ) async {
+    final bridge = FakeHomeWidgetBridge();
+    await _pump(tester, _container(bridge));
 
-      await tester.tap(find.byType(WidgetPreview).first);
-      await tester.pumpAndSettle();
+    await tester.tap(find.byType(WidgetPreview).first);
+    await tester.pumpAndSettle();
 
-      expect(bridge.pinned, [HomeWidgetSize.small]);
-    },
-    skip: true,
-  );
+    expect(bridge.pinned, [HomeWidgetSize.small]);
+  }, skip: true);
 
   testWidgets('add sheet lists the three sizes and closes on pick', (
     tester,

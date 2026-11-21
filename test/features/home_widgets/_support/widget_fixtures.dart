@@ -226,7 +226,10 @@ class FakeWidgetConfigRepository implements WidgetConfigRepository {
 }
 
 class FakeHomeWidgetBridge implements HomeWidgetBridge {
-  FakeHomeWidgetBridge({this.placedWidgets = const [], this.pinSupported = true});
+  FakeHomeWidgetBridge({
+    this.placedWidgets = const [],
+    this.pinSupported = true,
+  });
 
   final List<PlacedWidget> placedWidgets;
   final bool pinSupported;
@@ -247,13 +250,14 @@ class FakeHomeWidgetBridge implements HomeWidgetBridge {
   Future<void> pin(HomeWidgetSize size) async => pinned.add(size);
 }
 
-WidgetSnapshot previewSnapshot({List<WidgetConfigSnapshot> widgets = const []}) =>
-    WidgetSnapshotBuilder.build(
-      notes: allNotes,
-      checkInToday: [record(Game.genshin, CheckInResult.claimed)],
-      day: '2026-11-21',
-      checkInTotal: 3,
-      widgets: widgets,
-      labels: testLabels,
-      now: fetchedAt,
-    );
+WidgetSnapshot previewSnapshot({
+  List<WidgetConfigSnapshot> widgets = const [],
+}) => WidgetSnapshotBuilder.build(
+  notes: allNotes,
+  checkInToday: [record(Game.genshin, CheckInResult.claimed)],
+  day: '2026-11-21',
+  checkInTotal: 3,
+  widgets: widgets,
+  labels: testLabels,
+  now: fetchedAt,
+);

@@ -101,9 +101,8 @@ void main() {
 
   group('syncChannels', () {
     test('creates one localized channel per kind on Android', () async {
-      when(
-        () => android.createNotificationChannel(any()),
-      ).thenAnswer((_) async {});
+      when(() => android.createNotificationChannel(any()))
+          .thenAnswer((_) async {});
 
       await service.syncChannels(_en);
 
@@ -135,20 +134,20 @@ void main() {
 
   group('permissions', () {
     test('Android reports and requests notification permission', () async {
-      when(() => android.areNotificationsEnabled()).thenAnswer((_) async => false);
-      when(
-        () => android.requestNotificationsPermission(),
-      ).thenAnswer((_) async => true);
+      when(() => android.areNotificationsEnabled())
+          .thenAnswer((_) async => false);
+      when(() => android.requestNotificationsPermission())
+          .thenAnswer((_) async => true);
 
       expect(await service.isEnabled(), isFalse);
       expect(await service.requestPermission(), isTrue);
     });
 
     test('Android null answers count as denied', () async {
-      when(() => android.areNotificationsEnabled()).thenAnswer((_) async => null);
-      when(
-        () => android.requestNotificationsPermission(),
-      ).thenAnswer((_) async => null);
+      when(() => android.areNotificationsEnabled())
+          .thenAnswer((_) async => null);
+      when(() => android.requestNotificationsPermission())
+          .thenAnswer((_) async => null);
 
       expect(await service.isEnabled(), isFalse);
       expect(await service.requestPermission(), isFalse);
@@ -278,7 +277,8 @@ void main() {
   });
 
   test('openSystemSettings opens the app notification settings', () async {
-    when(() => plugin.openAppNotificationSettings()).thenAnswer((_) async => true);
+    when(() => plugin.openAppNotificationSettings())
+        .thenAnswer((_) async => true);
 
     await service.openSystemSettings();
 
@@ -302,9 +302,8 @@ void main() {
     });
 
     test('returns null for a normal launch', () async {
-      when(
-        () => plugin.getNotificationAppLaunchDetails(),
-      ).thenAnswer((_) async => const NotificationAppLaunchDetails(false));
+      when(() => plugin.getNotificationAppLaunchDetails())
+          .thenAnswer((_) async => const NotificationAppLaunchDetails(false));
 
       expect(await service.launchPayload(), isNull);
     });
