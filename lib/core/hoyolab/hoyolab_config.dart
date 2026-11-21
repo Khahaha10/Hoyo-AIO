@@ -74,6 +74,58 @@ abstract final class HoyolabConfig {
     Game.zzz: 'nap_global',
   };
   static const gachaPageSize = 20;
+  static const gachaLinkHostSuffix = 'hoyoverse.com';
+  static const gachaKeptParams = {
+    'authkey',
+    'authkey_ver',
+    'sign_type',
+    'auth_appid',
+    'region',
+    'game_biz',
+  };
+  static const gachaGameBizToGame = <String, Game>{
+    'hk4e_global': Game.genshin,
+    'hkrpg_global': Game.starRail,
+    'nap_global': Game.zzz,
+  };
+  static const gachaPathMarkers = <String, Game>{
+    'genshin': Game.genshin,
+    'hk4e': Game.genshin,
+    'hkrpg': Game.starRail,
+    'nap': Game.zzz,
+  };
+  static const gachaBannerParam = <Game, String>{
+    Game.genshin: 'gacha_type',
+    Game.starRail: 'gacha_type',
+    Game.zzz: 'real_gacha_type',
+  };
+  static const gachaBanners = <Game, List<String>>{
+    Game.genshin: ['301', '302', '500', '200', '100'],
+    Game.starRail: ['11', '12', '1', '2'],
+    Game.zzz: ['2', '3', '1', '5'],
+  };
+  static const gachaAuthkeyLifetime = Duration(hours: 24);
+  static const gachaPity = <String, (int, int)>{
+    'genshin.301': (90, 74),
+    'genshin.302': (80, 63),
+    'genshin.500': (90, 74),
+    'genshin.200': (90, 74),
+    'genshin.100': (90, 74),
+    'starRail.11': (90, 74),
+    'starRail.12': (80, 66),
+    'starRail.1': (90, 74),
+    'starRail.2': (90, 74),
+    'zzz.2': (90, 74),
+    'zzz.3': (80, 64),
+    'zzz.1': (90, 74),
+    'zzz.5': (80, 64),
+  };
+  static const gachaPullCost = <Game, int>{
+    Game.genshin: 160,
+    Game.starRail: 160,
+    Game.zzz: 160,
+  };
+  static const gachaExpiredRetcodes = {-100, -101};
 
   static const webViewHosts = {
     'm.hoyolab.com',

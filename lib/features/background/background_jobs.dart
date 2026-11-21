@@ -3,6 +3,7 @@ import 'package:hoyo_aio/app/router/app_routes.dart';
 import 'package:hoyo_aio/core/database/app_database.dart';
 import 'package:hoyo_aio/core/database/database_enums.dart';
 import 'package:hoyo_aio/core/error/app_exception.dart';
+import 'package:hoyo_aio/core/hoyolab/hoyolab_config.dart';
 import 'package:hoyo_aio/core/l10n/game_labels.dart';
 import 'package:hoyo_aio/core/logging/app_logger.dart';
 import 'package:hoyo_aio/core/time/clock.dart';
@@ -27,6 +28,7 @@ import 'package:hoyo_aio/features/notifications/data/notification_service.dart';
 import 'package:hoyo_aio/features/notifications/data/notification_settings_repository_impl.dart';
 import 'package:hoyo_aio/features/notifications/domain/notification_kind.dart';
 import 'package:hoyo_aio/features/notifications/presentation/providers/notification_sync_provider.dart';
+import 'package:hoyo_aio/features/tracker/data/gacha_repository_impl.dart';
 
 class BackgroundJobs {
   const BackgroundJobs(this._container);
@@ -65,6 +67,7 @@ class BackgroundJobs {
     await _checkInIfDue();
     await _checkCodes(before);
     await _checkEvents(before);
+    await _syncGacha();
     await _afterJob(before);
   }
 
@@ -147,6 +150,20 @@ class BackgroundJobs {
         body: event.name,
         payload: eventUri(event).toString(),
       );
+    }
+  }
+
+  Future<void> _syncGacha() async {
+    final repository = _container.read(gachaRepositoryProvider);
+    for (final game in HoyolabConfig.gachaHosts.keys) {
+      try {
+        if (await repository.linkExpiresAt(game) == null) continue;
+        await repository.sync(game);
+      } on AppException catch (error) {
+        _container
+            .read(appLoggerProvider)
+            .warning('gacha sync ${game.name}: ${error.runtimeType}');
+      }
     }
   }
 

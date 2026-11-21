@@ -9,6 +9,7 @@ extension AppExceptionMessage on AppException {
     RateLimitedException() => l10n.errorRateLimited,
     NoRolesException() => l10n.errorNoRoles,
     CaptchaRequiredException() => l10n.errorCaptcha,
+    AuthkeyExpiredException() => l10n.errorAuthkeyExpired,
     ServerException(:final retcode) => l10n.errorServer(retcode),
     AlreadyCheckedInException() ||
     ForbiddenHostException() ||

@@ -362,5 +362,6 @@
   "widgetsAddTitle": "Tambah Widget",
   "widgetsAddManual": "Tekan lama layar utama, pilih Widget, lalu cari HoYo AIO.",
   "widgetItemRealm": "Realm",
-  "widgetItemCommissions": "Komisi"
+  "widgetItemCommissions": "Komisi",
+  "errorAuthkeyExpired": "Link riwayat sudah kedaluwarsa. Tempel link baru dari game."
 }

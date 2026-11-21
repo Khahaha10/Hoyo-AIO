@@ -17,6 +17,7 @@ abstract final class Redactor {
     'account_mid_v2',
     'mid',
     'stoken',
+    'authkey',
     'ds',
   ];
 

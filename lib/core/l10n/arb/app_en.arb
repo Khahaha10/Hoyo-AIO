@@ -1007,5 +1007,6 @@
   "widgetsAddTitle": "Add a Widget",
   "widgetsAddManual": "Long-press your home screen, choose Widgets and find HoYo AIO.",
   "widgetItemRealm": "Realm",
-  "widgetItemCommissions": "Commissions"
+  "widgetItemCommissions": "Commissions",
+  "errorAuthkeyExpired": "The history link expired. Paste a new one from the game."
 }

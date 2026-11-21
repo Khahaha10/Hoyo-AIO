@@ -132,3 +132,20 @@ class SeenEvents extends Table {
   @override
   Set<Column<Object>> get primaryKey => {id};
 }
+
+@DataClassName('GachaRecordRow')
+@TableIndex(name: 'gacha_records_banner', columns: {#game, #uid, #banner})
+class GachaRecords extends Table {
+  TextColumn get game => textEnum<Game>()();
+  IntColumn get id => integer()();
+  TextColumn get uid => text()();
+  TextColumn get banner => text()();
+  TextColumn get gachaType => text()();
+  TextColumn get name => text()();
+  TextColumn get itemType => text()();
+  IntColumn get rank => integer()();
+  TextColumn get time => text()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {game, id};
+}

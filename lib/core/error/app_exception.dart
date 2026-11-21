@@ -42,6 +42,10 @@ final class ForbiddenHostException extends AppException {
   final String host;
 }
 
+final class AuthkeyExpiredException extends AppException {
+  const AuthkeyExpiredException();
+}
+
 final class ServerException extends AppException {
   const ServerException({required this.retcode, this.message});
 
