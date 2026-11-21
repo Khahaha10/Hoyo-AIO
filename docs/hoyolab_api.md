@@ -407,7 +407,7 @@ the `gt_result` fields sit directly in `data`:
   [`CommonFunction.kt#L144-L168`](https://github.com/danggai/android_genshin_resin_widget/blob/9b04b0e18c217be4b5c8d7bc91a5bb3a08014c0c/presentation/src/main/java/danggai/app/presentation/util/CommonFunction.kt#L144-L168)).
   Our auto check-in time is user-chosen, but "today" must be computed in UTC+8.
 
-### 4.8 Daily check-in: status + monthly rewards ⚠️ VERIFY (not in reference repo)
+### 4.8 Daily check-in: status + monthly rewards ✅ (live-checked 2026-11-21; not in reference repo)
 The design's reward calendar (Phase 5) needs today's status and the month's reward list.
 The reference repo only claims; it never reads status or rewards. The endpoints below follow
 the same base paths as 4.7 and are the commonly used ones in other open-source HoYoLAB
@@ -428,7 +428,7 @@ Expected shapes (unverified):
 { "retcode": 0, "data": { "month": 11, "resign": false,
   "awards": [ { "icon": "https://…", "name": "Primogem", "cnt": 20 } ] } }
 ```
-- Must be confirmed with a live request in **5.1** before any code depends on them.
+- **Live check 2026-11-21** (owner account, all four games, check-in headers from §3.3, `lang=en-us`): `info` and `home` both answer HTTP 200 / `retcode 0` with the shapes above. `home.awards` had 30 entries for every game (`name`, `cnt`, `icon`). Observed: `total_sign_day 0`, `is_sign false`, `today "2026-11-21"` (UTC+8 date); `sign_cnt_missed` was 20 for HSR and ZZZ but 0 for GI and HI3, so it is not reliable across games ⚠️. `claim` (4.7) was **not** called in the check because it really checks the account in.
 - Reward `icon` URLs are official art: **do not display them** (design rule). Map by
   `name` to a Lucide icon, fall back to a generic gift icon.
 
