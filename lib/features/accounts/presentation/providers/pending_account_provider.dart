@@ -4,6 +4,7 @@ import 'package:hoyo_aio/core/storage/hoyolab_cookie.dart';
 import 'package:hoyo_aio/core/storage/pending_cookies.dart';
 import 'package:hoyo_aio/features/accounts/data/account_repository_impl.dart';
 import 'package:hoyo_aio/features/accounts/domain/detected_role.dart';
+import 'package:hoyo_aio/features/accounts/presentation/providers/has_accounts_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'pending_account_provider.freezed.dart';
@@ -49,6 +50,28 @@ class PendingAccountController extends _$PendingAccountController {
       cookies.remove(pendingId);
       rethrow;
     }
+  }
+
+  Future<void> confirm(Set<DetectedRole> selected) async {
+    final pending = state;
+    final header = pending == null
+        ? null
+        : ref.read(pendingCookiesProvider).read(pending.pendingId);
+    if (pending == null || header == null) {
+      throw const CookieExpiredException();
+    }
+    if (selected.isEmpty) throw const NoRolesException();
+    await ref
+        .read(accountRepositoryProvider)
+        .saveAccount(
+          accountId: pending.hoyolabUid,
+          cookie: HoyolabCookie.parse(header),
+          roles: pending.roles,
+          selected: selected,
+        );
+    clear();
+    ref.invalidate(hasAccountsProvider);
+    await ref.read(hasAccountsProvider.future);
   }
 
   void clear() {

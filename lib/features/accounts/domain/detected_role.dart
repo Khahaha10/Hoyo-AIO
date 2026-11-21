@@ -11,6 +11,7 @@ abstract class DetectedRole with _$DetectedRole {
     required String uid,
     required String server,
     required GameRegion? region,
+    required String? regionName,
     required String nickname,
     required int level,
   }) = _DetectedRole;
