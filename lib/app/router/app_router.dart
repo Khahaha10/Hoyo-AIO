@@ -2,13 +2,11 @@ import 'package:go_router/go_router.dart';
 import 'package:hoyo_aio/app/app_settings_provider.dart';
 import 'package:hoyo_aio/app/flavor.dart';
 import 'package:hoyo_aio/app/flavor_provider.dart';
-import 'package:hoyo_aio/app/placeholder_screen.dart';
 import 'package:hoyo_aio/app/router/app_redirect.dart';
 import 'package:hoyo_aio/app/router/app_routes.dart';
 import 'package:hoyo_aio/app/router/app_shell.dart';
 import 'package:hoyo_aio/app/router/deep_link.dart';
 import 'package:hoyo_aio/core/design_system/gallery/gallery_screen.dart';
-import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/core/network/debug/api_debug_screen.dart';
 import 'package:hoyo_aio/features/accounts/presentation/accounts_screen.dart';
 import 'package:hoyo_aio/features/accounts/presentation/add_account_screen.dart';
@@ -18,6 +16,9 @@ import 'package:hoyo_aio/features/accounts/presentation/select_roles_screen.dart
 import 'package:hoyo_aio/features/accounts/presentation/webview_login_screen.dart';
 import 'package:hoyo_aio/features/checkin/presentation/check_in_screen.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_screen.dart';
+import 'package:hoyo_aio/features/home_widgets/domain/home_widget_repositories.dart';
+import 'package:hoyo_aio/features/home_widgets/presentation/widget_editor_screen.dart';
+import 'package:hoyo_aio/features/home_widgets/presentation/widget_gallery_screen.dart';
 import 'package:hoyo_aio/features/notifications/presentation/notifications_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/splash_screen.dart';
@@ -82,10 +83,7 @@ List<RouteBase> _routes(Flavor flavor) => [
         );
       }),
       _branch(AppRoutes.checkIn, (_, _) => const CheckInScreen()),
-      _branch(
-        AppRoutes.widgets,
-        (context, _) => PlaceholderScreen(title: context.l10n.navWidgets),
-      ),
+      _branch(AppRoutes.widgets, (_, _) => const WidgetGalleryScreen()),
       _branch(AppRoutes.settings, (_, _) => const SettingsScreen()),
     ],
   ),
@@ -107,6 +105,19 @@ List<RouteBase> _routes(Flavor flavor) => [
     builder: (_, _) => const WebViewLoginScreen(),
   ),
   GoRoute(path: AppRoutes.accounts, builder: (_, _) => const AccountsScreen()),
+  GoRoute(
+    path: AppRoutes.widgetEditorPath,
+    builder: (_, state) {
+      final params = state.uri.queryParameters;
+      return WidgetEditorScreen(
+        widgetId: int.tryParse(params[AppRoutes.widgetIdParam] ?? '') ?? 0,
+        size:
+            HomeWidgetSize.values
+                .asNameMap()[params[AppRoutes.widgetSizeParam]] ??
+            HomeWidgetSize.medium,
+      );
+    },
+  ),
   GoRoute(
     path: AppRoutes.notifications,
     builder: (_, _) => const NotificationsScreen(),

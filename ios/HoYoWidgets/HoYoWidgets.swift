@@ -52,6 +52,7 @@ struct WidgetStyle {
         palette = WidgetTokens.palettes[theme] ?? WidgetTokens.light
         switch config?.accent ?? "match" {
         case "lime": accent = WidgetTokens.lime
+        case "neutral": accent = palette.text2
         case "match": accent = WidgetTokens.accents[role?.game ?? ""] ?? WidgetTokens.lime
         default: accent = WidgetTokens.accents[config?.accent ?? ""] ?? WidgetTokens.lime
         }

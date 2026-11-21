@@ -21,7 +21,7 @@ List<Override> appOverrides({
   notificationServiceProvider.overrideWithValue(FakeNotificationService()),
   notificationSyncProvider.overrideWith((_) async => 0),
   backgroundSyncProvider.overrideWith((_) async {}),
-  widgetSyncProvider.overrideWith((_) async => 0),
+  widgetSyncProvider.overrideWith((_) async => null),
   hasAccountsProvider.overrideWith((_) => Stream.value(hasAccounts)),
   appPreferencesProvider.overrideWith(
     (_) => Stream.value(

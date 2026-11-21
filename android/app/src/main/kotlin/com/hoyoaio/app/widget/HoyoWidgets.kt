@@ -117,6 +117,7 @@ private fun styleFor(context: Context, config: WidgetConfig?, game: String?): Wi
     val accent = when (val accent = config?.accent ?: "match") {
         "match" -> game?.let { WidgetTokens.accents[it] }
         "lime" -> WidgetTokens.lime
+        "neutral" -> palette.text2
         else -> WidgetTokens.accents[accent]
     }
     val scale = when (config?.fontSize) {

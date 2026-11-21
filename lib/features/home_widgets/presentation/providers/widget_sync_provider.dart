@@ -9,7 +9,9 @@ import 'package:hoyo_aio/features/dashboard/data/notes_repository_impl.dart';
 import 'package:hoyo_aio/features/home_widgets/data/home_widget_bridge_impl.dart';
 import 'package:hoyo_aio/features/home_widgets/data/widget_config_repository_impl.dart';
 import 'package:hoyo_aio/features/home_widgets/data/widget_labels.dart';
+import 'package:hoyo_aio/features/home_widgets/domain/home_widget_repositories.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/update_home_widgets.dart';
+import 'package:hoyo_aio/features/home_widgets/domain/widget_snapshot.dart';
 import 'package:hoyo_aio/features/notifications/presentation/providers/notification_sync_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -30,20 +32,28 @@ Future<void> homeWidgetInteractivity(Ref ref) async {
 }
 
 @Riverpod(keepAlive: true)
-Future<int> widgetSync(Ref ref) async {
+Future<WidgetSnapshot?> widgetSync(Ref ref) async {
   final roles = ref.watch(dashboardRolesProvider);
   final checkIn = ref.watch(autoCheckInSettingsProvider).value;
   final gamesWithRoles = ref.watch(checkInGamesProvider).toSet();
   ref
     ..watch(noteSnapshotVersionProvider)
-    ..watch(checkInRunsProvider);
+    ..watch(checkInRunsProvider)
+    ..watch(widgetConfigsProvider);
   final locale = ref.watch(appPreferencesProvider).value?.locale;
-  if (checkIn == null) return 0;
+  if (checkIn == null) return null;
   await ref.watch(homeWidgetInteractivityProvider.future);
-  final snapshot = await ref.read(updateHomeWidgetsProvider)(
+  return ref.read(updateHomeWidgetsProvider)(
     roles: roles,
     checkInGames: checkIn.games.intersection(gamesWithRoles),
     labels: widgetLabels(resolveL10n(locale?.languageCode)),
   );
-  return snapshot.roles.length;
 }
+
+@riverpod
+Future<List<PlacedWidget>> placedWidgets(Ref ref) =>
+    ref.watch(homeWidgetBridgeProvider).placed();
+
+@riverpod
+Future<bool> canPinWidget(Ref ref) =>
+    ref.watch(homeWidgetBridgeProvider).canPin();

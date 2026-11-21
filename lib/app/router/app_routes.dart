@@ -12,6 +12,12 @@ abstract final class AppRoutes {
   static const webViewLogin = '/accounts/webview';
   static const selectRoles = '/accounts/roles';
   static const notifications = '/notifications';
+  static const widgetEditorPath = '/widgets/edit';
+  static const widgetIdParam = 'id';
+  static const widgetSizeParam = 'size';
+
+  static String widgetEditor(int widgetId, Enum size) =>
+      '$widgetEditorPath?$widgetIdParam=$widgetId&$widgetSizeParam=${size.name}';
   static const gallery = '/gallery';
   static const apiDebug = '/debug/api';
 

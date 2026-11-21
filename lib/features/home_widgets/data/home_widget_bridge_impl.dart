@@ -35,6 +35,40 @@ class HomeWidgetBridgeImpl implements HomeWidgetBridge {
       await HomeWidget.updateWidget(qualifiedAndroidName: receiver);
     }
   }
+
+  @override
+  Future<List<PlacedWidget>> placed() async {
+    if (defaultTargetPlatform != TargetPlatform.android) return const [];
+    final installed = await HomeWidget.getInstalledWidgets();
+    return [
+      for (final widget in installed)
+        if ((widget.androidWidgetId, _sizeOf(widget.androidClassName)) case (
+          final id?,
+          final size?,
+        ))
+          PlacedWidget(widgetId: id, size: size),
+    ];
+  }
+
+  @override
+  Future<bool> canPin() async =>
+      defaultTargetPlatform == TargetPlatform.android &&
+      (await HomeWidget.isRequestPinWidgetSupported() ?? false);
+
+  @override
+  Future<void> pin(HomeWidgetSize size) => HomeWidget.requestPinWidget(
+    qualifiedAndroidName: androidReceivers[size.index],
+  );
+
+  static HomeWidgetSize? _sizeOf(String? className) => switch (className) {
+    final name? when name.endsWith('SmallWidgetReceiver') =>
+      HomeWidgetSize.small,
+    final name? when name.endsWith('MediumWidgetReceiver') =>
+      HomeWidgetSize.medium,
+    final name? when name.endsWith('LargeWidgetReceiver') =>
+      HomeWidgetSize.large,
+    _ => null,
+  };
 }
 
 @Riverpod(keepAlive: true)

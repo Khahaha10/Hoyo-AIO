@@ -4,10 +4,6 @@
   "navCheckIn": "Check-in",
   "navWidgets": "Widgets",
   "navSettings": "Settings",
-  "placeholderComingSoon": "Coming soon",
-  "@placeholderComingSoon": {
-    "description": "Shown on tabs that are not built yet."
-  },
   "appName": "HoYo AIO",
   "splashTagline": "Your game notes, all in one place",
   "splashDisclaimerUnofficial": "Unofficial fan-made app",
@@ -811,5 +807,55 @@
         "type": "String"
       }
     }
-  }
+  },
+  "widgetsAll": "All",
+  "widgetsSmall": "Small",
+  "widgetsMedium": "Medium",
+  "widgetsLarge": "Large",
+  "widgetsSmallTitle": "Small · 2×1",
+  "widgetsMediumTitle": "Medium · 2×2",
+  "widgetsLargeTitle": "Large · 4×2",
+  "widgetsSmallContent": "Stamina only",
+  "widgetsMediumContent": "Stamina + 3 items",
+  "widgetsLargeContent": "All games",
+  "widgetsNoData": "Open the Dashboard once so widgets have data to show.",
+  "widgetsNotPlaced": "Preview · not on your home screen yet",
+  "widgetsTapToEdit": "Tap a widget to edit it",
+  "widgetsAdd": "Add {size} Widget",
+  "@widgetsAdd": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetEditorTitle": "Edit Widget",
+  "widgetEditorLivePreview": "Live Preview",
+  "widgetEditorTheme": "Theme",
+  "widgetThemeLight": "Light",
+  "widgetThemeDark": "Dark",
+  "widgetThemeClear": "Clear",
+  "widgetThemeSystem": "System",
+  "widgetEditorOpacity": "Background Opacity",
+  "widgetEditorAccent": "Accent",
+  "widgetEditorFontSize": "Font Size",
+  "widgetEditorVisibleItems": "Visible Items · {count} of {max} slots",
+  "@widgetEditorVisibleItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "widgetEditorNoRole": "No game role",
+  "widgetEditorSave": "Save Widget",
+  "widgetEditorSaved": "Widget saved",
+  "widgetAccentMatch": "Match game",
+  "widgetAccentLime": "Lime",
+  "widgetAccentBlue": "Blue",
+  "widgetAccentViolet": "Violet",
+  "widgetAccentNeutral": "Neutral"
 }
