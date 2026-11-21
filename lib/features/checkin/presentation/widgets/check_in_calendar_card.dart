@@ -7,6 +7,7 @@ import 'package:hoyo_aio/core/design_system/tokens/brand_colors.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/checkin/domain/check_in_month.dart';
 import 'package:hoyo_aio/features/checkin/presentation/check_in_format.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 
 class CheckInCalendarCard extends StatelessWidget {
@@ -22,6 +23,7 @@ class CheckInCalendarCard extends StatelessWidget {
     final colors = context.colors;
     final l10n = context.l10n;
     final date = month.date;
+    final days = month.days;
     return AppCard(
       padding: const EdgeInsets.all(AppSpacing.s20),
       child: Column(
@@ -44,8 +46,12 @@ class CheckInCalendarCard extends StatelessWidget {
                       ),
                     Text(
                       l10n.checkInMonthSummary(
-                        month.signedDays,
-                        month.unreachableDays,
+                        days
+                            .where(
+                              (day) => day.status == CheckInDayStatus.claimed,
+                            )
+                            .length,
+                        month.missedCount,
                       ),
                       style: AppTextStyles.tabular(AppTextStyles.caption)
                           .copyWith(color: colors.text2),
@@ -61,31 +67,35 @@ class CheckInCalendarCard extends StatelessWidget {
               crossAxisCount: _columns,
               mainAxisSpacing: _cellGap,
               crossAxisSpacing: _cellGap,
-              mainAxisExtent: RewardDayCell.height,
             ),
             padding: EdgeInsets.zero,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            children: [for (final reward in month.rewards) _cell(l10n, reward)],
+            children: [for (final day in days) _cell(l10n, day)],
           ),
         ],
       ),
     );
   }
 
-  Widget _cell(AppLocalizations l10n, CheckInReward reward) {
-    final status = month.statusOf(reward.day);
+  Widget _cell(AppLocalizations l10n, CheckInDay day) {
+    final reward = day.reward;
     return RewardDayCell(
-      key: ValueKey(reward.day),
-      day: reward.day,
-      icon: rewardIcon(reward.name),
-      quantity: l10n.rewardQuantity(reward.count),
-      state: rewardDayState(status),
+      key: ValueKey(day.date),
+      day: day.date,
+      icon: switch (reward) {
+        final reward? => rewardIcon(reward.name),
+        null when day.status == CheckInDayStatus.missed =>
+          LucideIcons.calendarX,
+        null => LucideIcons.gift,
+      },
+      quantity: reward == null ? '' : l10n.rewardQuantity(reward.count),
+      state: rewardDayState(day.status),
       missedLabel: l10n.checkInMissed,
       semanticLabel: l10n.checkInDaySemantics(
-        reward.day,
-        l10n.rewardLabel(reward),
-        switch (status) {
+        day.date,
+        reward == null ? '' : l10n.rewardLabel(reward),
+        switch (day.status) {
           CheckInDayStatus.claimed => l10n.checkInStatusClaimed,
           CheckInDayStatus.today => l10n.checkInStatusToday,
           CheckInDayStatus.missed => l10n.checkInStatusMissed,

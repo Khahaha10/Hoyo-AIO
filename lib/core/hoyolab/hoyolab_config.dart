@@ -23,6 +23,7 @@ class CheckInEndpoint {
   Uri get signUri => Uri.https(host, '$basePath/sign');
   Uri get infoUri => Uri.https(host, '$basePath/info');
   Uri get homeUri => Uri.https(host, '$basePath/home');
+  Uri get awardUri => Uri.https(host, '$basePath/award');
 }
 
 abstract final class HoyolabConfig {

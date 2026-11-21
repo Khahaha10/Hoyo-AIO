@@ -228,7 +228,10 @@ void main() {
       final d = decorationOf(tester);
       expect(d.color, BrandColors.lime);
       expect(d.boxShadow, hasLength(2));
-      expect(tester.getSize(find.byKey(RewardDayCell.cellKey)).height, 72);
+      expect(
+        tester.getSize(find.byKey(RewardDayCell.cellKey)),
+        const Size(56, 56),
+      );
     });
 
     testWidgets('claimed is surface-2 with a check dot', (tester) async {

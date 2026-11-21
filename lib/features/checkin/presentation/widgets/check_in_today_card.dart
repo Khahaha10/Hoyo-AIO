@@ -59,12 +59,14 @@ class CheckInTodayCard extends StatelessWidget {
               spacing: AppSpacing.s4,
               children: [
                 Text(
-                  l10n.checkInTodayDay(month.todayIndex).toUpperCase(),
+                  l10n.checkInTodayDay(month.todayDate).toUpperCase(),
                   style: AppTextStyles.overline.copyWith(color: colors.text2),
                 ),
                 if (reward != null)
                   Text(
                     l10n.rewardLabel(reward),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: AppTextStyles.tabular(AppTextStyles.titleM)
                         .copyWith(color: colors.text),
                   ),
@@ -87,7 +89,7 @@ class CheckInTodayCard extends StatelessWidget {
             AppButton(
               label: l10n.checkInNow,
               expand: false,
-              size: AppButtonSize.medium,
+              size: AppButtonSize.small,
               isLoading: isClaiming,
               onPressed: onClaim,
             ),

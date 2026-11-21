@@ -43,6 +43,31 @@ abstract class CheckInAwardDto with _$CheckInAwardDto {
 }
 
 @freezed
+abstract class CheckInAwardPageDto with _$CheckInAwardPageDto {
+  @JsonSerializable(converters: [LenientInt()])
+  const factory CheckInAwardPageDto({
+    @Default(0) int total,
+    @Default(<CheckInAwardRecordDto>[]) List<CheckInAwardRecordDto> list,
+  }) = _CheckInAwardPageDto;
+
+  factory CheckInAwardPageDto.fromJson(Map<String, dynamic> json) =>
+      _$CheckInAwardPageDtoFromJson(json);
+}
+
+@freezed
+abstract class CheckInAwardRecordDto with _$CheckInAwardRecordDto {
+  @JsonSerializable(converters: [LenientInt()])
+  const factory CheckInAwardRecordDto({
+    @Default('') String name,
+    @Default(0) int cnt,
+    @Default('') String createdAt,
+  }) = _CheckInAwardRecordDto;
+
+  factory CheckInAwardRecordDto.fromJson(Map<String, dynamic> json) =>
+      _$CheckInAwardRecordDtoFromJson(json);
+}
+
+@freezed
 abstract class CheckInSignDto with _$CheckInSignDto {
   const factory CheckInSignDto({
     @Default(false) bool isRisk,

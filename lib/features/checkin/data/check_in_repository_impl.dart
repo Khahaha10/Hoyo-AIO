@@ -16,6 +16,9 @@ part 'check_in_repository_impl.g.dart';
 class CheckInRepositoryImpl implements CheckInRepository {
   const CheckInRepositoryImpl(this._dio);
 
+  static const _awardPageSize = 10;
+  static const _maxAwardPages = 4;
+
   final Dio _dio;
 
   @override
@@ -28,22 +31,69 @@ class CheckInRepositoryImpl implements CheckInRepository {
       _get(endpoint.infoUri, endpoint, accountId, game),
       _get(endpoint.homeUri, endpoint, accountId, game),
     ).wait;
-    return _parse(() {
-      final info = CheckInInfoDto.fromJson(infoJson);
-      final home = CheckInHomeDto.fromJson(homeJson);
-      return CheckInMonth(
-        game: game,
-        month: home.month,
-        signedDays: info.totalSignDay,
-        signedToday: info.isSign,
-        missedDays: info.signCntMissed,
-        today: info.today,
-        rewards: [
-          for (final (index, award) in home.awards.indexed)
-            CheckInReward(day: index + 1, name: award.name, count: award.cnt),
-        ],
-      );
-    });
+    final (info, home) = _parse(
+      () => (
+        CheckInInfoDto.fromJson(infoJson),
+        CheckInHomeDto.fromJson(homeJson),
+      ),
+    );
+    final claimedOn = await _claimedThisMonth(
+      endpoint,
+      accountId,
+      game,
+      DateTime.tryParse(info.today),
+    );
+    return CheckInMonth(
+      game: game,
+      month: home.month,
+      signedDays: info.totalSignDay,
+      signedToday: info.isSign,
+      missedDays: info.signCntMissed,
+      today: info.today,
+      rewards: [
+        for (final (index, award) in home.awards.indexed)
+          CheckInReward(day: index + 1, name: award.name, count: award.cnt),
+      ],
+      claimedOn: claimedOn,
+    );
+  }
+
+  Future<Map<int, CheckInReward>?> _claimedThisMonth(
+    CheckInEndpoint endpoint,
+    String accountId,
+    Game game,
+    DateTime? today,
+  ) async {
+    if (today == null) return null;
+    final claimed = <int, CheckInReward>{};
+    try {
+      for (var page = 1; page <= _maxAwardPages; page++) {
+        final json = await _get(
+          endpoint.awardUri,
+          endpoint,
+          accountId,
+          game,
+          extra: {'current_page': '$page', 'page_size': '$_awardPageSize'},
+        );
+        final records = _parse(() => CheckInAwardPageDto.fromJson(json)).list;
+        for (final record in records) {
+          final at = DateTime.tryParse(record.createdAt);
+          if (at == null) continue;
+          if (at.year != today.year || at.month != today.month) return claimed;
+          claimed[at.day] = CheckInReward(
+            day: at.day,
+            name: record.name,
+            count: record.cnt,
+          );
+        }
+        if (records.length < _awardPageSize) break;
+      }
+      return claimed;
+    } on ServerException {
+      return null;
+    } on ParseException {
+      return null;
+    }
   }
 
   @override
@@ -77,11 +127,12 @@ class CheckInRepositoryImpl implements CheckInRepository {
     Uri uri,
     CheckInEndpoint endpoint,
     String accountId,
-    Game game,
-  ) async {
+    Game game, {
+    Map<String, String> extra = const {},
+  }) async {
     final response = await guardHoyolab(
       () => _dio.getUri<Map<String, dynamic>>(
-        uri.replace(queryParameters: _params(endpoint)),
+        uri.replace(queryParameters: {..._params(endpoint), ...extra}),
         options: _options(accountId, game),
       ),
     );

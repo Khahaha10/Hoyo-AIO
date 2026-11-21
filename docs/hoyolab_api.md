@@ -417,6 +417,7 @@ clients, **but they were not verified for this document**:
 |---|---|
 | Status | `GET <base>/info?lang=<lang>&act_id=<act_id>` |
 | Reward list | `GET <base>/home?lang=<lang>&act_id=<act_id>` |
+| Claim history | `GET <base>/award?lang=<lang>&act_id=<act_id>&current_page=<n>&page_size=10` |
 | (Optional) re-sign info | `GET <base>/resign_info?lang=<lang>&act_id=<act_id>` (not planned) |
 
 Expected shapes (unverified):
@@ -429,6 +430,7 @@ Expected shapes (unverified):
   "awards": [ { "icon": "https://…", "name": "Primogem", "cnt": 20 } ] } }
 ```
 - **Live check 2026-11-21** (owner account, all four games, check-in headers from §3.3, `lang=en-us`): `info` and `home` both answer HTTP 200 / `retcode 0` with the shapes above. `home.awards` had 30 entries for every game (`name`, `cnt`, `icon`). Observed: `total_sign_day 0`, `is_sign false`, `today "2026-11-21"` (UTC+8 date); `sign_cnt_missed` was 20 for HSR and ZZZ but 0 for GI and HI3, so it is not reliable across games ⚠️. `claim` (4.7) was **not** called in the check because it really checks the account in.
+- **Claim history (`award`), live check 2026-11-21** (GI, owner account): HTTP 200 / `retcode 0`, `data.list[]` newest first with `name`, `cnt`, `created_at` (`"YYYY-MM-DD HH:mm:ss"`). The app reads pages of 10 (max 4) until a record from an older month, and uses the dates to place claims on the calendar. If the call fails the app falls back to `total_sign_day` (earliest days marked claimed). ⚠️ VERIFY: `created_at` time zone (assumed UTC+8 like `today`), HSR / ZZZ / HI3 shapes (same base path, not yet checked live), and `total` field.
 - Reward `icon` URLs are official art: **do not display them** (design rule). Map by
   `name` to a Lucide icon, fall back to a generic gift icon.
 

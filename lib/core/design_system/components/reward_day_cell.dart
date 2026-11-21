@@ -24,7 +24,6 @@ class RewardDayCell extends StatefulWidget {
   static const checkKey = ValueKey('reward-day-check');
   static const dashedKey = ValueKey('reward-day-dashed');
   static const scaleKey = ValueKey('reward-day-scale');
-  static const double height = 72;
   static const _claimDuration = Duration(milliseconds: 420);
 
   final int day;
@@ -104,7 +103,6 @@ class _RewardDayCellState extends State<RewardDayCell>
     };
     final content = Container(
       key: RewardDayCell.cellKey,
-      height: RewardDayCell.height,
       decoration: BoxDecoration(
         color: switch (state) {
           RewardDayState.today => BrandColors.lime,
@@ -126,8 +124,8 @@ class _RewardDayCellState extends State<RewardDayCell>
       child: Stack(
         children: [
           Positioned(
-            top: 5,
-            left: 7,
+            top: 4,
+            left: 6,
             child: Text(
               '${widget.day}',
               style: AppTextStyles.tabular(AppTextStyles.badge).copyWith(
@@ -137,43 +135,54 @@ class _RewardDayCellState extends State<RewardDayCell>
               ),
             ),
           ),
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 2,
-              children: [
-                AppIcon(widget.icon, color: foreground),
-                Text(
-                  state == RewardDayState.missed
-                      ? widget.missedLabel
-                      : widget.quantity,
-                  style: AppTextStyles.tabular(AppTextStyles.badge).copyWith(
-                    fontSize: 11,
-                    height: 14 / 11,
-                    fontWeight: FontWeight.w700,
-                    color: foreground,
-                  ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(2, 12, 2, 2),
+            child: Center(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 1,
+                  children: [
+                    AppIcon(
+                      widget.icon,
+                      size: AppIconSize.badge,
+                      color: foreground,
+                    ),
+                    Text(
+                      state == RewardDayState.missed
+                          ? widget.missedLabel
+                          : widget.quantity,
+                      style: AppTextStyles.tabular(AppTextStyles.badge)
+                          .copyWith(
+                            fontSize: 10,
+                            height: 12 / 10,
+                            fontWeight: FontWeight.w700,
+                            color: foreground,
+                          ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
           if (state == RewardDayState.claimed)
             Positioned(
               key: RewardDayCell.checkKey,
-              top: 4,
-              right: 4,
+              top: 3,
+              right: 3,
               child: ScaleTransition(
                 scale: _check,
                 child: Container(
-                  width: 16,
-                  height: 16,
+                  width: 14,
+                  height: 14,
                   decoration: BoxDecoration(
                     color: colors.success,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     LucideIcons.check,
-                    size: 10,
+                    size: 9,
                     color: colors.surface,
                   ),
                 ),
@@ -182,11 +191,12 @@ class _RewardDayCellState extends State<RewardDayCell>
         ],
       ),
     );
-    if (state != RewardDayState.missed) return content;
+    final square = AspectRatio(aspectRatio: 1, child: content);
+    if (state != RewardDayState.missed) return square;
     return CustomPaint(
       key: RewardDayCell.dashedKey,
       foregroundPainter: _DashedBorderPainter(color: colors.border2),
-      child: content,
+      child: square,
     );
   }
 }
