@@ -1163,5 +1163,36 @@
       }
     }
   },
-  "trackerImportShort": "Import"
+  "trackerImportShort": "Import",
+  "settingsAppearanceSection": "Appearance",
+  "settingsGeneralSection": "General",
+  "settingsTheme": "Theme",
+  "settingsAccentColor": "Accent Color",
+  "settingsAccentName": "{accent, select, match{Match game} lime{Lime} neutral{Neutral} other{Lime}}",
+  "@settingsAccentName": {
+    "placeholders": {
+      "accent": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsDynamicColor": "Dynamic Color",
+  "settingsDynamicColorSubtitle": "Use colors from your wallpaper",
+  "settingsLanguage": "Language",
+  "settingsLanguageName": "{code, select, en{English} id{Bahasa Indonesia} other{System}}",
+  "@settingsLanguageName": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsRolesCount": "{count, plural, =1{1 game role} other{{count} game roles}}",
+  "@settingsRolesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

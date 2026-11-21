@@ -36,6 +36,7 @@ dependencies:
   workmanager: ^0.10.10
   home_widget: ^0.10.0
   share_plus: ^13.3.1
+  dynamic_color: ^2.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -421,5 +421,15 @@
   "trackerUpdate": "Perbarui",
   "trackerBatch": "{date} · {count}× tarik",
   "trackerPityShort": "Pity {value}",
-  "trackerImportShort": "Impor"
+  "trackerImportShort": "Impor",
+  "settingsAppearanceSection": "Tampilan",
+  "settingsGeneralSection": "Umum",
+  "settingsTheme": "Tema",
+  "settingsAccentColor": "Warna Aksen",
+  "settingsAccentName": "{accent, select, match{Ikuti game} lime{Lime} neutral{Netral} other{Lime}}",
+  "settingsDynamicColor": "Warna Dinamis",
+  "settingsDynamicColorSubtitle": "Pakai warna dari wallpaper",
+  "settingsLanguage": "Bahasa",
+  "settingsLanguageName": "{code, select, en{English} id{Bahasa Indonesia} other{Sistem}}",
+  "settingsRolesCount": "{count, plural, =1{1 role game} other{{count} role game}}"
 }
