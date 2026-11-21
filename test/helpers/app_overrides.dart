@@ -5,6 +5,7 @@ import 'package:hoyo_aio/app/app_settings_provider.dart';
 import 'package:hoyo_aio/app/flavor.dart';
 import 'package:hoyo_aio/app/flavor_provider.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
+import 'package:hoyo_aio/features/accounts/presentation/providers/accounts_provider.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/has_accounts_provider.dart';
 import 'package:hoyo_aio/features/background/presentation/providers/background_sync_provider.dart';
 import 'package:hoyo_aio/features/home_widgets/presentation/providers/widget_sync_provider.dart';
@@ -23,6 +24,7 @@ List<Override> appOverrides({
   backgroundSyncProvider.overrideWith((_) async {}),
   widgetSyncProvider.overrideWith((_) async => null),
   hasAccountsProvider.overrideWith((_) => Stream.value(hasAccounts)),
+  accountsProvider.overrideWith((_) => Stream.value(const [])),
   appPreferencesProvider.overrideWith(
     (_) => Stream.value(
       AppPreferences(
