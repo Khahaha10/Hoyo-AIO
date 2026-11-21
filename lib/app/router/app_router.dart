@@ -1,15 +1,19 @@
 import 'package:go_router/go_router.dart';
+import 'package:hoyo_aio/app/app_settings_provider.dart';
 import 'package:hoyo_aio/app/flavor.dart';
 import 'package:hoyo_aio/app/flavor_provider.dart';
 import 'package:hoyo_aio/app/placeholder_screen.dart';
 import 'package:hoyo_aio/app/router/app_redirect.dart';
 import 'package:hoyo_aio/app/router/app_routes.dart';
 import 'package:hoyo_aio/app/router/app_shell.dart';
+import 'package:hoyo_aio/app/router/deep_link.dart';
 import 'package:hoyo_aio/core/design_system/gallery/gallery_screen.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/core/network/debug/api_debug_screen.dart';
+import 'package:hoyo_aio/features/accounts/presentation/add_account_placeholder_screen.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/has_accounts_provider.dart';
-import 'package:hoyo_aio/features/onboarding/presentation/onboarding_placeholder_screen.dart';
+import 'package:hoyo_aio/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:hoyo_aio/features/onboarding/presentation/splash_screen.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -19,14 +23,36 @@ part 'app_router.g.dart';
 GoRouter appRouter(Ref ref) {
   final flavor = ref.watch(flavorProvider);
   final refresh = ValueNotifier<int>(0);
-  ref.listen(hasAccountsProvider, (_, _) => refresh.value++);
+  String? pendingDeepLink;
+  ref
+    ..listen(hasAccountsProvider, (_, _) => refresh.value++)
+    ..listen(appPreferencesProvider, (_, _) => refresh.value++);
   final router = GoRouter(
-    initialLocation: AppRoutes.dashboard,
+    initialLocation: AppRoutes.splash,
     refreshListenable: refresh,
-    redirect: (_, state) => resolveRedirect(
-      uri: state.uri,
-      hasAccounts: ref.read(hasAccountsProvider).value,
-    ),
+    redirect: (_, state) {
+      final hasAccounts = ref.read(hasAccountsProvider).value;
+      final onboardingSeen = ref
+          .read(appPreferencesProvider)
+          .value
+          ?.onboardingSeen;
+      final loaded = hasAccounts != null && onboardingSeen != null;
+      if (!loaded && DeepLink.isDeepLink(state.uri)) {
+        pendingDeepLink = DeepLink.toLocation(state.uri);
+        return AppRoutes.splash;
+      }
+      final target = resolveRedirect(
+        uri: state.uri,
+        hasAccounts: hasAccounts,
+        onboardingSeen: onboardingSeen,
+      );
+      if (target == AppRoutes.dashboard && pendingDeepLink != null) {
+        final pending = pendingDeepLink;
+        pendingDeepLink = null;
+        return pending;
+      }
+      return target;
+    },
     routes: _routes(flavor),
   );
   ref.onDispose(() {
@@ -65,10 +91,15 @@ List<RouteBase> _routes(Flavor flavor) => [
       ),
     ],
   ),
+  GoRoute(path: AppRoutes.splash, builder: (_, _) => const SplashScreen()),
   GoRoute(
     path: AppRoutes.onboarding,
+    builder: (_, _) => const OnboardingScreen(),
+  ),
+  GoRoute(
+    path: AppRoutes.addAccount,
     builder: (_, _) =>
-        OnboardingPlaceholderScreen(showDevTools: flavor.galleryEnabled),
+        AddAccountPlaceholderScreen(showDevTools: flavor.galleryEnabled),
   ),
   if (flavor.galleryEnabled) ...[
     GoRoute(path: AppRoutes.gallery, builder: (_, _) => const GalleryScreen()),

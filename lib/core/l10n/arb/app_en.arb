@@ -5,13 +5,67 @@
   "navWidgets": "Widgets",
   "navSettings": "Settings",
   "placeholderComingSoon": "Coming soon",
-  "@placeholderComingSoon": { "description": "Shown on tabs that are not built yet." },
+  "@placeholderComingSoon": {
+    "description": "Shown on tabs that are not built yet."
+  },
   "dashboardDeepLinkTarget": "Opened for {game} · role {role}",
   "@dashboardDeepLinkTarget": {
     "description": "Dev hint showing which game/role a deep link selected.",
-    "placeholders": { "game": { "type": "String" }, "role": { "type": "String" } }
+    "placeholders": {
+      "game": {
+        "type": "String"
+      },
+      "role": {
+        "type": "String"
+      }
+    }
   },
-  "onboardingPlaceholderTitle": "Welcome to HoYo AIO",
-  "onboardingPlaceholderBody": "Add a HoYoLAB account to see your game notes.",
-  "onboardingPlaceholderAction": "Add Account"
+  "appName": "HoYo AIO",
+  "splashTagline": "Your game notes, all in one place",
+  "splashDisclaimerUnofficial": "Unofficial fan-made app",
+  "splashDisclaimerNotAffiliated": "Not affiliated with HoYoverse",
+  "onboardingStep": "{current} of {total}",
+  "@onboardingStep": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "onboardingSkip": "Skip",
+  "onboardingNext": "Next",
+  "onboardingGetStarted": "Get Started",
+  "onboardingNotesTitle": "Real-time Game Notes",
+  "onboardingNotesBody": "Resin, Trailblaze Power and Battery Charge refill live, with expeditions and dailies in one glance.",
+  "onboardingWidgetsTitle": "Widgets On Your Home Screen",
+  "onboardingWidgetsBody": "Pin stamina and timers next to your apps in three sizes, light, dark or transparent.",
+  "onboardingCheckInTitle": "Daily Check-in, Handled",
+  "onboardingCheckInBody": "We claim your HoYoLAB daily rewards for every game, at the time you pick.",
+  "illustrationResin": "Original Resin",
+  "illustrationFullAt": "Full {time}",
+  "@illustrationFullAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "illustrationTrailblazePower": "Trailblaze Power",
+  "illustrationBattery": "Battery",
+  "illustrationExpeditionComplete": "Expedition complete",
+  "illustrationAllGames": "All Games",
+  "illustrationCheckedInGames": "{count, plural, =1{Checked in to 1 game} other{Checked in to {count} games}}",
+  "@illustrationCheckedInGames": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "addAccountPlaceholderTitle": "Add a HoYoLAB Account",
+  "addAccountPlaceholderBody": "Connect HoYoLAB to read your game notes. Coming in the next update of this build.",
+  "addAccountPlaceholderAction": "Add Account"
 }

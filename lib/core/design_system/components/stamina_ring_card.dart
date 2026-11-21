@@ -170,12 +170,14 @@ class StaminaRingPainter extends CustomPainter {
     required this.fraction,
     required this.track,
     required this.fill,
+    this.strokeWidth = defaultStrokeWidth,
   });
 
   static const startAngle = -math.pi / 2;
-  static const double strokeWidth = 12;
+  static const double defaultStrokeWidth = 12;
 
   final double fraction;
+  final double strokeWidth;
   final Color track;
   final Color fill;
 
@@ -199,5 +201,8 @@ class StaminaRingPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(StaminaRingPainter old) =>
-      old.fraction != fraction || old.track != track || old.fill != fill;
+      old.fraction != fraction ||
+      old.track != track ||
+      old.fill != fill ||
+      old.strokeWidth != strokeWidth;
 }

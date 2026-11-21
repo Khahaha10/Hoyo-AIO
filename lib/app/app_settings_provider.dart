@@ -7,15 +7,21 @@ part 'app_settings_provider.g.dart';
 
 @immutable
 class AppPreferences {
-  const AppPreferences({required this.themeMode, required this.locale});
+  const AppPreferences({
+    required this.themeMode,
+    required this.locale,
+    required this.onboardingSeen,
+  });
 
   static const fallback = AppPreferences(
     themeMode: ThemeMode.system,
     locale: null,
+    onboardingSeen: false,
   );
 
   final ThemeMode themeMode;
   final Locale? locale;
+  final bool onboardingSeen;
 }
 
 @Riverpod(keepAlive: true)
@@ -31,6 +37,7 @@ Stream<AppPreferences> appPreferences(Ref ref) {
         AppThemeMode.dark => ThemeMode.dark,
       },
       locale: row.localeCode == null ? null : Locale(row.localeCode!),
+      onboardingSeen: row.onboardingSeen,
     ),
   );
 }

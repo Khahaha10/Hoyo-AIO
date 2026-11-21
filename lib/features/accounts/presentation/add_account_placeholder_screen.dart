@@ -7,8 +7,8 @@ import 'package:hoyo_aio/core/design_system/tokens/app_text_styles.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:material_ui/material_ui.dart';
 
-class OnboardingPlaceholderScreen extends StatelessWidget {
-  const OnboardingPlaceholderScreen({required this.showDevTools, super.key});
+class AddAccountPlaceholderScreen extends StatelessWidget {
+  const AddAccountPlaceholderScreen({required this.showDevTools, super.key});
 
   final bool showDevTools;
 
@@ -26,16 +26,16 @@ class OnboardingPlaceholderScreen extends StatelessWidget {
             children: [
               const Spacer(),
               Text(
-                l10n.onboardingPlaceholderTitle,
+                l10n.addAccountPlaceholderTitle,
                 style: AppTextStyles.headline.copyWith(color: colors.text),
               ),
               Text(
-                l10n.onboardingPlaceholderBody,
+                l10n.addAccountPlaceholderBody,
                 style: AppTextStyles.bodyL.copyWith(color: colors.text2),
               ),
               const Spacer(),
               AppButton(
-                label: l10n.onboardingPlaceholderAction,
+                label: l10n.addAccountPlaceholderAction,
                 onPressed: null,
               ),
               if (showDevTools) ...[

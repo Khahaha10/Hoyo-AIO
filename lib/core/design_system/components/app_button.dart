@@ -36,6 +36,7 @@ class AppButton extends StatelessWidget {
     this.variant = AppButtonVariant.primary,
     this.size = AppButtonSize.regular,
     this.icon,
+    this.trailingIcon,
     this.isLoading = false,
     this.expand = true,
     super.key,
@@ -46,6 +47,7 @@ class AppButton extends StatelessWidget {
   final AppButtonVariant variant;
   final AppButtonSize size;
   final IconData? icon;
+  final IconData? trailingIcon;
   final bool isLoading;
   final bool expand;
 
@@ -73,6 +75,7 @@ class AppButton extends StatelessWidget {
           ),
           label: label,
           icon: icon,
+          trailingIcon: trailingIcon,
           isLoading: isLoading,
           expand: expand,
         ),
@@ -86,6 +89,7 @@ class _ButtonBody extends StatelessWidget {
     required this.spec,
     required this.label,
     required this.icon,
+    required this.trailingIcon,
     required this.isLoading,
     required this.expand,
   });
@@ -93,6 +97,7 @@ class _ButtonBody extends StatelessWidget {
   final _ButtonSpec spec;
   final String label;
   final IconData? icon;
+  final IconData? trailingIcon;
   final bool isLoading;
   final bool expand;
 
@@ -131,6 +136,8 @@ class _ButtonBody extends StatelessWidget {
               style: spec.textStyle.copyWith(color: spec.foreground),
             ),
           ),
+          if (trailingIcon != null && !isLoading)
+            AppIcon(trailingIcon!, color: spec.foreground),
         ],
       ),
     );
