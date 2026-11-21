@@ -16,6 +16,7 @@ import 'package:hoyo_aio/features/accounts/presentation/paste_cookie_screen.dart
 import 'package:hoyo_aio/features/accounts/presentation/providers/has_accounts_provider.dart';
 import 'package:hoyo_aio/features/accounts/presentation/select_roles_screen.dart';
 import 'package:hoyo_aio/features/accounts/presentation/webview_login_screen.dart';
+import 'package:hoyo_aio/features/checkin/presentation/check_in_screen.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/splash_screen.dart';
@@ -79,10 +80,7 @@ List<RouteBase> _routes(Flavor flavor) => [
           deepLinkRoleUid: params[AppRoutes.roleParam],
         );
       }),
-      _branch(
-        AppRoutes.checkIn,
-        (context, _) => PlaceholderScreen(title: context.l10n.navCheckIn),
-      ),
+      _branch(AppRoutes.checkIn, (_, _) => const CheckInScreen()),
       _branch(
         AppRoutes.widgets,
         (context, _) => PlaceholderScreen(title: context.l10n.navWidgets),

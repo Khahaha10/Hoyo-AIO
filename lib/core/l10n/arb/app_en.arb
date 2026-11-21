@@ -477,5 +477,77 @@
       }
     }
   },
-  "dashboardOpenHoyolab": "Open HoYoLAB"
+  "dashboardOpenHoyolab": "Open HoYoLAB",
+  "checkInTitle": "Daily Check-in",
+  "checkInTodayDay": "Today · Day {day}",
+  "@checkInTodayDay": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "checkInQuantity": "×{count}",
+  "@checkInQuantity": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "checkInRewardLabel": "{name} {quantity}",
+  "@checkInRewardLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "quantity": {
+        "type": "String"
+      }
+    }
+  },
+  "checkInNow": "Check In Now",
+  "checkInDone": "Checked In",
+  "checkInClaimed": "Checked in. {reward} claimed.",
+  "@checkInClaimed": {
+    "placeholders": {
+      "reward": {
+        "type": "String"
+      }
+    }
+  },
+  "checkInAlreadyClaimed": "Already checked in today.",
+  "checkInCaptcha": "HoYoLAB asks for a captcha. Check in once on HoYoLAB.",
+  "checkInMonthSummary": "{claimed} claimed · {missed} missed",
+  "@checkInMonthSummary": {
+    "placeholders": {
+      "claimed": {
+        "type": "int"
+      },
+      "missed": {
+        "type": "int"
+      }
+    }
+  },
+  "checkInLegendToday": "Today",
+  "checkInMissed": "Missed",
+  "checkInDaySemantics": "Day {day}, {reward}, {status}",
+  "@checkInDaySemantics": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      },
+      "reward": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "checkInStatusClaimed": "claimed",
+  "checkInStatusToday": "today",
+  "checkInStatusMissed": "missed",
+  "checkInStatusUpcoming": "upcoming",
+  "checkInNoRoles": "No game roles yet. Turn on roles in Accounts."
 }
