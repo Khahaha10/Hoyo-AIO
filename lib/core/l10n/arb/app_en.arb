@@ -8,18 +8,6 @@
   "@placeholderComingSoon": {
     "description": "Shown on tabs that are not built yet."
   },
-  "dashboardDeepLinkTarget": "Opened for {game} · role {role}",
-  "@dashboardDeepLinkTarget": {
-    "description": "Dev hint showing which game/role a deep link selected.",
-    "placeholders": {
-      "game": {
-        "type": "String"
-      },
-      "role": {
-        "type": "String"
-      }
-    }
-  },
   "appName": "HoYo AIO",
   "splashTagline": "Your game notes, all in one place",
   "splashDisclaimerUnofficial": "Unofficial fan-made app",
@@ -273,6 +261,148 @@
   "@settingsNeedsAttention": {
     "placeholders": {
       "count": {
+        "type": "int"
+      }
+    }
+  },
+  "durationDaysHours": "{days}d {hours}h",
+  "@durationDaysHours": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "durationHoursMinutes": "{hours}h {minutes}m",
+  "@durationHoursMinutes": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "durationMinutes": "{minutes}m",
+  "@durationMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "dashboardUpdatedJustNow": "Last updated just now",
+  "dashboardUpdatedMinutes": "{count, plural, =1{Last updated 1 min ago} other{Last updated {count} min ago}}",
+  "@dashboardUpdatedMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dashboardUpdatedHours": "{count, plural, =1{Last updated 1 hour ago} other{Last updated {count} hours ago}}",
+  "@dashboardUpdatedHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dashboardUpdatedAt": "Last updated {time}",
+  "@dashboardUpdatedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardPullToRefresh": "Pull to refresh",
+  "dashboardRefresh": "Refresh",
+  "dashboardSwitchRole": "Switch role",
+  "dashboardFullIn": "Full in {duration}",
+  "@dashboardFullIn": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardFull": "Full",
+  "dashboardAtToday": "at {time} today",
+  "@dashboardAtToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardAtTomorrow": "at {time} tomorrow",
+  "@dashboardAtTomorrow": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardAtDate": "at {date}",
+  "@dashboardAtDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardNotRecovering": "Not recovering while full",
+  "dashboardRecoveryRate": "+1 every {minutes} min",
+  "@dashboardRecoveryRate": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "dashboardBonusUnclaimed": "Bonus unclaimed",
+  "dashboardBonusClaimed": "Bonus claimed",
+  "dashboardDiscountsLeft": "Discounts left",
+  "dashboardUntilReady": "Until ready",
+  "dashboardReady": "Ready",
+  "dashboardNotObtained": "Not obtained",
+  "dashboardDone": "Done",
+  "dashboardDoneCount": "{done} of {total} done",
+  "@dashboardDoneCount": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dashboardBackAt": "Back at {time}",
+  "@dashboardBackAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardReadyToCollect": "Ready to collect",
+  "dashboardNoRoles": "Add a Genshin Impact, Honkai: Star Rail or Zenless Zone Zero role to see your notes here.",
+  "genshinResin": "Original Resin",
+  "genshinRealmCurrency": "Realm Currency",
+  "genshinCommissions": "Daily Commissions",
+  "genshinWeeklyBosses": "Weekly Bosses",
+  "genshinTransformer": "Transformer",
+  "genshinExpeditions": "Expeditions",
+  "genshinExpeditionName": "Expedition {number}",
+  "@genshinExpeditionName": {
+    "placeholders": {
+      "number": {
         "type": "int"
       }
     }

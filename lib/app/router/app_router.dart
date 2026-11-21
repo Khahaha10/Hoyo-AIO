@@ -16,6 +16,7 @@ import 'package:hoyo_aio/features/accounts/presentation/paste_cookie_screen.dart
 import 'package:hoyo_aio/features/accounts/presentation/providers/has_accounts_provider.dart';
 import 'package:hoyo_aio/features/accounts/presentation/select_roles_screen.dart';
 import 'package:hoyo_aio/features/accounts/presentation/webview_login_screen.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/splash_screen.dart';
 import 'package:hoyo_aio/features/settings/presentation/settings_screen.dart';
@@ -73,13 +74,9 @@ List<RouteBase> _routes(Flavor flavor) => [
     branches: [
       _branch(AppRoutes.dashboard, (context, state) {
         final params = state.uri.queryParameters;
-        final game = params[AppRoutes.gameParam];
-        final role = params[AppRoutes.roleParam];
-        return PlaceholderScreen(
-          title: context.l10n.navDashboard,
-          detail: game == null
-              ? null
-              : context.l10n.dashboardDeepLinkTarget(game, role ?? '-'),
+        return DashboardScreen(
+          deepLinkGame: params[AppRoutes.gameParam],
+          deepLinkRoleUid: params[AppRoutes.roleParam],
         );
       }),
       _branch(

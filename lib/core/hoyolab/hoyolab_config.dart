@@ -167,6 +167,7 @@ abstract final class HoyolabConfig {
   };
 
   static const starRailReservedPowerMax = 2400;
+  static const genshinTransformerCooldown = Duration(days: 7);
 
   static const checkInResetUtcOffset = Duration(hours: 8);
 }

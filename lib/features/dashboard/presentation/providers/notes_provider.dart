@@ -32,6 +32,7 @@ class Notes extends _$Notes {
 
 @riverpod
 int? currentStamina(Ref ref, SavedRole role) {
-  final now = ref.watch(clockTickProvider).value ?? ref.watch(clockProvider)();
+  ref.watch(clockTickProvider);
+  final now = ref.watch(clockProvider)();
   return ref.watch(notesProvider(role)).value?.note.stamina.currentAt(now);
 }
