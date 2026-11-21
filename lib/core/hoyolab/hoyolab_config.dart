@@ -48,6 +48,21 @@ abstract final class HoyolabConfig {
 
   static const dsSalt = '6cqshh5dhw73bzxn20oexa9k516chk7s';
 
+  static const cookieKeys = {
+    'ltuid',
+    'ltoken',
+    'cookie_token',
+    'account_id',
+    'ltuid_v2',
+    'ltoken_v2',
+    'ltmid_v2',
+    'account_id_v2',
+    'account_mid_v2',
+    'cookie_token_v2',
+  };
+  static const cookieUidKeys = ['ltuid', 'ltuid_v2', 'account_id_v2'];
+  static const cookieTokenKeys = ['ltoken', 'ltoken_v2'];
+
   static const appVersion = '1.5.0';
   static const clientTypeGameRecord = '4';
   static const clientTypeCheckIn = '5';
