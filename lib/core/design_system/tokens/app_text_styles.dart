@@ -23,6 +23,12 @@ abstract final class AppTextStyles {
     height: 28 / 22,
     fontWeight: FontWeight.w700,
   );
+  static const screenTitle = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 20,
+    height: 26 / 20,
+    fontWeight: FontWeight.w700,
+  );
   static const titleM = TextStyle(
     fontFamily: fontFamily,
     fontSize: 17,

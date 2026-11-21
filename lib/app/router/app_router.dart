@@ -10,6 +10,7 @@ import 'package:hoyo_aio/app/router/deep_link.dart';
 import 'package:hoyo_aio/core/design_system/gallery/gallery_screen.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/core/network/debug/api_debug_screen.dart';
+import 'package:hoyo_aio/features/accounts/presentation/accounts_screen.dart';
 import 'package:hoyo_aio/features/accounts/presentation/add_account_screen.dart';
 import 'package:hoyo_aio/features/accounts/presentation/paste_cookie_screen.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/has_accounts_provider.dart';
@@ -17,6 +18,7 @@ import 'package:hoyo_aio/features/accounts/presentation/select_roles_screen.dart
 import 'package:hoyo_aio/features/accounts/presentation/webview_login_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/splash_screen.dart';
+import 'package:hoyo_aio/features/settings/presentation/settings_screen.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -88,10 +90,7 @@ List<RouteBase> _routes(Flavor flavor) => [
         AppRoutes.widgets,
         (context, _) => PlaceholderScreen(title: context.l10n.navWidgets),
       ),
-      _branch(
-        AppRoutes.settings,
-        (context, _) => PlaceholderScreen(title: context.l10n.navSettings),
-      ),
+      _branch(AppRoutes.settings, (_, _) => const SettingsScreen()),
     ],
   ),
   GoRoute(path: AppRoutes.splash, builder: (_, _) => const SplashScreen()),
@@ -111,6 +110,7 @@ List<RouteBase> _routes(Flavor flavor) => [
     path: AppRoutes.webViewLogin,
     builder: (_, _) => const WebViewLoginScreen(),
   ),
+  GoRoute(path: AppRoutes.accounts, builder: (_, _) => const AccountsScreen()),
   GoRoute(
     path: AppRoutes.selectRoles,
     builder: (_, _) => const SelectRolesScreen(),

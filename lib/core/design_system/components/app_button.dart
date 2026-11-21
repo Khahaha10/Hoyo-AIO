@@ -7,7 +7,7 @@ import 'package:hoyo_aio/core/design_system/tokens/app_text_styles.dart';
 import 'package:hoyo_aio/core/design_system/tokens/brand_colors.dart';
 import 'package:material_ui/material_ui.dart';
 
-enum AppButtonVariant { primary, secondary, text, danger }
+enum AppButtonVariant { primary, secondary, text, textDanger, danger }
 
 enum AppButtonSize {
   regular(height: 52, horizontalPadding: 24, textStyle: AppTextStyles.button),
@@ -200,13 +200,17 @@ class _ButtonSpec {
         foreground: enabled ? colors.text : colors.text3,
         border: enabled ? colors.border2 : colors.border,
       ),
-      AppButtonVariant.text => _ButtonSpec(
+      AppButtonVariant.text || AppButtonVariant.textDanger => _ButtonSpec(
         height: AppButtonSize.small.height,
         horizontalPadding: 16,
         gap: 6,
         textStyle: AppTextStyles.buttonSmall,
         background: pressed ? colors.surface2 : null,
-        foreground: enabled ? colors.text : colors.text3,
+        foreground: !enabled
+            ? colors.text3
+            : variant == AppButtonVariant.textDanger
+            ? colors.danger
+            : colors.text,
         border: null,
       ),
     };

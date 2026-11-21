@@ -3,8 +3,15 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:hoyo_aio/core/error/app_exception.dart';
 import 'package:hoyo_aio/core/error/retcode_mapper.dart';
+import 'package:hoyo_aio/core/network/hoyolab_request.dart';
+
+typedef CookieExpiredCallback = void Function(String accountId);
 
 class RetcodeInterceptor extends Interceptor {
+  RetcodeInterceptor({this.onCookieExpired});
+
+  final CookieExpiredCallback? onCookieExpired;
+
   @override
   void onResponse(
     Response<dynamic> response,
@@ -27,6 +34,10 @@ class RetcodeInterceptor extends Interceptor {
     if (error == null) {
       handler.next(response);
       return;
+    }
+    final accountId = response.requestOptions.hoyolabAccountId;
+    if (error is CookieExpiredException && accountId != null) {
+      onCookieExpired?.call(accountId);
     }
     handler.reject(
       DioException(

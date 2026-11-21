@@ -10,6 +10,13 @@ extension GameLabels on AppLocalizations {
     Game.hi3 => gameHi3,
   };
 
+  String gameShortName(Game game) => switch (game) {
+    Game.genshin => gameShortGenshin,
+    Game.starRail => gameShortStarRail,
+    Game.zzz => gameShortZzz,
+    Game.hi3 => gameShortHi3,
+  };
+
   String gameLevel(Game game, int level) => switch (game) {
     Game.genshin => levelGenshin(level),
     Game.starRail => levelStarRail(level),

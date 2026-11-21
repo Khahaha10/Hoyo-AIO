@@ -13,7 +13,9 @@ import 'package:hoyo_aio/core/storage/cookie_vault.dart';
 import 'package:hoyo_aio/core/storage/hoyolab_cookie.dart';
 import 'package:hoyo_aio/features/accounts/data/dto/record_card_dto.dart';
 import 'package:hoyo_aio/features/accounts/domain/account_repository.dart';
+import 'package:hoyo_aio/features/accounts/domain/account_summary.dart';
 import 'package:hoyo_aio/features/accounts/domain/detected_role.dart';
+import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -56,13 +58,91 @@ class AccountRepositoryImpl implements AccountRepository {
     await _vault.save(accountId, cookie);
     final nickname =
         (roles.where(selected.contains).firstOrNull ?? roles.first).nickname;
-    try {
-      await _db.transaction(() async {
+    await _guardDb(
+      () => _db.transaction(() async {
         await _upsertAccount(accountId, nickname);
         for (final role in roles) {
           await _upsertRole(accountId, role, enabled: selected.contains(role));
         }
-      });
+      }),
+    );
+  }
+
+  @override
+  Stream<List<AccountSummary>> watchAccounts() {
+    final query =
+        _db.select(_db.accounts).join([
+          leftOuterJoin(
+            _db.gameRoles,
+            _db.gameRoles.accountId.equalsExp(_db.accounts.id),
+          ),
+        ])..orderBy([
+          OrderingTerm.asc(_db.accounts.createdAt),
+          OrderingTerm.asc(_db.gameRoles.id),
+        ]);
+    return query.watch().map(_groupAccounts);
+  }
+
+  List<AccountSummary> _groupAccounts(List<TypedResult> rows) {
+    final accounts = <String, Account>{};
+    final roles = <String, List<SavedRole>>{};
+    for (final row in rows) {
+      final account = row.readTable(_db.accounts);
+      accounts[account.id] = account;
+      final role = row.readTableOrNull(_db.gameRoles);
+      final list = roles.putIfAbsent(account.id, () => []);
+      if (role != null) list.add(_toSavedRole(role));
+    }
+    return [
+      for (final account in accounts.values)
+        AccountSummary(
+          id: account.id,
+          nickname: account.nickname,
+          status: account.status,
+          updatedAt: account.updatedAt,
+          roles: List.unmodifiable(roles[account.id] ?? const <SavedRole>[]),
+        ),
+    ];
+  }
+
+  static SavedRole _toSavedRole(GameRole role) => SavedRole(
+    id: role.id,
+    accountId: role.accountId,
+    game: role.game,
+    uid: role.uid,
+    server: role.server,
+    nickname: role.nickname,
+    level: role.level,
+    enabled: role.enabled,
+  );
+
+  @override
+  Future<int> countWidgets(String accountId) => _guardDb(() {
+    final count = _db.widgetConfigs.widgetId.count();
+    final query = _db.selectOnly(_db.widgetConfigs)
+      ..addColumns([count])
+      ..where(_db.widgetConfigs.accountId.equals(accountId));
+    return query.map((row) => row.read(count) ?? 0).getSingle();
+  });
+
+  @override
+  Future<void> deleteAccount(String accountId) async {
+    await _vault.delete(accountId);
+    await _guardDb(
+      () => _db.transaction(() async {
+        await (_db.delete(
+          _db.widgetConfigs,
+        )..where((w) => w.accountId.equals(accountId))).go();
+        await (_db.delete(
+          _db.accounts,
+        )..where((a) => a.id.equals(accountId))).go();
+      }),
+    );
+  }
+
+  static Future<T> _guardDb<T>(Future<T> Function() action) async {
+    try {
+      return await action();
     } on AppException {
       rethrow;
     } on Exception catch (e) {

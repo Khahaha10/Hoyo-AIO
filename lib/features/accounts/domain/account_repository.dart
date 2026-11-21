@@ -1,4 +1,5 @@
 import 'package:hoyo_aio/core/storage/hoyolab_cookie.dart';
+import 'package:hoyo_aio/features/accounts/domain/account_summary.dart';
 import 'package:hoyo_aio/features/accounts/domain/detected_role.dart';
 
 abstract interface class AccountRepository {
@@ -13,4 +14,10 @@ abstract interface class AccountRepository {
     required List<DetectedRole> roles,
     required Set<DetectedRole> selected,
   });
+
+  Stream<List<AccountSummary>> watchAccounts();
+
+  Future<int> countWidgets(String accountId);
+
+  Future<void> deleteAccount(String accountId);
 }

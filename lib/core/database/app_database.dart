@@ -36,6 +36,19 @@ class AppDatabase extends _$AppDatabase {
     },
   );
 
+  Future<void> markAccountExpired(String accountId) =>
+      (update(accounts)..where(
+            (a) =>
+                a.id.equals(accountId) &
+                a.status.equalsValue(AccountStatus.valid),
+          ))
+          .write(
+            AccountsCompanion(
+              status: const Value(AccountStatus.expired),
+              updatedAt: Value(DateTime.now()),
+            ),
+          );
+
   static QueryExecutor _openDefault() => driftDatabase(
     name: fileName,
     native: const DriftNativeOptions(shareAcrossIsolates: true),

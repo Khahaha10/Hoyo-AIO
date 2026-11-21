@@ -6,6 +6,7 @@ abstract final class AppRoutes {
   static const splash = '/splash';
   static const onboarding = '/onboarding';
   static const accountsPrefix = '/accounts';
+  static const accounts = '/accounts';
   static const addAccount = '/accounts/add';
   static const pasteCookie = '/accounts/paste';
   static const webViewLogin = '/accounts/webview';

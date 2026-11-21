@@ -20,6 +20,7 @@ Dio buildHoyolabDio({
   required CookieProvider cookies,
   required LogSink log,
   required bool verboseLogging,
+  CookieExpiredCallback? onCookieExpired,
   String Function() language = _defaultLanguage,
   DynamicSecret? dynamicSecret,
   HttpClientAdapter? adapter,
@@ -45,7 +46,7 @@ Dio buildHoyolabDio({
       language: language,
     ),
     CookieInterceptor(cookies),
-    RetcodeInterceptor(),
+    RetcodeInterceptor(onCookieExpired: onCookieExpired),
     RetryInterceptor(dio),
     RedactingLogInterceptor(sink: log, verbose: verboseLogging),
   ]);

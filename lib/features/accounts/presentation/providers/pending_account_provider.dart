@@ -21,8 +21,6 @@ abstract class PendingAccount with _$PendingAccount {
 
 @Riverpod(keepAlive: true)
 class PendingAccountController extends _$PendingAccountController {
-  static const _pendingPrefix = 'pending:';
-
   @override
   PendingAccount? build() => null;
 
@@ -31,7 +29,7 @@ class PendingAccountController extends _$PendingAccountController {
     if (!cookie.isUsable || uid == null) {
       throw const CookieExpiredException();
     }
-    final pendingId = '$_pendingPrefix$uid';
+    final pendingId = PendingCookies.idFor(uid);
     final cookies = ref.read(pendingCookiesProvider)
       ..put(pendingId, cookie.serialize());
     try {

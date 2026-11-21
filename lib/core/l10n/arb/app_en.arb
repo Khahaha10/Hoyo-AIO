@@ -194,5 +194,87 @@
       }
     }
   },
-  "selectRolesSessionExpired": "This sign-in expired. Add the account again."
+  "selectRolesSessionExpired": "This sign-in expired. Add the account again.",
+  "gameShortGenshin": "Genshin",
+  "gameShortStarRail": "Star Rail",
+  "gameShortZzz": "ZZZ",
+  "gameShortHi3": "HI3",
+  "commonCancel": "Cancel",
+  "accountsTitle": "Accounts",
+  "accountsHoyolabId": "HoYoLAB ID {id}",
+  "@accountsHoyolabId": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "accountStatusValid": "Valid",
+  "accountStatusExpired": "Expired",
+  "accountStatusNeedsLogin": "Needs Login",
+  "accountsMetaValid": "Updated {time}",
+  "@accountsMetaValid": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "accountsMetaExpired": "Cookie expired {time}",
+  "@accountsMetaExpired": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "accountsMetaNeedsLogin": "Log in again to use this account.",
+  "accountsNoRoles": "No game roles selected.",
+  "accountsRefreshCookie": "Refresh Cookie",
+  "accountsDelete": "Delete",
+  "accountsStorageNote": "Cookies are stored encrypted on this device only.",
+  "accountsDeleted": "{name} was removed from this device.",
+  "@accountsDeleted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteAccountTitle": "Delete {name}?",
+  "@deleteAccountTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteAccountBody": "This removes the account, its {roleCount, plural, =0{game roles} =1{1 game role} other{{roleCount} game roles}} and {widgetCount, plural, =0{home widgets} =1{1 home widget} other{{widgetCount} home widgets}} from this device. Your HoYoLAB account is not affected.",
+  "@deleteAccountBody": {
+    "placeholders": {
+      "roleCount": {
+        "type": "int"
+      },
+      "widgetCount": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsAccounts": "Accounts",
+  "settingsAccountsCount": "{count, plural, =1{1 account} other{{count} accounts}}",
+  "@settingsAccountsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsNeedsAttention": "{count, plural, =1{1 needs attention} other{{count} need attention}}",
+  "@settingsNeedsAttention": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }
