@@ -27,7 +27,7 @@ sealed class GameNote with _$GameNote {
     required Stamina trailblazePower,
     required TaskProgress reservedPower,
     required TaskProgress dailyTraining,
-    required TaskProgress echoOfWar,
+    required TaskProgress echoOfWarLeft,
     required TaskProgress simulatedUniverse,
     required List<Expedition> assignments,
     required int maxAssignments,

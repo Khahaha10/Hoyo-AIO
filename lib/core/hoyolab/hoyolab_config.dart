@@ -166,5 +166,7 @@ abstract final class HoyolabConfig {
     Game.zzz: Duration(minutes: 6),
   };
 
+  static const starRailReservedPowerMax = 2400;
+
   static const checkInResetUtcOffset = Duration(hours: 8);
 }

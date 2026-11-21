@@ -1,0 +1,48 @@
+{
+  "retcode": 0,
+  "message": "OK",
+  "data": {
+    "energy": {
+      "progress": {
+        "max": 240,
+        "current": 186
+      },
+      "restore": 19440,
+      "day_type": 1,
+      "hour": 23,
+      "minute": 52
+    },
+    "vitality": {
+      "max": 400,
+      "current": 300
+    },
+    "vhs_sale": {
+      "sale_state": "SaleStateDoing"
+    },
+    "card_sign": "CardSignDone",
+    "bounty_commission": {
+      "num": 2,
+      "total": 4,
+      "refresh_time": 205200
+    },
+    "survey_points": {
+      "num": 0,
+      "total": 8000,
+      "refresh_time": 205200
+    },
+    "weekly_task": {
+      "cur_point": 0,
+      "max_point": 1300
+    },
+    "abyss_refresh": 205200,
+    "member_card": {
+      "is_open": false,
+      "member_card_state": "MemberCardStateNo",
+      "exp_time": "0"
+    },
+    "temple_running": null,
+    "cafe_state": null,
+    "coffee": null,
+    "is_sub": false
+  }
+}

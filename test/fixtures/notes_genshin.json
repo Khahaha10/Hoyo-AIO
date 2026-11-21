@@ -1,0 +1,72 @@
+{
+  "retcode": 0,
+  "message": "OK",
+  "data": {
+    "current_resin": 142,
+    "max_resin": 200,
+    "resin_recovery_time": "11520",
+    "finished_task_num": 3,
+    "total_task_num": 4,
+    "is_extra_task_reward_received": false,
+    "remain_resin_discount_num": 2,
+    "resin_discount_num_limit": 3,
+    "current_home_coin": 1840,
+    "max_home_coin": 2400,
+    "home_coin_recovery_time": "32400",
+    "current_expedition_num": 5,
+    "max_expedition_num": 5,
+    "expeditions": [
+      {
+        "avatar_side_icon": "https://…",
+        "status": "Finished",
+        "remained_time": "0"
+      },
+      {
+        "avatar_side_icon": "https://…",
+        "status": "Ongoing",
+        "remained_time": "8040"
+      }
+    ],
+    "transformer": {
+      "obtained": true,
+      "recovery_time": {
+        "Day": 4,
+        "Hour": 6,
+        "Minute": 0,
+        "Second": 0,
+        "reached": false
+      },
+      "wiki": "https://…",
+      "noticed": false,
+      "latest_job_id": "0"
+    },
+    "daily_task": {
+      "total_num": 4,
+      "finished_num": 3,
+      "is_extra_task_reward_received": false,
+      "task_rewards": [
+        {
+          "status": "TaskRewardStatusFinished"
+        }
+      ],
+      "attendance_rewards": [
+        {
+          "status": "AttendanceRewardStatusTakenAward",
+          "progress": 2000
+        }
+      ],
+      "attendance_visible": false,
+      "stored_attendance": "0",
+      "stored_attendance_refresh_countdown": 0
+    },
+    "calendar_url": "",
+    "archon_quest_progress": {
+      "list": [],
+      "is_open_archon_quest": true,
+      "is_finish_all_mainline": false,
+      "is_finish_all_interchapter": false,
+      "wiki_url": ""
+    },
+    "week_active_progress": null
+  }
+}

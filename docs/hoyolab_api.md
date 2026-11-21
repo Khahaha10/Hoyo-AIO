@@ -299,6 +299,8 @@ Mapping to the design (Phase 4):
 - ⚠️ VERIFY: reserved power max (2,400 in the design) is not in the response; it is a game
   constant. Keep it in config, flagged.
 - `retcode` is typed `Int` here but `String` in the GI DTO; the Dart layer must accept both.
+- ⚠️ VERIFY: `weekly_cocoon_cnt` is read as **remaining** Echo of War rewards (other open-source clients name it `remaining_weekly_discounts`), so the app models it as "left" like GI's weekly boss discounts. Confirm against a live account.
+- Full time: the app uses `stamina_full_ts − current_ts` (server clock on both sides, so device clock skew does not matter) and falls back to `stamina_recover_time`.
 
 ### 4.5 Zenless Zone Zero real-time notes ✅
 - **Source:** [`DailyNoteApi.kt#L104-L109`](https://github.com/danggai/android_genshin_resin_widget/blob/9b04b0e18c217be4b5c8d7bc91a5bb3a08014c0c/data/src/main/java/danggai/data/network/dailynote/remote/api/DailyNoteApi.kt#L104-L109),
