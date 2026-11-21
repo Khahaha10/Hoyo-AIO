@@ -169,7 +169,14 @@ class WidgetPreview extends StatelessWidget {
         for (final item in items)
           Row(
             children: [
-              Expanded(child: Text(_label(item.key), maxLines: 1)),
+              Expanded(
+                child: Text(
+                  _label(item.key),
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
               Text(
                 _itemValue(item),
                 style: TextStyle(
