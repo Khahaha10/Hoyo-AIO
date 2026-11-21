@@ -79,5 +79,13 @@
 	</array>
 	<key>FlutterDeepLinkingEnabled</key>
 	<true/>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.hoyoaio.app.notesRefresh</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+	</array>
 </dict>
 </plist>

@@ -763,5 +763,39 @@
       }
     }
   },
-  "settingsNotificationsOff": "Off"
+  "settingsNotificationsOff": "Off",
+  "backgroundSection": "Background",
+  "backgroundRefresh": "Background Refresh",
+  "backgroundRefreshBody": "Updates notes, alerts and auto check-in",
+  "backgroundRefreshMinutes": "{minutes}m",
+  "@backgroundRefreshMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "backgroundBattery": "Battery Optimization",
+  "backgroundBatteryBody": "On: alerts and check-in may run late",
+  "backgroundBatteryTitle": "Let HoYo AIO Run in Background",
+  "backgroundBatterySteps": "Android may pause background work to save battery. Open battery settings, find HoYo AIO and choose \"Don't optimize\" or \"Unrestricted\". Some phones also need autostart turned on.",
+  "backgroundBatteryOpen": "Open Battery Settings",
+  "notifyCookieExpiredTitle": "Cookie expired",
+  "notifyCookieExpiredBody": "HoYoLAB rejected the saved cookie for {name}. Open the app to refresh it.",
+  "@notifyCookieExpiredBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyCheckInFailedTitle": "{count, plural, =1{Check-in failed for 1 game} other{Check-in failed for {count} games}}",
+  "@notifyCheckInFailedTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backgroundRunNow": "Run Background Refresh Now"
 }

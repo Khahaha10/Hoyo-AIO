@@ -6,6 +6,8 @@ abstract interface class CheckInHistoryRepository {
 
   Stream<List<CheckInRun>> watchRuns({required int limit});
 
+  Future<bool> hasRunOn(String day);
+
   Stream<AutoCheckInSettings> watchSettings();
 
   Future<void> setGameEnabled(Game game, {required bool enabled});

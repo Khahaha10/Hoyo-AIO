@@ -123,6 +123,26 @@ class NotificationService {
     }
   }
 
+  Future<void> showNow({
+    required int id,
+    required NotificationKind kind,
+    required String title,
+    required String body,
+    String? payload,
+  }) async {
+    await initialize();
+    await _plugin.show(
+      id: id,
+      title: title,
+      body: body,
+      payload: payload,
+      notificationDetails: NotificationDetails(
+        android: AndroidNotificationDetails(kind.channelId, kind.name),
+        iOS: const DarwinNotificationDetails(),
+      ),
+    );
+  }
+
   Future<void> openSystemSettings() async {
     await initialize();
     await _plugin.openAppNotificationSettings();

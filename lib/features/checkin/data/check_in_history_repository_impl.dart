@@ -61,6 +61,16 @@ class CheckInHistoryRepositoryImpl implements CheckInHistoryRepository {
   }
 
   @override
+  Future<bool> hasRunOn(String day) async {
+    final row =
+        await (_db.select(_db.checkInHistory)
+              ..where((r) => r.day.equals(day))
+              ..limit(1))
+            .getSingleOrNull();
+    return row != null;
+  }
+
+  @override
   Stream<AutoCheckInSettings> watchSettings() =>
       (_db.select(
         _db.appSettings,

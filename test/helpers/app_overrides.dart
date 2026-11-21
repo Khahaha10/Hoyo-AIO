@@ -6,6 +6,7 @@ import 'package:hoyo_aio/app/flavor.dart';
 import 'package:hoyo_aio/app/flavor_provider.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/has_accounts_provider.dart';
+import 'package:hoyo_aio/features/background/presentation/providers/background_sync_provider.dart';
 import 'package:hoyo_aio/features/notifications/data/notification_service.dart';
 import 'package:hoyo_aio/features/notifications/presentation/providers/notification_sync_provider.dart';
 import 'package:material_ui/material_ui.dart';
@@ -18,6 +19,7 @@ List<Override> appOverrides({
   flavorProvider.overrideWithValue(flavor),
   notificationServiceProvider.overrideWithValue(FakeNotificationService()),
   notificationSyncProvider.overrideWith((_) async => 0),
+  backgroundSyncProvider.overrideWith((_) async {}),
   hasAccountsProvider.overrideWith((_) => Stream.value(hasAccounts)),
   appPreferencesProvider.overrideWith(
     (_) => Stream.value(

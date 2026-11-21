@@ -10,6 +10,7 @@ import 'package:hoyo_aio/core/design_system/theme/theme_context.dart';
 import 'package:hoyo_aio/core/design_system/tokens/app_spacing.dart';
 import 'package:hoyo_aio/core/design_system/tokens/app_text_styles.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
+import 'package:hoyo_aio/features/background/presentation/background_card.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_format.dart';
 import 'package:hoyo_aio/features/notifications/data/notification_settings_repository_impl.dart';
 import 'package:hoyo_aio/features/notifications/domain/notification_settings.dart';
@@ -106,6 +107,8 @@ class NotificationsScreen extends ConsumerWidget {
               _AlertsCard(settings: settings, onChanged: save),
               const SizedBox(height: AppSpacing.s16),
               _QuietHoursCard(settings: settings, onChanged: save),
+              _SectionLabel(l10n.backgroundSection),
+              const BackgroundCard(),
             ],
           ],
         ),

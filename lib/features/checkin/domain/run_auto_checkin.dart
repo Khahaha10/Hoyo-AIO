@@ -40,7 +40,7 @@ class RunAutoCheckIn {
         CheckInRecord(
           accountId: accountId,
           game: game,
-          day: _day(runAt),
+          day: dayKey(runAt),
           result: result,
           runAt: runAt,
           reward: reward,
@@ -71,7 +71,7 @@ class RunAutoCheckIn {
     }
   }
 
-  static String _day(DateTime at) =>
+  static String dayKey(DateTime at) =>
       '${at.year.toString().padLeft(4, '0')}-'
       '${at.month.toString().padLeft(2, '0')}-'
       '${at.day.toString().padLeft(2, '0')}';

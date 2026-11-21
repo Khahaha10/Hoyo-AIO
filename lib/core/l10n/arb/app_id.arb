@@ -264,5 +264,18 @@
   "notificationsQuietHours": "Jam Tenang",
   "notificationsQuietRange": "{start} – {end}",
   "settingsNotificationsOn": "{count} aktif",
-  "settingsNotificationsOff": "Mati"
+  "settingsNotificationsOff": "Mati",
+  "backgroundSection": "Latar Belakang",
+  "backgroundRefresh": "Refresh Latar Belakang",
+  "backgroundRefreshBody": "Memperbarui catatan, pengingat, dan check-in otomatis",
+  "backgroundRefreshMinutes": "{minutes} m",
+  "backgroundBattery": "Optimasi Baterai",
+  "backgroundBatteryBody": "Aktif: pengingat dan check-in bisa terlambat",
+  "backgroundBatteryTitle": "Izinkan HoYo AIO Berjalan di Latar Belakang",
+  "backgroundBatterySteps": "Android bisa menunda kerja latar belakang untuk hemat baterai. Buka pengaturan baterai, cari HoYo AIO, lalu pilih \"Jangan optimalkan\" atau \"Tidak dibatasi\". Beberapa ponsel juga perlu autostart diaktifkan.",
+  "backgroundBatteryOpen": "Buka Pengaturan Baterai",
+  "notifyCookieExpiredTitle": "Cookie kedaluwarsa",
+  "notifyCookieExpiredBody": "HoYoLAB menolak cookie {name}. Buka aplikasi untuk memperbaruinya.",
+  "notifyCheckInFailedTitle": "{count, plural, other{Check-in gagal untuk {count} game}}",
+  "backgroundRunNow": "Jalankan Refresh Latar Belakang"
 }
