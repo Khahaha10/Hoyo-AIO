@@ -86,7 +86,7 @@ class CheckInCalendar extends _$CheckInCalendar {
 Stream<AutoCheckInSettings> autoCheckInSettings(Ref ref) =>
     ref.watch(checkInHistoryRepositoryProvider).watchSettings();
 
-@riverpod
+@Riverpod(keepAlive: true)
 Stream<List<CheckInRun>> checkInRuns(Ref ref) =>
     ref.watch(checkInHistoryRepositoryProvider).watchRuns(limit: 10);
 

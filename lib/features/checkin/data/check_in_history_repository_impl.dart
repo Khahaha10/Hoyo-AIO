@@ -61,6 +61,24 @@ class CheckInHistoryRepositoryImpl implements CheckInHistoryRepository {
   }
 
   @override
+  Future<List<CheckInRecord>> recordsOn(String day) async {
+    final rows = await (_db.select(
+      _db.checkInHistory,
+    )..where((r) => r.day.equals(day))).get();
+    return [
+      for (final row in rows)
+        CheckInRecord(
+          accountId: row.accountId,
+          game: row.game,
+          day: row.day,
+          result: row.result,
+          runAt: row.createdAt,
+          reward: row.reward,
+        ),
+    ];
+  }
+
+  @override
   Future<bool> hasRunOn(String day) async {
     final row =
         await (_db.select(_db.checkInHistory)

@@ -797,5 +797,19 @@
       }
     }
   },
-  "backgroundRunNow": "Run Background Refresh Now"
+  "backgroundRunNow": "Run Background Refresh Now",
+  "widgetDone": "Done",
+  "widgetReady": "Ready",
+  "widgetFull": "Full",
+  "widgetCheckedIn": "Checked in to {done} of {total} games",
+  "@widgetCheckedIn": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -1,0 +1,32 @@
+import 'package:hoyo_aio/core/hoyolab/game.dart';
+import 'package:hoyo_aio/core/l10n/game_labels.dart';
+import 'package:hoyo_aio/core/l10n/l10n.dart';
+
+Map<String, String> widgetLabels(AppLocalizations l10n) => {
+  'resin': l10n.genshinResin,
+  'trailblazePower': l10n.starRailTrailblazePower,
+  'battery': l10n.zzzBattery,
+  'realm': l10n.genshinRealmCurrency,
+  'commissions': l10n.genshinCommissions,
+  'weeklyBosses': l10n.genshinWeeklyBosses,
+  'transformer': l10n.genshinTransformer,
+  'expeditions': l10n.genshinExpeditions,
+  'reservedPower': l10n.starRailReservedPower,
+  'dailyTraining': l10n.starRailDailyTraining,
+  'echoOfWar': l10n.starRailEchoOfWar,
+  'simulatedUniverse': l10n.starRailSimulatedUniverse,
+  'assignments': l10n.starRailAssignments,
+  'engagement': l10n.zzzEngagement,
+  'scratchCard': l10n.zzzScratchCard,
+  'videoStore': l10n.zzzVideoStore,
+  'bountyCommission': l10n.zzzBountyCommission,
+  'weeklyProgress': l10n.zzzWeeklyProgress,
+  'videoStore.closed': l10n.zzzVideoStoreClosed,
+  'videoStore.open': l10n.zzzVideoStoreOpen,
+  'videoStore.revenueReady': l10n.zzzVideoStoreRevenue,
+  'done': l10n.widgetDone,
+  'ready': l10n.widgetReady,
+  'full': l10n.widgetFull,
+  'checkedIn': l10n.widgetCheckedIn('{done}', '{total}'),
+  for (final game in Game.values) 'game.${game.name}': l10n.gameShortName(game),
+};

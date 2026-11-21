@@ -1,8 +1,7 @@
-import 'dart:ui' show PlatformDispatcher;
-
 import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/core/l10n/game_labels.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
+import 'package:hoyo_aio/core/l10n/resolve_l10n.dart' as l10n_resolver;
 import 'package:hoyo_aio/features/notifications/data/notification_service.dart';
 import 'package:hoyo_aio/features/notifications/domain/notification_repositories.dart';
 import 'package:hoyo_aio/features/notifications/domain/planned_notification.dart';
@@ -34,15 +33,8 @@ class NotificationSchedulerImpl implements NotificationScheduler {
     ]);
   }
 
-  static AppLocalizations resolveL10n(String? localeCode) {
-    const supported = AppLocalizations.supportedLocales;
-    final wanted =
-        localeCode ?? PlatformDispatcher.instance.locale.languageCode;
-    final locale =
-        supported.where((l) => l.languageCode == wanted).firstOrNull ??
-        supported.first;
-    return lookupAppLocalizations(locale);
-  }
+  static AppLocalizations resolveL10n(String? localeCode) =>
+      l10n_resolver.resolveL10n(localeCode);
 
   static String _staminaName(Game? game, AppLocalizations l10n) =>
       switch (game) {

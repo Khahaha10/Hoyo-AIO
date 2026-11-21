@@ -8,6 +8,8 @@ abstract interface class CheckInHistoryRepository {
 
   Future<bool> hasRunOn(String day);
 
+  Future<List<CheckInRecord>> recordsOn(String day);
+
   Stream<AutoCheckInSettings> watchSettings();
 
   Future<void> setGameEnabled(Game game, {required bool enabled});

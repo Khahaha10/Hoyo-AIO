@@ -14,6 +14,8 @@ import 'package:hoyo_aio/features/checkin/domain/check_in_record.dart';
 import 'package:hoyo_aio/features/checkin/domain/run_auto_checkin.dart';
 import 'package:hoyo_aio/features/checkin/presentation/providers/check_in_provider.dart';
 import 'package:hoyo_aio/features/dashboard/data/notes_repository_impl.dart';
+import 'package:hoyo_aio/features/home_widgets/data/widget_labels.dart';
+import 'package:hoyo_aio/features/home_widgets/presentation/providers/widget_sync_provider.dart';
 import 'package:hoyo_aio/features/notifications/data/notification_scheduler_impl.dart';
 import 'package:hoyo_aio/features/notifications/data/notification_service.dart';
 import 'package:hoyo_aio/features/notifications/data/notification_settings_repository_impl.dart';
@@ -98,7 +100,33 @@ class BackgroundJobs {
     final after = await _accounts();
     await _notifyNewlyExpired(before, after);
     await _reschedule(after);
+    await _updateWidgets(after);
   }
+
+  Future<void> _updateWidgets(List<AccountSummary> accounts) async {
+    final checkIn = await _container
+        .read(checkInHistoryRepositoryProvider)
+        .watchSettings()
+        .first;
+    await _container.read(updateHomeWidgetsProvider)(
+      roles: _dashboardRoles(accounts),
+      checkInGames: checkIn.games.intersection({
+        for (final account in accounts)
+          for (final role in account.enabledRoles) role.game,
+      }),
+      labels: widgetLabels(
+        NotificationSchedulerImpl.resolveL10n(await _localeCode()),
+      ),
+    );
+  }
+
+  static List<SavedRole> _dashboardRoles(List<AccountSummary> accounts) => [
+    for (final healthy in [true, false])
+      for (final account in accounts)
+        if (account.needsAttention != healthy)
+          for (final role in account.enabledRoles)
+            if (dashboardGames.contains(role.game)) role,
+  ];
 
   Future<String?> _localeCode() async {
     final db = _container.read(appDatabaseProvider);
@@ -112,15 +140,8 @@ class BackgroundJobs {
     final settings = await _container
         .read(notificationSettingsRepositoryProvider)
         .read();
-    final roles = <SavedRole>[
-      for (final healthy in [true, false])
-        for (final account in accounts)
-          if (account.needsAttention != healthy)
-            for (final role in account.enabledRoles)
-              if (dashboardGames.contains(role.game)) role,
-    ];
     await _container.read(rescheduleNotificationsProvider)(
-      roles: roles,
+      roles: _dashboardRoles(accounts),
       settings: settings,
       localeCode: await _localeCode(),
     );

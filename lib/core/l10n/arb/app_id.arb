@@ -277,5 +277,9 @@
   "notifyCookieExpiredTitle": "Cookie kedaluwarsa",
   "notifyCookieExpiredBody": "HoYoLAB menolak cookie {name}. Buka aplikasi untuk memperbaruinya.",
   "notifyCheckInFailedTitle": "{count, plural, other{Check-in gagal untuk {count} game}}",
-  "backgroundRunNow": "Jalankan Refresh Latar Belakang"
+  "backgroundRunNow": "Jalankan Refresh Latar Belakang",
+  "widgetDone": "Selesai",
+  "widgetReady": "Siap",
+  "widgetFull": "Penuh",
+  "widgetCheckedIn": "Check-in {done} dari {total} game"
 }
