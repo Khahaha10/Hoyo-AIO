@@ -161,8 +161,12 @@ class BackupService {
       );
 
   Future<bool> _insertAccountIfMissing(BackupAccount account) async {
+    final existing = await (_db.select(
+      _db.accounts,
+    )..where((a) => a.id.equals(account.id))).getSingleOrNull();
+    if (existing != null) return false;
     final now = _clock();
-    final inserted = await _db
+    await _db
         .into(_db.accounts)
         .insert(
           AccountsCompanion.insert(
@@ -172,9 +176,8 @@ class BackupService {
             createdAt: now,
             updatedAt: now,
           ),
-          mode: InsertMode.insertOrIgnore,
         );
-    return inserted > 0;
+    return true;
   }
 
   Future<void> _upsertRole(String accountId, BackupRole role) => _db

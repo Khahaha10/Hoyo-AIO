@@ -39,8 +39,7 @@ class AppSwatchPicker<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    return Wrap(
       children: [
         for (final option in options)
           Semantics(
