@@ -438,5 +438,15 @@
   "backupImportTitle": "Impor Cadangan?",
   "backupImportBody": "{count, plural, =1{Cadangan ini berisi 1 akun.} other{Cadangan ini berisi {count} akun.}} Pengaturan dan widget di perangkat ini akan diganti. Akun yang sudah ada tetap login; akun baru perlu login dulu. Cookie tidak pernah ikut dicadangkan.",
   "backupImported": "{count, plural, =0{Cadangan diimpor} =1{Cadangan diimpor · 1 akun perlu login} other{Cadangan diimpor · {count} akun perlu login}}",
-  "backupInvalidFile": "File ini bukan cadangan HoYo AIO, atau rusak."
+  "backupInvalidFile": "File ini bukan cadangan HoYo AIO, atau rusak.",
+  "settingsAboutSection": "Tentang",
+  "settingsFooter": "Aplikasi buatan penggemar, tidak resmi, tidak berafiliasi dengan atau didukung oleh HoYoverse.",
+  "aboutTitle": "Disclaimer & Lisensi",
+  "aboutVersion": "Versi {version} ({build})",
+  "aboutDisclaimerTitle": "Disclaimer",
+  "aboutDisclaimerBody": "HoYo AIO adalah aplikasi buatan penggemar yang tidak resmi. Aplikasi ini tidak berafiliasi dengan, tidak didukung, disponsori, atau disetujui oleh HoYoverse / COGNOSPHERE / miHoYo. Nama game dan merek dagang terkait adalah milik pemiliknya. Cookie kamu disimpan terenkripsi di perangkat ini dan hanya dikirim ke server resmi HoYoLAB.",
+  "aboutCreditsTitle": "Kredit",
+  "aboutCreditReference": "Pengetahuan API HoYoLAB (endpoint, header, penandatanganan request) berasal dari android_genshin_resin_widget oleh Donggi Hong, Lisensi MIT. Tidak ada kode, nama, atau aset yang disalin.",
+  "aboutCreditFont": "Font Inter oleh The Inter Project Authors, SIL Open Font License 1.1.",
+  "aboutLicenses": "Lisensi Open Source"
 }

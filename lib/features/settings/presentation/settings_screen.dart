@@ -16,6 +16,7 @@ import 'package:hoyo_aio/features/notifications/presentation/providers/notificat
 import 'package:hoyo_aio/features/settings/presentation/appearance_card.dart';
 import 'package:hoyo_aio/features/settings/presentation/backup_row.dart';
 import 'package:hoyo_aio/features/settings/presentation/profile_card.dart';
+import 'package:hoyo_aio/features/settings/presentation/providers/package_info_provider.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -30,6 +31,7 @@ class SettingsScreen extends ConsumerWidget {
     final accounts = ref.watch(accountsProvider).value ?? const [];
     final notifications = ref.watch(notificationSettingsProvider).value;
     final preferences = ref.watch(appPreferencesProvider).value;
+    final info = ref.watch(packageInfoProvider).value;
     final selectedAccountId = ref.watch(selectedRoleProvider)?.accountId;
     final profile = [
       ...accounts.where((account) => account.id == selectedAccountId),
@@ -94,11 +96,24 @@ class SettingsScreen extends ConsumerWidget {
               const BackupRow(),
             ],
           ),
+          _SectionLabel(l10n.settingsAboutSection),
+          SettingsCard(
+            children: [
+              SettingsRow(
+                icon: LucideIcons.info,
+                title: l10n.aboutTitle,
+                onTap: () => context.push(AppRoutes.about),
+              ),
+            ],
+          ),
           Padding(
             padding: const EdgeInsets.only(top: AppSpacing.s24),
             child: Text(
-              '${l10n.splashDisclaimerUnofficial} · '
-              '${l10n.splashDisclaimerNotAffiliated}',
+              [
+                if (info != null)
+                  '${l10n.appName} ${info.version} (${info.buildNumber})',
+                l10n.settingsFooter,
+              ].join(' · '),
               textAlign: TextAlign.center,
               style: AppTextStyles.caption.copyWith(color: colors.text3),
             ),

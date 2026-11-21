@@ -1215,5 +1215,25 @@
       }
     }
   },
-  "backupInvalidFile": "This file is not a HoYo AIO backup, or it is damaged."
+  "backupInvalidFile": "This file is not a HoYo AIO backup, or it is damaged.",
+  "settingsAboutSection": "About",
+  "settingsFooter": "Unofficial fan-made app, not affiliated with or endorsed by HoYoverse.",
+  "aboutTitle": "Disclaimer & Licenses",
+  "aboutVersion": "Version {version} ({build})",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "build": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutDisclaimerTitle": "Disclaimer",
+  "aboutDisclaimerBody": "HoYo AIO is an unofficial fan-made app. It is not affiliated with, endorsed, sponsored or approved by HoYoverse / COGNOSPHERE / miHoYo. Game names and related trademarks belong to their owners. Your cookie is stored encrypted on this device and is sent only to official HoYoLAB servers.",
+  "aboutCreditsTitle": "Credits",
+  "aboutCreditReference": "HoYoLAB API knowledge (endpoints, headers, request signing) comes from android_genshin_resin_widget by Donggi Hong, MIT License. No code, names or assets were copied.",
+  "aboutCreditFont": "Inter typeface by The Inter Project Authors, SIL Open Font License 1.1.",
+  "aboutLicenses": "Open-Source Licenses"
 }

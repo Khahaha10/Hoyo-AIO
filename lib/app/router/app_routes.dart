@@ -12,6 +12,7 @@ abstract final class AppRoutes {
   static const webViewLogin = '/accounts/webview';
   static const selectRoles = '/accounts/roles';
   static const notifications = '/notifications';
+  static const about = '/about';
   static const codes = '/codes';
   static const tracker = '/tracker';
   static const trackerHistoryPath = '/tracker/history';
