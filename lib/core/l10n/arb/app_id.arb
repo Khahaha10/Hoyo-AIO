@@ -214,5 +214,21 @@
   "checkInResultCaptcha": "Perlu captcha",
   "checkInResultCookieExpired": "Cookie kedaluwarsa",
   "checkInResultNoRole": "Tidak ada role game",
-  "checkInResultFailed": "Gagal"
+  "checkInResultFailed": "Gagal",
+  "notificationChannelStamina": "Stamina",
+  "notificationChannelStaminaDescription": "Resin, Trailblaze Power, dan Battery mencapai batas atau penuh.",
+  "notificationChannelExpeditions": "Ekspedisi",
+  "notificationChannelExpeditionsDescription": "Ekspedisi dan assignment yang selesai.",
+  "notificationChannelCurrency": "Realm Currency",
+  "notificationChannelCurrencyDescription": "Realm Currency penuh.",
+  "notificationChannelTransformer": "Parametric Transformer",
+  "notificationChannelTransformerDescription": "Parametric Transformer siap.",
+  "notificationChannelDailyReminder": "Pengingat Harian",
+  "notificationChannelDailyReminderDescription": "Pengingat untuk menyelesaikan daily.",
+  "notificationChannelCheckIn": "Hasil Check-in",
+  "notificationChannelCheckInDescription": "Hasil check-in harian otomatis.",
+  "notificationChannelCookieExpired": "Cookie Kedaluwarsa",
+  "notificationChannelCookieExpiredDescription": "HoYoLAB menolak cookie yang tersimpan.",
+  "notificationPermissionBody": "Notifikasi mati. Nyalakan untuk menerima pengingat stamina, ekspedisi, dan check-in.",
+  "notificationPermissionAllow": "Izinkan Notifikasi"
 }

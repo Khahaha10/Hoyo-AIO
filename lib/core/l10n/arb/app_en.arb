@@ -633,5 +633,21 @@
   "checkInResultCaptcha": "Captcha required",
   "checkInResultCookieExpired": "Cookie expired",
   "checkInResultNoRole": "No game role",
-  "checkInResultFailed": "Failed"
+  "checkInResultFailed": "Failed",
+  "notificationChannelStamina": "Stamina",
+  "notificationChannelStaminaDescription": "Resin, Trailblaze Power and Battery reaching your threshold or full.",
+  "notificationChannelExpeditions": "Expeditions",
+  "notificationChannelExpeditionsDescription": "Expeditions and assignments that are done.",
+  "notificationChannelCurrency": "Realm Currency",
+  "notificationChannelCurrencyDescription": "Realm Currency is full.",
+  "notificationChannelTransformer": "Parametric Transformer",
+  "notificationChannelTransformerDescription": "Parametric Transformer is ready.",
+  "notificationChannelDailyReminder": "Daily Reminder",
+  "notificationChannelDailyReminderDescription": "Reminder to finish your dailies.",
+  "notificationChannelCheckIn": "Check-in Result",
+  "notificationChannelCheckInDescription": "Result of the automatic daily check-in.",
+  "notificationChannelCookieExpired": "Cookie Expired",
+  "notificationChannelCookieExpiredDescription": "HoYoLAB rejected a saved cookie.",
+  "notificationPermissionBody": "Notifications are off. Turn them on to get stamina, expedition and check-in alerts.",
+  "notificationPermissionAllow": "Allow Notifications"
 }

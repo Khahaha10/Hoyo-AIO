@@ -1,9 +1,12 @@
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:hoyo_aio/app/app_settings_provider.dart';
 import 'package:hoyo_aio/app/flavor.dart';
 import 'package:hoyo_aio/app/flavor_provider.dart';
+import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/has_accounts_provider.dart';
+import 'package:hoyo_aio/features/notifications/data/notification_service.dart';
 import 'package:material_ui/material_ui.dart';
 
 List<Override> appOverrides({
@@ -12,6 +15,7 @@ List<Override> appOverrides({
   bool onboardingSeen = true,
 }) => [
   flavorProvider.overrideWithValue(flavor),
+  notificationServiceProvider.overrideWithValue(FakeNotificationService()),
   hasAccountsProvider.overrideWith((_) => Stream.value(hasAccounts)),
   appPreferencesProvider.overrideWith(
     (_) => Stream.value(
@@ -32,3 +36,25 @@ Widget withAppScope(
   overrides: appOverrides(flavor: flavor, hasAccounts: hasAccounts),
   child: child,
 );
+
+class FakeNotificationService extends NotificationService {
+  FakeNotificationService({this.enabled = true})
+    : super(FlutterLocalNotificationsPlugin());
+
+  bool enabled;
+
+  @override
+  Future<void> initialize() async {}
+
+  @override
+  Future<void> syncChannels(AppLocalizations l10n) async {}
+
+  @override
+  Future<bool> isEnabled() async => enabled;
+
+  @override
+  Future<bool> requestPermission() async => enabled = true;
+
+  @override
+  Future<void> openSystemSettings() async {}
+}

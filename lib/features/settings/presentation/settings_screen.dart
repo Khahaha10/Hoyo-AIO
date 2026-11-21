@@ -9,6 +9,7 @@ import 'package:hoyo_aio/core/design_system/tokens/app_spacing.dart';
 import 'package:hoyo_aio/core/design_system/tokens/app_text_styles.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/accounts_provider.dart';
+import 'package:hoyo_aio/features/notifications/presentation/notification_permission_banner.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -33,6 +34,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.s20),
+          const NotificationPermissionBanner(),
           SettingsCard(
             children: [
               SettingsRow(
