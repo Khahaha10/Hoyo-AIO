@@ -1,3 +1,4 @@
+import 'package:hoyo_aio/core/design_system/components/app_badge.dart';
 import 'package:hoyo_aio/core/design_system/components/stamina_ring_card.dart';
 import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
@@ -26,6 +27,23 @@ class StaminaCard extends StatelessWidget {
     final l10n = context.l10n;
     final isFull = stamina.isFullAt(now);
     final interval = stamina.recoveryInterval;
+    if (isStale) {
+      return StaminaRingCard(
+        game: game,
+        current: stamina.current,
+        max: stamina.max,
+        label: label,
+        primaryText: l10n.dashboardAboutNow(
+          l10n.number(stamina.currentAt(now)),
+        ),
+        secondaryText: l10n.dashboardEstimatedFrom(
+          l10n.clockTime(stamina.fetchedAt),
+        ),
+        badgeLabel: l10n.dashboardStale,
+        badgeVariant: AppBadgeVariant.warning,
+        isStale: true,
+      );
+    }
     return StaminaRingCard(
       game: game,
       current: stamina.currentAt(now),
@@ -40,7 +58,6 @@ class StaminaCard extends StatelessWidget {
       badgeLabel: interval > Duration.zero
           ? l10n.dashboardRecoveryRate(interval.inMinutes)
           : null,
-      isStale: isStale,
     );
   }
 }

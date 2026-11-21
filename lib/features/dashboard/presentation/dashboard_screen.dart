@@ -1,14 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hoyo_aio/core/design_system/components/app_button.dart';
+import 'package:hoyo_aio/core/design_system/components/app_snackbar.dart';
 import 'package:hoyo_aio/core/design_system/icons/app_icon.dart';
 import 'package:hoyo_aio/core/design_system/theme/theme_context.dart';
 import 'package:hoyo_aio/core/design_system/tokens/app_spacing.dart';
 import 'package:hoyo_aio/core/design_system/tokens/app_text_styles.dart';
 import 'package:hoyo_aio/core/error/app_exception.dart';
-import 'package:hoyo_aio/core/error/app_exception_l10n.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/core/time/clock.dart';
 import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
+import 'package:hoyo_aio/features/accounts/presentation/providers/accounts_provider.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/selected_role_provider.dart';
 import 'package:hoyo_aio/features/dashboard/domain/game_note.dart';
 import 'package:hoyo_aio/features/dashboard/domain/note_result.dart';
@@ -17,6 +19,11 @@ import 'package:hoyo_aio/features/dashboard/presentation/game_layouts/genshin_la
 import 'package:hoyo_aio/features/dashboard/presentation/game_layouts/star_rail_layout.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/game_layouts/zzz_layout.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/providers/notes_provider.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/states/cookie_expired_banner.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/states/dashboard_empty.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/states/dashboard_error.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/states/dashboard_skeleton.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/states/refreshing_indicator.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/dashboard_header.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/role_switcher_sheet.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -34,6 +41,7 @@ class DashboardScreen extends ConsumerStatefulWidget {
 
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   ({String? game, String? uid})? _pendingDeepLink;
+  final _bannerDismissedFor = <String>{};
 
   @override
   void initState() {
@@ -72,16 +80,50 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     });
   }
 
+  void _showRefreshError(
+    AsyncValue<NoteResult>? previous,
+    AsyncValue<NoteResult> next,
+    Future<void> Function() retry,
+  ) {
+    final finishedRefresh = (previous?.isLoading ?? false) && !next.isLoading;
+    final error = next.value?.error ?? next.error;
+    if (!finishedRefresh || error == null || !next.hasValue) return;
+    if (error is CookieExpiredException) return;
+    final l10n = context.l10n;
+    showAppSnackbar(
+      context,
+      message: dashboardErrorMessage(error, l10n),
+      icon: LucideIcons.wifiOff,
+      actionLabel: l10n.commonRetry,
+      onAction: () => unawaited(retry()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final roles = ref.watch(dashboardRolesProvider);
     _applyDeepLink(roles);
     final role = ref.watch(selectedRoleProvider);
-    if (role == null) return const _NoRoles();
+    if (role == null) return const DashboardEmpty();
     final notes = ref.watch(notesProvider(role));
     final notifier = ref.read(notesProvider(role).notifier);
-    ref.watch(clockTickProvider);
+    ref
+      ..listen(
+        notesProvider(role),
+        (previous, next) => _showRefreshError(previous, next, notifier.refresh),
+      )
+      ..watch(clockTickProvider);
     final now = ref.watch(clockProvider)();
+    final account = ref
+        .watch(accountsProvider)
+        .value
+        ?.where((a) => a.id == role.accountId)
+        .firstOrNull;
+    final result = notes.value;
+    final cookieRejected =
+        (account?.needsAttention ?? false) ||
+        result?.error is CookieExpiredException;
+    final isRefreshing = notes.isLoading && notes.hasValue;
     return Column(
       children: [
         DashboardHeader(
@@ -105,7 +147,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         ),
         Expanded(
           child: RefreshIndicator(
-            onRefresh: notifier.refresh,
+            onRefresh: () async => unawaited(notifier.refresh()),
             child: ListView(
               padding: const EdgeInsets.fromLTRB(
                 AppSpacing.gutter,
@@ -114,21 +156,34 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 AppSpacing.s24,
               ),
               children: [
-                _LastUpdatedRow(
-                  fetchedAt: notes.value?.note.fetchedAt,
-                  now: now,
-                ),
-                const SizedBox(height: AppSpacing.s12),
-                switch (notes) {
-                  AsyncValue(value: final result?) => _NoteContent(
-                    result: result,
-                    now: now,
+                if (isRefreshing)
+                  RefreshingIndicator(game: role.game)
+                else ...[
+                  _LastUpdatedRow(fetchedAt: result?.note.fetchedAt, now: now),
+                  const SizedBox(height: AppSpacing.s12),
+                ],
+                if (cookieRejected &&
+                    result != null &&
+                    !_bannerDismissedFor.contains(role.accountId)) ...[
+                  CookieExpiredBanner(
+                    name: account?.nickname ?? role.nickname,
+                    dataFrom: result.note.fetchedAt,
+                    onLater: () =>
+                        setState(() => _bannerDismissedFor.add(role.accountId)),
                   ),
-                  AsyncError(:final error) => _ErrorContent(
+                  const SizedBox(height: AppSpacing.s12),
+                ],
+                switch (notes) {
+                  AsyncValue(value: final value?) => _NoteContent(
+                    note: value.note,
+                    now: now,
+                    isStale: value.isStale || cookieRejected,
+                  ),
+                  AsyncError(:final error) => DashboardError(
                     error: error,
                     onRetry: notifier.refresh,
                   ),
-                  _ => const _LoadingContent(),
+                  _ => const DashboardSkeleton(),
                 },
               ],
             ),
@@ -140,28 +195,29 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 }
 
 class _NoteContent extends StatelessWidget {
-  const _NoteContent({required this.result, required this.now});
+  const _NoteContent({
+    required this.note,
+    required this.now,
+    required this.isStale,
+  });
 
-  final NoteResult result;
+  final GameNote note;
   final DateTime now;
+  final bool isStale;
 
   @override
-  Widget build(BuildContext context) => switch (result.note) {
+  Widget build(BuildContext context) => switch (note) {
     final GenshinNote note => GenshinLayout(
       note: note,
       now: now,
-      isStale: result.isStale,
+      isStale: isStale,
     ),
     final StarRailNote note => StarRailLayout(
       note: note,
       now: now,
-      isStale: result.isStale,
+      isStale: isStale,
     ),
-    final ZzzNote note => ZzzLayout(
-      note: note,
-      now: now,
-      isStale: result.isStale,
-    ),
+    final ZzzNote note => ZzzLayout(note: note, now: now, isStale: isStale),
   };
 }
 
@@ -193,71 +249,4 @@ class _LastUpdatedRow extends StatelessWidget {
       ],
     );
   }
-}
-
-class _LoadingContent extends StatelessWidget {
-  const _LoadingContent();
-
-  @override
-  Widget build(BuildContext context) => const Padding(
-    padding: EdgeInsets.symmetric(vertical: AppSpacing.s40),
-    child: Center(child: CircularProgressIndicator()),
-  );
-}
-
-class _ErrorContent extends StatelessWidget {
-  const _ErrorContent({required this.error, required this.onRetry});
-
-  final Object error;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final message = error is AppException
-        ? (error as AppException).localizedMessage(l10n)
-        : l10n.errorUnknown;
-    return Column(
-      spacing: AppSpacing.s12,
-      children: [
-        const SizedBox(height: AppSpacing.s24),
-        Text(
-          message,
-          textAlign: TextAlign.center,
-          style: AppTextStyles.bodyM.copyWith(color: context.colors.text2),
-        ),
-        AppButton(
-          label: l10n.commonRetry,
-          variant: AppButtonVariant.secondary,
-          expand: false,
-          onPressed: onRetry,
-        ),
-      ],
-    );
-  }
-}
-
-class _NoRoles extends StatelessWidget {
-  const _NoRoles();
-
-  @override
-  Widget build(BuildContext context) => SafeArea(
-    child: Padding(
-      padding: const EdgeInsets.all(AppSpacing.gutter),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: AppSpacing.s8,
-        children: [
-          Text(
-            context.l10n.navDashboard,
-            style: AppTextStyles.headline.copyWith(color: context.colors.text),
-          ),
-          Text(
-            context.l10n.dashboardNoRoles,
-            style: AppTextStyles.bodyM.copyWith(color: context.colors.text2),
-          ),
-        ],
-      ),
-    ),
-  );
 }

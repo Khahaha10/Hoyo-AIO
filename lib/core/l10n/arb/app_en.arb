@@ -436,5 +436,46 @@
   "dashboardToday": "Today",
   "dashboardThisWeek": "This week",
   "dashboardNotDone": "Not done",
-  "dashboardPoints": "Points"
+  "dashboardPoints": "Points",
+  "dashboardUpdating": "Updating {game}…",
+  "@dashboardUpdating": {
+    "placeholders": {
+      "game": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardEmptyTitle": "No Game Roles Yet",
+  "dashboardHowItWorks": "How It Works",
+  "dashboardCookieExpiredTitle": "Cookie Expired",
+  "dashboardCookieExpiredBody": "HoYoLAB rejected the saved cookie for {name}. Showing data from {time}.",
+  "@dashboardCookieExpiredBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardLater": "Later",
+  "dashboardStale": "Stale",
+  "dashboardAboutNow": "About {value} now",
+  "@dashboardAboutNow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardEstimatedFrom": "Estimated from {time}",
+  "@dashboardEstimatedFrom": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardOpenHoyolab": "Open HoYoLAB"
 }

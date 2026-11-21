@@ -167,5 +167,15 @@
   "dashboardToday": "Hari ini",
   "dashboardThisWeek": "Minggu ini",
   "dashboardNotDone": "Belum selesai",
-  "dashboardPoints": "Poin"
+  "dashboardPoints": "Poin",
+  "dashboardUpdating": "Memperbarui {game}…",
+  "dashboardEmptyTitle": "Belum Ada Peran Game",
+  "dashboardHowItWorks": "Cara Kerjanya",
+  "dashboardCookieExpiredTitle": "Cookie Kedaluwarsa",
+  "dashboardCookieExpiredBody": "HoYoLAB menolak cookie tersimpan untuk {name}. Menampilkan data dari {time}.",
+  "dashboardLater": "Nanti",
+  "dashboardStale": "Lama",
+  "dashboardAboutNow": "Sekitar {value} sekarang",
+  "dashboardEstimatedFrom": "Perkiraan dari {time}",
+  "dashboardOpenHoyolab": "Buka HoYoLAB"
 }

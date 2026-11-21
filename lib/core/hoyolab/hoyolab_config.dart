@@ -45,6 +45,7 @@ abstract final class HoyolabConfig {
   };
   static const webViewHostSuffixes = {'hoyolab.com', 'hoyoverse.com'};
   static const webViewLoginUrl = 'https://m.hoyolab.com/#/timeline';
+  static const hoyolabHomeUrl = 'https://www.hoyolab.com/';
   static const webViewCookieUrls = [
     'https://www.hoyolab.com/',
     'https://m.hoyolab.com/',
