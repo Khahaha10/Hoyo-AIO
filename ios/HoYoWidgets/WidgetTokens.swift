@@ -18,6 +18,7 @@ struct WidgetPalette {
     let text: Color
     let text2: Color
     let track: Color
+    let success: Color
 }
 
 enum WidgetTokens {
@@ -36,21 +37,24 @@ enum WidgetTokens {
         border: Color(argb: 0x140F1115),
         text: Color(argb: 0xFF14161B),
         text2: Color(argb: 0xFF4A5060),
-        track: Color(argb: 0xFFE6E9EE)
+        track: Color(argb: 0xFFE6E9EE),
+        success: Color(argb: 0xFF0E7A50)
     )
     static let dark = WidgetPalette(
         background: Color(argb: 0xF0171A21),
         border: Color(argb: 0x14FFFFFF),
         text: Color(argb: 0xFFF2F3F5),
         text2: Color(argb: 0xFFB6BCC8),
-        track: Color(argb: 0xFF262B35)
+        track: Color(argb: 0xFF262B35),
+        success: Color(argb: 0xFF46D494)
     )
     static let clear = WidgetPalette(
         background: Color(argb: 0x47080A0E),
         border: Color(argb: 0x3DFFFFFF),
         text: Color(argb: 0xFFFFFFFF),
         text2: Color(argb: 0xCCFFFFFF),
-        track: Color(argb: 0x3DFFFFFF)
+        track: Color(argb: 0x3DFFFFFF),
+        success: Color(argb: 0xFF6EE7B7)
     )
     static let palettes: [String: WidgetPalette] = [
         "light": light,

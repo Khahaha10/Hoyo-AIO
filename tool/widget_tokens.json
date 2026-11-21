@@ -14,21 +14,24 @@
       "border": "#140F1115",
       "text": "#FF14161B",
       "text2": "#FF4A5060",
-      "track": "#FFE6E9EE"
+      "track": "#FFE6E9EE",
+      "success": "#FF0E7A50"
     },
     "dark": {
       "background": "#F0171A21",
       "border": "#14FFFFFF",
       "text": "#FFF2F3F5",
       "text2": "#FFB6BCC8",
-      "track": "#FF262B35"
+      "track": "#FF262B35",
+      "success": "#FF46D494"
     },
     "clear": {
       "background": "#47080A0E",
       "border": "#3DFFFFFF",
       "text": "#FFFFFFFF",
       "text2": "#CCFFFFFF",
-      "track": "#3DFFFFFF"
+      "track": "#3DFFFFFF",
+      "success": "#FF6EE7B7"
     }
   }
 }

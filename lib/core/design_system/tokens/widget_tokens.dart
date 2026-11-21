@@ -17,6 +17,7 @@ abstract final class WidgetTokens {
       'text': 0xFF14161B,
       'text2': 0xFF4A5060,
       'track': 0xFFE6E9EE,
+      'success': 0xFF0E7A50,
     },
     'dark': {
       'background': 0xF0171A21,
@@ -24,6 +25,7 @@ abstract final class WidgetTokens {
       'text': 0xFFF2F3F5,
       'text2': 0xFFB6BCC8,
       'track': 0xFF262B35,
+      'success': 0xFF46D494,
     },
     'clear': {
       'background': 0x47080A0E,
@@ -31,6 +33,7 @@ abstract final class WidgetTokens {
       'text': 0xFFFFFFFF,
       'text2': 0xCCFFFFFF,
       'track': 0x3DFFFFFF,
+      'success': 0xFF6EE7B7,
     },
   };
 

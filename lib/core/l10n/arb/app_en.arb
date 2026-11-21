@@ -819,16 +819,6 @@
   "widgetsMediumContent": "Stamina + 3 items",
   "widgetsLargeContent": "All games",
   "widgetsNoData": "Open the Dashboard once so widgets have data to show.",
-  "widgetsNotPlaced": "Preview · not on your home screen yet",
-  "widgetsTapToEdit": "Tap a widget to edit it",
-  "widgetsAdd": "Add {size} Widget",
-  "@widgetsAdd": {
-    "placeholders": {
-      "size": {
-        "type": "String"
-      }
-    }
-  },
   "widgetEditorTitle": "Edit Widget",
   "widgetEditorLivePreview": "Live Preview",
   "widgetEditorTheme": "Theme",
@@ -1001,5 +991,21 @@
         "type": "String"
       }
     }
-  }
+  },
+  "widgetUpdated": "Updated {time}",
+  "@widgetUpdated": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetAppName": "HoYo AIO",
+  "widgetShortResin": "Resin",
+  "widgetShortPower": "Power",
+  "widgetShortBattery": "Battery",
+  "widgetsAddTitle": "Add a Widget",
+  "widgetsAddManual": "Long-press your home screen, choose Widgets and find HoYo AIO.",
+  "widgetItemRealm": "Realm",
+  "widgetItemCommissions": "Commissions"
 }

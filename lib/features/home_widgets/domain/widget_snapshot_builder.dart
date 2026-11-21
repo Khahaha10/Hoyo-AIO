@@ -74,14 +74,14 @@ abstract final class WidgetSnapshotBuilder {
       _task('commissions', note.commissions),
       _task('weeklyBosses', note.weeklyBossDiscountsLeft),
       WidgetItem(key: 'transformer', doneAt: note.transformerReadyAt?.toUtc()),
-      _expeditions('expeditions', note.expeditions, note.maxExpeditions),
+      _expeditions('expeditions', note.expeditions, note.fetchedAt),
     ],
     StarRailNote() => [
       _task('reservedPower', note.reservedPower),
       _task('dailyTraining', note.dailyTraining),
       _task('echoOfWar', note.echoOfWarLeft),
       _task('simulatedUniverse', note.simulatedUniverse),
-      _expeditions('assignments', note.assignments, note.maxAssignments),
+      _expeditions('assignments', note.assignments, note.fetchedAt),
     ],
     ZzzNote() => [
       _task('engagement', note.engagement),
@@ -103,11 +103,11 @@ abstract final class WidgetSnapshotBuilder {
   static WidgetItem _expeditions(
     String key,
     List<Expedition> expeditions,
-    int max,
+    DateTime fetchedAt,
   ) => WidgetItem(
     key: key,
-    value: expeditions.length,
-    max: max,
+    value: expeditions.where((e) => e.isDoneAt(fetchedAt)).length,
+    max: expeditions.length,
     doneAt: expeditions.isEmpty
         ? null
         : expeditions

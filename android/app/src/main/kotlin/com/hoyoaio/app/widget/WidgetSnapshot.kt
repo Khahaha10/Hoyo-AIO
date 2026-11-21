@@ -40,6 +40,7 @@ data class WidgetRole(
     val game: String,
     val name: String,
     val uid: String?,
+    val fetchedAt: Instant,
     val stale: Boolean,
     val stamina: WidgetStamina,
     val items: List<WidgetItem>,
@@ -105,6 +106,7 @@ data class WidgetSnapshot(
                 game = json.getString("game"),
                 name = json.getString("name"),
                 uid = json.optStringOrNull("uid"),
+                fetchedAt = Instant.parse(json.getString("fetched_at")),
                 stale = json.optBoolean("stale"),
                 stamina = WidgetStamina(
                     key = stamina.getString("key"),

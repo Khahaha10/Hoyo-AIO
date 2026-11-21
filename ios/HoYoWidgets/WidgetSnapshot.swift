@@ -32,6 +32,7 @@ struct WidgetRole: Decodable {
     let game: String
     let uid: String
     let name: String
+    let fetchedAt: Date
     let stale: Bool
     let stamina: WidgetStamina
     let items: [WidgetItem]

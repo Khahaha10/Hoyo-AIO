@@ -40,9 +40,9 @@ struct ReloadWidgetsIntent: AppIntent {
 
 struct WidgetStyle {
     let palette: WidgetPalette
-    let accent: Color
+    let accent: Color?
 
-    init(snapshot: WidgetSnapshot?, role: WidgetRole?, scheme: ColorScheme) {
+    init(snapshot: WidgetSnapshot?, scheme: ColorScheme) {
         let config = snapshot?.widgets.first
         let theme: String
         switch config?.theme {
@@ -53,9 +53,13 @@ struct WidgetStyle {
         switch config?.accent ?? "match" {
         case "lime": accent = WidgetTokens.lime
         case "neutral": accent = palette.text2
-        case "match": accent = WidgetTokens.accents[role?.game ?? ""] ?? WidgetTokens.lime
-        default: accent = WidgetTokens.accents[config?.accent ?? ""] ?? WidgetTokens.lime
+        case "match": accent = nil
+        default: accent = WidgetTokens.accents[config?.accent ?? ""]
         }
+    }
+
+    func accent(for game: String) -> Color {
+        accent ?? WidgetTokens.accents[game] ?? WidgetTokens.lime
     }
 }
 
@@ -75,73 +79,68 @@ enum WidgetFormat {
     }
 
     static func item(_ snapshot: WidgetSnapshot, _ item: WidgetItem, _ now: Date) -> String {
-        if item.key == "videoStore", let state = item.state {
-            return snapshot.label("videoStore.\(state)")
-        }
-        if item.key == "scratchCard" {
+        let max = item.max ?? 0
+        let allBack = item.doneAt.map { $0 <= now } ?? false
+        switch item.key {
+        case "videoStore":
+            return snapshot.label("videoStore.\(item.state ?? "closed")")
+        case "scratchCard":
             return item.state == "done" ? snapshot.label("done") : "0/1"
-        }
-        if item.key != "realm", let doneAt = item.doneAt {
-            if doneAt <= now {
-                return snapshot.label(item.key == "transformer" ? "ready" : "done")
-            }
+        case "realm":
+            return NumberFormatter.localizedString(from: NSNumber(value: item.value ?? 0), number: .decimal)
+        case "transformer":
+            guard let doneAt = item.doneAt, !allBack else { return snapshot.label("ready") }
             return time(doneAt)
+        case "expeditions", "assignments":
+            return "\(allBack ? max : item.value ?? 0)/\(max)"
+        default:
+            return "\(item.value ?? 0)/\(max)"
         }
-        return "\(item.value ?? 0)/\(item.max ?? 0)"
     }
 
     static func deepLink(_ role: WidgetRole?) -> URL? {
         guard let role else { return URL(string: "hoyoaio://dashboard") }
         return URL(string: "hoyoaio://dashboard?game=\(role.game)&role=\(role.uid)")
     }
+
+    static func progress(_ stamina: WidgetStamina, _ now: Date) -> Double {
+        Double(stamina.current(at: now)) / Double(Swift.max(stamina.max, 1))
+    }
+}
+
+struct StaminaRing: View {
+    static let stroke: CGFloat = 7
+
+    let progress: Double
+    let color: Color
+    let track: Color
+    let size: CGFloat
+
+    var body: some View {
+        ZStack {
+            Circle().stroke(track, lineWidth: Self.stroke)
+            Circle()
+                .trim(from: 0, to: progress)
+                .stroke(color, style: StrokeStyle(lineWidth: Self.stroke, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+        }
+        .frame(width: size, height: size)
+    }
 }
 
 struct StaminaBar: View {
     let progress: Double
-    let style: WidgetStyle
+    let color: Color
+    let track: Color
 
     var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .leading) {
-                Capsule().fill(style.palette.track)
-                Capsule().fill(style.accent).frame(width: proxy.size.width * progress)
+                Capsule().fill(track)
+                Capsule().fill(color).frame(width: proxy.size.width * progress)
             }
         }
         .frame(height: 6)
-    }
-}
-
-struct RoleStaminaView: View {
-    let snapshot: WidgetSnapshot
-    let role: WidgetRole
-    let now: Date
-    let style: WidgetStyle
-    let valueSize: CGFloat
-
-    var body: some View {
-        let current = role.stamina.current(at: now)
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 6) {
-                Circle().fill(style.accent).frame(width: 8, height: 8)
-                Text(snapshot.label("game.\(role.game)"))
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundStyle(style.palette.text2)
-            }
-            HStack(alignment: .firstTextBaseline, spacing: 0) {
-                Text("\(current)").font(.system(size: valueSize, weight: .bold))
-                Text("/\(role.stamina.max)").font(.system(size: 13))
-                    .foregroundStyle(style.palette.text2)
-            }
-            .foregroundStyle(style.palette.text)
-            StaminaBar(
-                progress: Double(current) / Double(Swift.max(role.stamina.max, 1)),
-                style: style
-            )
-            Text(WidgetFormat.full(snapshot, role, now))
-                .font(.system(size: 12))
-                .foregroundStyle(style.palette.text2)
-        }
-        .monospacedDigit()
     }
 }
 
@@ -153,8 +152,11 @@ struct HoYoWidgetView: View {
     var body: some View {
         let snapshot = entry.snapshot
         let role = snapshot?.roles.first
-        let style = WidgetStyle(snapshot: snapshot, role: role, scheme: scheme)
+        let style = WidgetStyle(snapshot: snapshot, scheme: scheme)
         content(snapshot: snapshot, role: role, style: style)
+            .font(.system(size: 12))
+            .foregroundStyle(style.palette.text2)
+            .monospacedDigit()
             .widgetURL(WidgetFormat.deepLink(role))
             .containerBackground(for: .widget) { style.palette.background }
     }
@@ -164,77 +166,130 @@ struct HoYoWidgetView: View {
         if let snapshot, let role {
             switch family {
             case .systemSmall:
-                RoleStaminaView(snapshot: snapshot, role: role, now: entry.date, style: style, valueSize: 26)
+                medium(snapshot: snapshot, role: role, style: style)
             case .systemMedium:
-                rolesList(snapshot: snapshot, style: style, limit: 3)
+                large(snapshot: snapshot, style: style)
             default:
-                VStack(alignment: .leading, spacing: 12) {
-                    rolesList(snapshot: snapshot, style: style, limit: 3)
-                    itemsList(snapshot: snapshot, role: role, style: style)
+                VStack(spacing: 16) {
+                    large(snapshot: snapshot, style: style)
+                    small(snapshot: snapshot, role: role, style: style)
                 }
             }
         } else {
             Text("Open HoYo AIO to load your notes")
-                .font(.system(size: 13))
-                .foregroundStyle(style.palette.text2)
         }
     }
 
-    private func rolesList(snapshot: WidgetSnapshot, style: WidgetStyle, limit: Int) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            ForEach(snapshot.roles.prefix(limit), id: \.roleId) { role in
-                let roleStyle = WidgetStyle(snapshot: snapshot, role: role, scheme: scheme)
-                VStack(alignment: .leading, spacing: 3) {
-                    HStack {
-                        Circle().fill(roleStyle.accent).frame(width: 8, height: 8)
-                        Text(snapshot.label(role.stamina.key))
-                            .font(.system(size: 13, weight: .bold))
-                            .foregroundStyle(style.palette.text)
-                        Spacer()
-                        Text("\(role.stamina.current(at: entry.date))/\(role.stamina.max)  \(WidgetFormat.full(snapshot, role, entry.date))")
-                            .font(.system(size: 12))
-                            .foregroundStyle(style.palette.text2)
-                    }
-                    StaminaBar(
-                        progress: Double(role.stamina.current(at: entry.date))
-                            / Double(Swift.max(role.stamina.max, 1)),
-                        style: roleStyle
-                    )
+    private func small(snapshot: WidgetSnapshot, role: WidgetRole, style: WidgetStyle) -> some View {
+        HStack(spacing: 12) {
+            StaminaRing(
+                progress: WidgetFormat.progress(role.stamina, entry.date),
+                color: style.accent(for: role.game),
+                track: style.palette.track,
+                size: 44
+            )
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(alignment: .firstTextBaseline, spacing: 0) {
+                    Text("\(role.stamina.current(at: entry.date))")
+                        .font(.system(size: 20, weight: .heavy))
+                        .foregroundStyle(style.palette.text)
+                    Text("/\(role.stamina.max)")
                 }
+                Text(WidgetFormat.full(snapshot, role, entry.date))
             }
-            HStack {
-                Text(
-                    snapshot.label("checkedIn")
-                        .replacingOccurrences(of: "{done}", with: "\(snapshot.checkIn.done)")
-                        .replacingOccurrences(of: "{total}", with: "\(snapshot.checkIn.total)")
-                )
-                .font(.system(size: 12))
-                .foregroundStyle(style.palette.text2)
-                Spacer()
+            Spacer(minLength: 0)
+        }
+    }
+
+    private func medium(snapshot: WidgetSnapshot, role: WidgetRole, style: WidgetStyle) -> some View {
+        let accent = style.accent(for: role.game)
+        return VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 6) {
+                Circle().fill(accent).frame(width: 8, height: 8)
+                Text(snapshot.label("game.\(role.game)"))
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundStyle(style.palette.text)
+                Spacer(minLength: 0)
                 Button(intent: ReloadWidgetsIntent()) {
-                    Image(systemName: "arrow.clockwise")
-                        .foregroundStyle(style.palette.text2)
+                    Text(WidgetFormat.time(role.fetchedAt))
                 }
                 .buttonStyle(.plain)
             }
-        }
-        .monospacedDigit()
-    }
-
-    private func itemsList(snapshot: WidgetSnapshot, role: WidgetRole, style: WidgetStyle) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+            Spacer(minLength: 0)
+            HStack(spacing: 10) {
+                StaminaRing(
+                    progress: WidgetFormat.progress(role.stamina, entry.date),
+                    color: accent,
+                    track: style.palette.track,
+                    size: 52
+                )
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("\(role.stamina.current(at: entry.date))")
+                        .font(.system(size: 24, weight: .heavy))
+                        .foregroundStyle(style.palette.text)
+                    Text(WidgetFormat.full(snapshot, role, entry.date))
+                }
+            }
+            Spacer(minLength: 0)
             ForEach(role.items.prefix(3), id: \.key) { item in
                 HStack {
-                    Text(snapshot.label(item.key)).foregroundStyle(style.palette.text2)
-                    Spacer()
+                    Text(snapshot.label(item.key)).lineLimit(1)
+                    Spacer(minLength: 4)
                     Text(WidgetFormat.item(snapshot, item, entry.date))
                         .fontWeight(.bold)
                         .foregroundStyle(style.palette.text)
                 }
-                .font(.system(size: 12))
             }
         }
-        .monospacedDigit()
+    }
+
+    private func large(snapshot: WidgetSnapshot, style: WidgetStyle) -> some View {
+        let latest = snapshot.roles.map(\.fetchedAt).max() ?? entry.date
+        return VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text(snapshot.label("app"))
+                    .font(.system(size: 13, weight: .heavy))
+                    .foregroundStyle(style.palette.text)
+                Spacer(minLength: 0)
+                Button(intent: ReloadWidgetsIntent()) {
+                    Text(
+                        snapshot.label("updated")
+                            .replacingOccurrences(of: "{time}", with: WidgetFormat.time(latest))
+                    )
+                }
+                .buttonStyle(.plain)
+            }
+            ForEach(snapshot.roles.prefix(3), id: \.roleId) { role in
+                HStack(spacing: 8) {
+                    Circle().fill(style.accent(for: role.game)).frame(width: 8, height: 8)
+                    Text(snapshot.label("short.\(role.stamina.key)"))
+                        .fontWeight(.semibold)
+                        .foregroundStyle(style.palette.text)
+                        .frame(width: 64, alignment: .leading)
+                    StaminaBar(
+                        progress: WidgetFormat.progress(role.stamina, entry.date),
+                        color: style.accent(for: role.game),
+                        track: style.palette.track
+                    )
+                    Text("\(role.stamina.current(at: entry.date))/\(role.stamina.max)")
+                        .fontWeight(.bold)
+                        .foregroundStyle(style.palette.text)
+                }
+            }
+            Spacer(minLength: 0)
+            if snapshot.checkIn.total > 0 {
+                HStack(spacing: 6) {
+                    Image(systemName: "checkmark")
+                    Text(
+                        snapshot.label("checkedIn")
+                            .replacingOccurrences(of: "{done}", with: "\(snapshot.checkIn.done)")
+                            .replacingOccurrences(of: "{total}", with: "\(snapshot.checkIn.total)")
+                    )
+                }
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(style.palette.success)
+            }
+        }
     }
 }
 

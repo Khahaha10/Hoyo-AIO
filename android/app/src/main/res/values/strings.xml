@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="widget_empty">Open HoYo AIO to load your notes</string>
-    <string name="widget_refresh">Refresh</string>
     <string name="widget_small_description">Stamina and time until full</string>
     <string name="widget_medium_description">Stamina with three daily items</string>
     <string name="widget_large_description">Stamina for up to three games and check-in</string>

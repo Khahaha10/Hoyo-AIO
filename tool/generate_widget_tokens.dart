@@ -40,6 +40,7 @@ String _swift() {
     ..writeln('    let text: Color')
     ..writeln('    let text2: Color')
     ..writeln('    let track: Color')
+    ..writeln('    let success: Color')
     ..writeln('}')
     ..writeln()
     ..writeln('enum WidgetTokens {')
@@ -60,7 +61,8 @@ String _swift() {
       ..writeln('        border: ${_swiftColor(value['border']!)},')
       ..writeln('        text: ${_swiftColor(value['text']!)},')
       ..writeln('        text2: ${_swiftColor(value['text2']!)},')
-      ..writeln('        track: ${_swiftColor(value['track']!)}')
+      ..writeln('        track: ${_swiftColor(value['track']!)},')
+      ..writeln('        success: ${_swiftColor(value['success']!)}')
       ..writeln('    )');
   }
   buffer.writeln('    static let palettes: [String: WidgetPalette] = [');
@@ -88,6 +90,7 @@ String _kotlin() {
     ..writeln('    val text: Color,')
     ..writeln('    val text2: Color,')
     ..writeln('    val track: Color,')
+    ..writeln('    val success: Color,')
     ..writeln(')')
     ..writeln()
     ..writeln('object WidgetTokens {')
@@ -109,6 +112,7 @@ String _kotlin() {
       ..writeln('            text = ${_color(value['text']!)},')
       ..writeln('            text2 = ${_color(value['text2']!)},')
       ..writeln('            track = ${_color(value['track']!)},')
+      ..writeln('            success = ${_color(value['success']!)},')
       ..writeln('        ),');
   }
   buffer

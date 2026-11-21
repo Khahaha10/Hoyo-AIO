@@ -292,9 +292,6 @@
   "widgetsMediumContent": "Stamina + 3 item",
   "widgetsLargeContent": "Semua game",
   "widgetsNoData": "Buka Dashboard sekali agar widget punya data.",
-  "widgetsNotPlaced": "Pratinjau · belum ada di layar utama",
-  "widgetsTapToEdit": "Ketuk widget untuk mengubahnya",
-  "widgetsAdd": "Tambah Widget {size}",
   "widgetEditorTitle": "Ubah Widget",
   "widgetEditorLivePreview": "Pratinjau Langsung",
   "widgetEditorTheme": "Tema",
@@ -356,5 +353,14 @@
   "notificationChannelEventEnding": "Event Hampir Berakhir",
   "notificationChannelEventEndingDescription": "Event yang kamu minta diingatkan segera berakhir.",
   "notifyNewEventsTitle": "{count} event baru · {game}",
-  "notifyEventEndingTitle": "Event berakhir dalam sehari · {game}"
+  "notifyEventEndingTitle": "Event berakhir dalam sehari · {game}",
+  "widgetUpdated": "Diperbarui {time}",
+  "widgetAppName": "HoYo AIO",
+  "widgetShortResin": "Resin",
+  "widgetShortPower": "Power",
+  "widgetShortBattery": "Battery",
+  "widgetsAddTitle": "Tambah Widget",
+  "widgetsAddManual": "Tekan lama layar utama, pilih Widget, lalu cari HoYo AIO.",
+  "widgetItemRealm": "Realm",
+  "widgetItemCommissions": "Komisi"
 }

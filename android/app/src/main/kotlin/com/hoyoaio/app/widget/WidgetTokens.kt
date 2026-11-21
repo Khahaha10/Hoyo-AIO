@@ -8,6 +8,7 @@ data class WidgetPalette(
     val text: Color,
     val text2: Color,
     val track: Color,
+    val success: Color,
 )
 
 object WidgetTokens {
@@ -27,6 +28,7 @@ object WidgetTokens {
             text = Color(0xFF14161B),
             text2 = Color(0xFF4A5060),
             track = Color(0xFFE6E9EE),
+            success = Color(0xFF0E7A50),
         ),
         "dark" to WidgetPalette(
             background = Color(0xF0171A21),
@@ -34,6 +36,7 @@ object WidgetTokens {
             text = Color(0xFFF2F3F5),
             text2 = Color(0xFFB6BCC8),
             track = Color(0xFF262B35),
+            success = Color(0xFF46D494),
         ),
         "clear" to WidgetPalette(
             background = Color(0x47080A0E),
@@ -41,6 +44,7 @@ object WidgetTokens {
             text = Color(0xFFFFFFFF),
             text2 = Color(0xCCFFFFFF),
             track = Color(0x3DFFFFFF),
+            success = Color(0xFF6EE7B7),
         ),
     )
 }
