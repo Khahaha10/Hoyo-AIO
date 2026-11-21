@@ -96,6 +96,10 @@ void main() {
         'sg-act-nap-api.hoyolab.com',
         'sg-hk4e-api.hoyolab.com',
         'sg-public-api.hoyolab.com',
+        'bbs-api-os.hoyolab.com',
+        'public-operation-hk4e-sg.hoyoverse.com',
+        'public-operation-hkrpg-sg.hoyoverse.com',
+        'public-operation-nap-sg.hoyoverse.com',
       });
     });
 

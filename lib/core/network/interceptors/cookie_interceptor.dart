@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hoyo_aio/core/error/app_exception.dart';
+import 'package:hoyo_aio/core/hoyolab/hoyolab_config.dart';
 import 'package:hoyo_aio/core/network/hoyolab_request.dart';
 import 'package:hoyo_aio/core/network/interceptors/host_allowlist_interceptor.dart';
 
@@ -26,7 +27,8 @@ class CookieInterceptor extends Interceptor {
       );
       return;
     }
-    if (accountId == null) {
+    if (accountId == null ||
+        HoyolabConfig.gachaHosts.containsValue(options.uri.host)) {
       handler.next(options);
       return;
     }

@@ -575,3 +575,64 @@ but always prefer the max from the response. Cross-check the intervals against t
    user's HoYoLAB profile, but only after an explicit tap?
 6. **`x-rpc-app_version: 1.5.0`** (3.1): keep as is until a live call fails?
 7. **Multi-role accounts** (4.1): need a test account with two roles in one game.
+
+---
+
+## 11. Redeem codes (Phase 8) ✅ live-checked 2026-11-21
+Source: HoYoLAB game guide page ("material" modules). Public, **no cookie**.
+
+| | |
+|---|---|
+| Request | `GET https://bbs-api-os.hoyolab.com/community/painter/wapi/circle/channel/guide/material?game_id=<id>` |
+| Headers | `x-rpc-language: en-us`, `x-rpc-client_type: 4`, `Origin: https://www.hoyolab.com`, `Referer: https://www.hoyolab.com/` |
+| `game_id` | GI `2`, HSR `6`, ZZZ `8` (HI3 has no codes module here) |
+
+Response: `data.modules[]`; the codes live in the module with `module_type: 7` →
+`exchange_group.bonuses[]` (anonymized live sample, ZZZ):
+```json
+{ "exchange_code": "SUNCHASER", "code_status": "ON", "offline_at": 1795363199,
+  "icon_bonuses": [ { "bonus_num": 30000, "icon_url": "https://…webp" } ] }
+```
+- GI and HSR had **no** `module_type: 7` at check time (no active codes); absence = empty list, not an error.
+- `offline_at` = expiry (unix seconds, `0`/missing = none announced).
+- Rewards come **only as icon + number**, no item names. Icons are official art → not shown (design rule). ⚠️ VERIFY whether a name field appears for other codes; until then the app shows amounts only ("×30,000 · ×300").
+- "New" detection: diff `exchange_code` against Drift `seen_codes` (first time seen → notify once).
+- Redeem page (opened in the browser, never auto-redeemed): GI `https://genshin.hoyoverse.com/en/gift?code=<code>`, HSR `https://hsr.hoyoverse.com/gift?code=<code>`, ZZZ `https://zenless.hoyoverse.com/redemption?code=<code>` ⚠️ VERIFY (well-known official pages, not live-checked).
+
+## 12. Web events (Phase 8) ✅ live-checked 2026-11-21
+| | |
+|---|---|
+| Request | `GET https://bbs-api-os.hoyolab.com/community/community_contribution/wapi/event/list?gids=<id>&size=15` |
+| Headers / ids | same as §11 |
+
+`data.list[]` (20 items returned for each of GI / HSR / ZZZ):
+`id`, `name`, `desc`, `start`, `end` (unix seconds **as strings**), `status`, `status_int`, `type`, `banner_url` (official art → not shown), `web_path` (`/article/<id>` → open `https://www.hoyolab.com<web_path>`), `app_path`, `create_at`, `tags`.
+- Ended = `end < now` (hidden in "Running"); upcoming = `start > now`.
+- **No per-user progress or join status** in this public list → the design's "3 of 5 days" bar and "Not joined" status are not built. ⚠️ VERIFY meaning of `status` / `status_int` values.
+- "New" detection: diff `id` against Drift `seen_events`.
+
+## 13. Gacha log (wish / warp / signal, Phase 8) ⚠️ partly verified
+Auth is the **`authkey`** from the in-game history link (valid ~24 h), **never the cookie**. Hosts are on the allowlist but the cookie interceptor must not run for them.
+
+| Game | Request |
+|---|---|
+| GI | `GET https://public-operation-hk4e-sg.hoyoverse.com/gacha_info/api/getGachaLog` |
+| HSR | `GET https://public-operation-hkrpg-sg.hoyoverse.com/common/gacha_record/api/getGachaLog` (+ `game_biz=hkrpg_global`) |
+| ZZZ | `GET https://public-operation-nap-sg.hoyoverse.com/common/gacha_record/api/getGachaLog` (+ `game_biz=nap_global`) |
+
+Common params: `authkey_ver=1`, `sign_type=2`, `auth_appid=webview_gacha`, `lang=en`, `authkey=<url-encoded>`, `size=20` (max), `page`, `end_id` (id of the last record of the previous page; `0` for the first).
+Banner param: GI/HSR `gacha_type`, ZZZ `real_gacha_type`.
+
+| Game | Banner types |
+|---|---|
+| GI | `301` character event (also returns `400`), `302` weapon, `500` chronicled, `200` standard, `100` beginner |
+| HSR | `11` character event, `12` light cone event, `1` standard, `2` departure |
+| ZZZ | `2` exclusive (agent), `3` W-engine, `1` standard, `5` Bangboo |
+
+Expected `data.list[]` item: `uid`, `gacha_type`, `item_id`, `name`, `item_type`, `rank_type` (`"3"|"4"|"5"`), `time` (`"YYYY-MM-DD HH:mm:ss"`, server time), `id` (string, sortable). Newest first.
+
+- **Live check 2026-11-21:** all three hosts answer. A dummy authkey gives `{"retcode":-100,"message":"authkey error"}` (GI, HSR) and `retcode -1` "illegal base64…" (ZZZ). Host, path and error shape confirmed; a **real** response needs the owner's link ⚠️ VERIFY in 8.4.
+- Retcodes ⚠️ VERIFY: `-100` authkey error, `-101` authkey timeout (expired → ask for a new link), `-110` visit too frequently (back off; keep ≥ 300 ms between pages).
+- Getting the link: open the history screen in game, then copy the URL that contains `authkey=` (PC: the game's web cache file; mobile: no simple way). Exact steps per platform ⚠️ VERIFY with the owner.
+- HI3: no public gacha log → not supported.
+- Record `time` is server time; GI global servers use the region's offset ⚠️ VERIFY before computing local dates.

@@ -31,13 +31,48 @@ abstract final class HoyolabConfig {
   static const zzzRecordHost = 'sg-act-nap-api.hoyolab.com';
   static const genshinEventHost = 'sg-hk4e-api.hoyolab.com';
   static const publicEventHost = 'sg-public-api.hoyolab.com';
+  static const communityHost = 'bbs-api-os.hoyolab.com';
+  static const gachaHosts = <Game, String>{
+    Game.genshin: 'public-operation-hk4e-sg.hoyoverse.com',
+    Game.starRail: 'public-operation-hkrpg-sg.hoyoverse.com',
+    Game.zzz: 'public-operation-nap-sg.hoyoverse.com',
+  };
 
-  static const allowedHosts = {
+  static final allowedHosts = {
     gameRecordHost,
     zzzRecordHost,
     genshinEventHost,
     publicEventHost,
+    communityHost,
+    ...gachaHosts.values,
   };
+
+  static const communityGameIds = <Game, int>{
+    Game.genshin: 2,
+    Game.starRail: 6,
+    Game.zzz: 8,
+  };
+  static const codesPath =
+      '/community/painter/wapi/circle/channel/guide/material';
+  static const codesModuleType = 7;
+  static const eventsPath = '/community/community_contribution/wapi/event/list';
+  static const eventsPageSize = 15;
+  static const hoyolabWebUrl = 'https://www.hoyolab.com';
+  static const redeemUrls = <Game, String>{
+    Game.genshin: 'https://genshin.hoyoverse.com/en/gift?code=',
+    Game.starRail: 'https://hsr.hoyoverse.com/gift?code=',
+    Game.zzz: 'https://zenless.hoyoverse.com/redemption?code=',
+  };
+  static const gachaPaths = <Game, String>{
+    Game.genshin: '/gacha_info/api/getGachaLog',
+    Game.starRail: '/common/gacha_record/api/getGachaLog',
+    Game.zzz: '/common/gacha_record/api/getGachaLog',
+  };
+  static const gachaGameBiz = <Game, String>{
+    Game.starRail: 'hkrpg_global',
+    Game.zzz: 'nap_global',
+  };
+  static const gachaPageSize = 20;
 
   static const webViewHosts = {
     'm.hoyolab.com',
