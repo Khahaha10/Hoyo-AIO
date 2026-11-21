@@ -350,6 +350,7 @@ Mapping to the design (Phase 4):
   (reference: `1` = today; other values unknown, likely `2` = tomorrow).
 - ⚠️ VERIFY: `bounty_commission`, `survey_points`, `weekly_task`, `member_card` are nullable
   (missing for low-level accounts). Hide the tile when null.
+- Live (2026-11-21, owner account, IK 42): `bounty_commission` came back as `{num: 0, total: 0}` and `weekly_task` was absent. The app treats `total`/`max_point` of 0 the same as missing and hides the tile/row.
 - ⚠️ VERIFY: design rows "Coffee Shop" and "Hollow Zero" map to `cafe_state` /
   `survey_points` at best; semantics unknown. Show only fields we understand.
 

@@ -14,6 +14,8 @@ import 'package:hoyo_aio/features/dashboard/domain/game_note.dart';
 import 'package:hoyo_aio/features/dashboard/domain/note_result.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_format.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/game_layouts/genshin_layout.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/game_layouts/star_rail_layout.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/game_layouts/zzz_layout.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/providers/notes_provider.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/dashboard_header.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/role_switcher_sheet.dart';
@@ -150,9 +152,15 @@ class _NoteContent extends StatelessWidget {
       now: now,
       isStale: result.isStale,
     ),
-    StarRailNote() || ZzzNote() => Text(
-      context.l10n.placeholderComingSoon,
-      style: AppTextStyles.bodyM.copyWith(color: context.colors.text2),
+    final StarRailNote note => StarRailLayout(
+      note: note,
+      now: now,
+      isStale: result.isStale,
+    ),
+    final ZzzNote note => ZzzLayout(
+      note: note,
+      now: now,
+      isStale: result.isStale,
     ),
   };
 }

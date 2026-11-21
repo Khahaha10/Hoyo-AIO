@@ -28,9 +28,10 @@ class SelectedRoleId extends _$SelectedRoleId {
   void select(int roleId) => state = roleId;
 
   void selectGame(Game game) {
-    final current = ref.read(selectedRoleProvider);
+    final roles = ref.read(dashboardRolesProvider);
+    final current = _resolve(roles, state);
     final candidates = [
-      for (final role in ref.read(dashboardRolesProvider))
+      for (final role in roles)
         if (role.game == game) role,
     ];
     final match =
@@ -45,7 +46,8 @@ class SelectedRoleId extends _$SelectedRoleId {
 @Riverpod(keepAlive: true)
 SavedRole? selectedRole(Ref ref) {
   final roles = ref.watch(dashboardRolesProvider);
-  final chosen = ref.watch(selectedRoleIdProvider);
-  return roles.where((role) => role.id == chosen).firstOrNull ??
-      roles.firstOrNull;
+  return _resolve(roles, ref.watch(selectedRoleIdProvider));
 }
+
+SavedRole? _resolve(List<SavedRole> roles, int? chosen) =>
+    roles.where((role) => role.id == chosen).firstOrNull ?? roles.firstOrNull;

@@ -5,9 +5,9 @@ import 'package:hoyo_aio/core/hoyolab/hoyolab_config.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/dashboard/domain/game_note.dart';
 import 'package:hoyo_aio/features/dashboard/domain/stamina.dart';
-import 'package:hoyo_aio/features/dashboard/domain/task_progress.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_format.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/expedition_list_card.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/widgets/progress_tile.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/stamina_card.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/tile_grid.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -43,7 +43,8 @@ class GenshinLayout extends StatelessWidget {
           isStale: isStale,
           tiles: [
             _realmCurrency(l10n),
-            _progressTile(
+            progressTile(
+              game: Game.genshin,
               icon: LucideIcons.listChecks,
               label: l10n.genshinCommissions,
               progress: note.commissions,
@@ -52,7 +53,8 @@ class GenshinLayout extends StatelessWidget {
                   : l10n.dashboardBonusUnclaimed,
               l10n: l10n,
             ),
-            _progressTile(
+            progressTile(
+              game: Game.genshin,
               icon: LucideIcons.target,
               label: l10n.genshinWeeklyBosses,
               progress: note.weeklyBossDiscountsLeft,
@@ -89,22 +91,6 @@ class GenshinLayout extends StatelessWidget {
           : l10n.dashboardFullIn(l10n.duration(coins.fullAt.difference(now))),
     );
   }
-
-  StatTile _progressTile({
-    required IconData icon,
-    required String label,
-    required TaskProgress progress,
-    required String note,
-    required AppLocalizations l10n,
-  }) => StatTile(
-    game: Game.genshin,
-    icon: icon,
-    label: label,
-    value: l10n.number(progress.done),
-    suffix: '/${l10n.number(progress.total)}',
-    progress: progress.total <= 0 ? null : progress.done / progress.total,
-    note: note,
-  );
 
   StatTile _transformer(AppLocalizations l10n) {
     final readyAt = note.transformerReadyAt;

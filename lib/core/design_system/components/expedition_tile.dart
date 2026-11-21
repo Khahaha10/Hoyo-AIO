@@ -15,6 +15,7 @@ class ExpeditionTile extends StatelessWidget {
     required this.trailingText,
     required this.isDone,
     required this.doneLabel,
+    this.showClock = true,
     super.key,
   });
 
@@ -27,6 +28,7 @@ class ExpeditionTile extends StatelessWidget {
   final String trailingText;
   final bool isDone;
   final String doneLabel;
+  final bool showClock;
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +94,12 @@ class ExpeditionTile extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 spacing: AppSpacing.s4,
                 children: [
-                  AppIcon(
-                    LucideIcons.clock,
-                    size: AppIconSize.badge,
-                    color: colors.text3,
-                  ),
+                  if (showClock)
+                    AppIcon(
+                      LucideIcons.clock,
+                      size: AppIconSize.badge,
+                      color: colors.text3,
+                    ),
                   Text(
                     trailingText,
                     style: AppTextStyles.tabular(AppTextStyles.chip)

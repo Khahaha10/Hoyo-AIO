@@ -406,5 +406,35 @@
         "type": "int"
       }
     }
-  }
+  },
+  "starRailTrailblazePower": "Trailblaze Power",
+  "starRailDailyTraining": "Daily Training",
+  "starRailEchoOfWar": "Echo of War",
+  "starRailReservedPower": "Reserved Power",
+  "starRailSimulatedUniverse": "Sim. Universe",
+  "starRailAssignments": "Assignments",
+  "starRailAssignmentName": "Assignment {number}",
+  "@starRailAssignmentName": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "zzzBattery": "Battery Charge",
+  "zzzEngagement": "Engagement",
+  "zzzScratchCard": "Scratch Card",
+  "zzzVideoStore": "Video Store",
+  "zzzBountyCommission": "Bounty Comm.",
+  "zzzWeeklyProgress": "Weekly Progress",
+  "zzzRiduWeekly": "Ridu Weekly",
+  "zzzBountyCommissionFull": "Bounty Commission",
+  "zzzVideoStoreClosed": "Closed",
+  "zzzVideoStoreOpen": "Open",
+  "zzzVideoStoreRevenue": "Revenue ready",
+  "dashboardRewardsLeft": "Rewards left",
+  "dashboardToday": "Today",
+  "dashboardThisWeek": "This week",
+  "dashboardNotDone": "Not done",
+  "dashboardPoints": "Points"
 }

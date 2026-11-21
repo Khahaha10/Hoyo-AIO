@@ -125,12 +125,15 @@ abstract final class NotesMapper {
       _ => VideoStoreState.closed,
     },
     bountyCommission: switch (dto.bountyCommission) {
-      final b? => TaskProgress(done: b.num, total: b.total),
-      null => null,
+      final b? when b.total > 0 => TaskProgress(done: b.num, total: b.total),
+      _ => null,
     },
     weeklyProgress: switch (dto.weeklyTask) {
-      final w? => TaskProgress(done: w.curPoint, total: w.maxPoint),
-      null => null,
+      final w? when w.maxPoint > 0 => TaskProgress(
+        done: w.curPoint,
+        total: w.maxPoint,
+      ),
+      _ => null,
     },
   );
 
