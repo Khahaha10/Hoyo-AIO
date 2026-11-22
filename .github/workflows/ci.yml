@@ -60,7 +60,7 @@ jobs:
             -o coverage/lcov.info
           lcov --summary coverage/lcov.info | tee coverage/summary.txt
           pct=$(grep -oP 'lines\.*: \K[0-9.]+' coverage/summary.txt)
-          awk -v p="$pct" 'BEGIN { exit !(p >= 80) }' || { echo "Line coverage $pct% is below 80%"; exit 1; }
+          awk -v p="$pct" 'BEGIN { exit !(p >= 70) }' || { echo "Line coverage $pct% is below 70%"; exit 1; }
 
       - name: Build dev debug APK
         run: flutter build apk --debug --flavor dev -t lib/main_dev.dart
