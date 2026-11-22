@@ -641,9 +641,9 @@ Expected `data.list[]` item: `uid`, `gacha_type`, `item_id`, `name`, `item_type`
 
 ---
 
-## 14. Battle Chronicle (Phase 11) ⚠️ paths from the reference client, live samples pending
+## 14. Battle Chronicle (Phase 11) ✅ live-checked 2026-11-22 (owner's account), gaps marked
 
-Source for **paths and parameters only** (no code copied): the community client `thesadru/genshin.py`, `genshin/client/components/chronicle/{genshin,starrail,zzz}.py` (checked 2026-11-22). Everything below is `⚠️ VERIFY` until a live response from the owner's account is recorded here (run **Settings › Chronicle Probe** in the dev build; output file `chronicle_probe.json`, IDs and names masked).
+Source for **paths and parameters only** (no code copied): the community client `thesadru/genshin.py`, `genshin/client/components/chronicle/{genshin,starrail,zzz}.py` (checked 2026-11-22). Live check: **Settings › Chronicle Probe** in the dev build called every endpoint with the stored cookie; all returned `retcode 0` with the existing headers (DS on GI / HSR, none on ZZZ). Output stays in the app cache (`chronicle_probe.json`, IDs and names masked, lists trimmed to 2 items). The field lists below are what those responses contained; ⚠️ marks what they could not show.
 
 Common to every request: query `role_id=<role uid>&server=<role server>`, cookie of the account, language header `en-us`. GI / HSR hosts and headers = notes (§4, `HeaderProfile.gameRecord`, with DS); ZZZ = `zzzRecordHost` with `HeaderProfile.zzzNotes` (no DS). Hosts stay on the existing allowlist. Config: `HoyolabConfig.chronicleEndpoints`.
 
@@ -651,6 +651,7 @@ Common to every request: query `role_id=<role uid>&server=<role server>`, cookie
 |---|---|---|---|
 | `gi.index` | GET `/game_record/genshin/api/index` | `avatar_list_type=0` | summary: stats (active days, achievements, characters, chests, waypoints, domains), world exploration |
 | `gi.characters` | POST `/game_record/genshin/api/character/list` | body `{role_id, server}` | roster incl. weapon, constellations, relics |
+| `gi.characterDetail` | POST `/game_record/genshin/api/character/detail` | body `character_ids: [id]` | one character with relics incl. `set` (artifact sets); needed only for the detail sheet |
 | `gi.abyss.current` / `.previous` | GET `/game_record/genshin/api/spiralAbyss` | `schedule_type=1` / `2` | |
 | `gi.theater` | GET `/game_record/genshin/api/role_combat` | `need_detail=true` | Imaginarium Theater; one call returns recent runs |
 | `gi.onslaught` | GET `/game_record/genshin/api/hard_challenge` | `need_detail=true` | Stygian Onslaught |
@@ -667,10 +668,47 @@ Common to every request: query `role_id=<role uid>&server=<role server>`, cookie
 | `zzz.shiyu.current` / `.previous` | GET `/event/game_record_zzz/api/zzz/hadal_info_v2` | `schedule_type=1` / `2` | Shiyu Defense; response has `hadal_ver` (`v1` or `v2`) |
 | `zzz.assault.current` / `.previous` | GET `/event/game_record_zzz/api/zzz/hadal_mem_detail_v2` | **`uid` + `region`** instead of `role_id` + `server`; `schedule_type=1` / `2` | Deadly Assault |
 
-Open points for the live check (fill in, with samples):
+### 14.1 Findings (all values from the live response)
 
-- [ ] Does every endpoint answer with the existing headers (DS on GI / HSR, none on ZZZ)? Which retcode does a **private** chronicle give (expected `10102` "Data is not public for the user")?
-- [ ] Field names for: character list (rarity, level, constellation / eidolon / mindscape, element / path / attribute, weapon / light cone / W-Engine incl. refinement / superimposition / phase, friendship, relic / artifact / drive disc sets with piece counts), endgame floors / nodes / lineups / stars / score, `begin_time` / `end_time` (time zone) for reset countdowns.
-- [ ] Image host names of the returned icon URLs (to add to the image allowlist, D12) and whether they need no cookie.
-- [ ] HSR Anomaly Arbitration: shape of `challenge_peak` for `schedule_type` 1 vs 3.
-- [ ] Which design fields are **not** returned (design rule: hide them, never show empty).
+**Images.** Every icon URL is on `act-webstatic.hoyoverse.com` (character `icon` / `side_icon` / `image` / `card_image`, `weapon.icon`, relic `icon`, ZZZ `role_square_url`, `bangboo_square_url`, HSR `icon` / `figure_path`, endgame `avatar_icon`). Public CDN, no cookie needed; add this host to the image allowlist (D12) and never send the cookie to it.
+
+**Time.** GI Spiral Abyss, Stygian Onslaught and Imaginarium Theater `schedule` give epoch seconds as strings (`start_time`, `end_time`). HSR (`begin_time` / `end_time` / `challenge_time`) and ZZZ (`hadal_begin_time`, `start_time`, `end_time`) give `{year, month, day, hour, minute[, second]}` in **server time**; ZZZ Shiyu also has epoch strings `begin_time` / `end_time`. Convert server time with the role's region offset (Asia / TW-HK-MO UTC+8, America UTC-5, Europe UTC+1, same table as the check-in reset). HSR Arbitration `group.status` is unreliable ("End" for a run whose dates include today): decide running / ended from the dates and the clock.
+
+**Enums.** HSR `element` is a word (`lightning`, `quantum`, `wind`, `ice`, `imaginary`, `fire`, `physical`); HSR path is `base_type` (number, mapping ⚠️). ZZZ `element_type` is a number (`202` ice, `205` ether seen; fire / electric / physical assumed `201` / `203` / `200` ⚠️), `avatar_profession` is a number (`2`, `4` seen), `rarity` is `"S"` / `"A"`. GI `element` is a word, `weapon_type` a number.
+
+**Summary (`index`).**
+
+| Game | Fields |
+|---|---|
+| GI | `stats.active_day_number`, `achievement_number`, `avatar_number`, `way_point_number`, `domain_number`, `spiral_abyss` (`"12-3"`), chests `common_chest_number` / `exquisite_` / `precious_` / `luxurious_` / `magic_chest_number` (design "Chests" = sum of the first four ⚠️ confirm with the owner), `full_fetter_avatar_num`; `avatars[]` (92) with `fetter`, `actived_constellation_num`, `rarity`, `level`, `element`, `icon` / `image`; `world_explorations[]`, `homes[]` |
+| HSR | `stats.active_days`, `avatar_num`, `achievement_num`, `chest_num`, `abyss_process` (text), `dream_paster_num`, `pet_num`; `avatar_list[]` (61) with `rank` (eidolon), `rarity`, `equip` (light cone: `name`, `level`, `rank` = superimposition, `rarity`, `icon`) |
+| ZZZ | `stats.active_days`, `avatar_num`, `buddy_num` (Bangboo), `achievement_count`, `world_level_name`, `hadal_brief`; `avatar_list[]` here is partial (9 of 14): use `avatar/basic` for the roster |
+
+**Roster.**
+
+- GI `character/list` (`list[]`): `id`, `name`, `element`, `level`, `rarity`, `fetter` (friendship), `actived_constellation_num`, `icon`, `side_icon`, `image`, `weapon_type`, `weapon{id, name, icon, type, rarity, level, affix_level}`. No relics here or in `index`. Artifact sets come from `character/detail` (`list[0].relics[]` with `set.id`, `set.name`, `set.affixes[].activation_number`; piece count = relics sharing `set.id`; the same call has `weapon.type_name` and `weapon.promote_level`).
+- HSR `avatar/info` (`avatar_list[]`, 61): `id`, `name`, `level`, `rarity`, `rank`, `element`, `base_type`, `icon`, `image`, `equip{name, level, rank, rarity, icon}`, `relics[]` / `ornaments[]` (`name`, `level`, `pos`, `rarity`, `icon`, `main_property`, `properties`), `ranks[]` (`is_unlocked`), `skills[]`. **No relic set name** (only piece names) ⚠️: the Relics list can show pieces, not sets. 52 KB for 61 characters: fetch once, cache.
+- ZZZ `avatar/basic` (`avatar_list[]`, 14): `id`, `name_mi18n`, `full_name_mi18n`, `level`, `rarity` (`S` / `A`), `element_type`, `avatar_profession`, `camp_name_mi18n`, `rank` (mindscape), `role_square_url`, `is_chosen`. `avatar/info` (one agent per call): `weapon{name, level, star (phase), rarity, icon}`, `equip[]` drive discs with `equip_suit{name, own}` (set + piece count), `ranks[]`. **No friendship**.
+- ZZZ `buddy/info` (`list[]`): `id`, `name`, `rarity`, `level`, `star`, `bangboo_square_url`.
+
+**Endgame.**
+
+| Mode | Data seen |
+|---|---|
+| GI Spiral Abyss (`spiralAbyss`, current and previous, same shape) | `schedule_id`, `start_time`, `end_time`, `total_star`, `max_floor`, `total_battle_times`, `total_win_times`, `floors[]` (`index`, `star`, `max_star`, `levels[]{index, star, max_star, battles[]{index, avatars[]{id, icon, level, rarity}}}`); highlights `reveal_rank` (Most Used, `value` = battles), `defeat_rank`, `damage_rank` (strongest single strike), `take_damage_rank`, `normal_skill_rank` (skills cast), `energy_skill_rank` (bursts); each item `{avatar_id, avatar_icon, value, rarity}`. Only unlocked floors are listed (2 of 4 here) |
+| GI Imaginarium Theater (`role_combat`) | `data[]` = runs (2: current + previous); each `schedule{start_time, end_time}`, `stat{difficulty_id, max_round_id, medal_num, coin_num, avatar_bonus_num, tarot_finished_cnt}`, `detail.rounds_data[]` (acts: `round_id`, `is_get_medal`, `finish_time`, `avatars[]{avatar_id, name, element}`, `splendour_buff`), `detail.fight_statisic` (`total_use_time`, max damage / defeat / damage taken avatar), `detail.backup_avatars[]`. Unit of `total_use_time` and meaning of "Fantasia" ⚠️ |
+| GI Stygian Onslaught (`hard_challenge`) | `data[]` = schedules (2); `schedule{name, start_time, end_time}`, `single.best{difficulty, second}`, `single.challenge[]{name, second, teams[]{avatar_id, name, element, level, rarity, rank}, best_avatar[]{avatar_id, side_icon, dps}, monster{name, level, desc}}` |
+| HSR Memory of Chaos (`challenge`) | `schedule_id`, `begin_time`, `end_time`, `star_num`, `max_floor`, `battle_num`, `groups[]`, `all_floor_detail[]{name, round_num, star_num, node_1 / node_2 / node_3{challenge_time, avatars[]{id, level, rarity, element, rank}}, is_chaos, extra_star_num, is_tierce}` |
+| HSR Pure Fiction (`challenge_story`) | same shell; each node has `avatars[]`, `buff{id, name_mi18n}`, `score`; `star_num`, `max_floor` |
+| HSR Apocalyptic Shadow (`challenge_boss`) | same shell; `groups[]{name_mi18n, upper_boss, lower_boss, tierce_boss}`, nodes with `buff`, `score`, `boss_defeated`; `star_num` is a string per floor |
+| HSR Anomaly Arbitration (`challenge_peak`) | `challenge_peak_records[]` (1 for `schedule_type=1`, 3 for `3`): `group{group_id, name_mi18n ("Hidden Stage"), begin_time, end_time, game_version, status}`, `boss_info`, `mob_infos[]`, `battle_num`, `boss_record{star_num, hard_mode, avatars[], buff, challenge_peak_rank_icon}`, `mob_records[]{star_num, avatars[], challenge_time}`; top level also `challenge_peak_best_record_brief` |
+| ZZZ Shiyu Defense (`hadal_info_v2`) | shell only: `hadal_ver` (`v2`), `hadal_info_v2{zone_id, hadal_begin_time, hadal_end_time, begin_time, end_time (epoch strings), pass_fifth_floor, brief (null), fitfh_layer_detail, fourth_layer_detail}`. ⚠️ **No floor data seen**: the owner's ZZZ account has not played it |
+| ZZZ Deadly Assault (`hadal_mem_detail_v2`) | shell only: `start_time`, `end_time`, `has_data` (false), `list[]` (empty), `total_score`, `total_star`, `total_max_score`, `has_hard`, `hard_list[]`. ⚠️ Same: no boss data seen |
+
+**Not verified / still open**
+
+- [ ] Private chronicle retcode: the owner's chronicle is public, so `10102` ("data not public") is **not** observed ⚠️. 11.2 must treat a non-zero `ServerException` on these endpoints as "maybe private" and only offer `changeDataSwitch` (§4) after the user taps.
+- [ ] ZZZ Shiyu Defense floors and Deadly Assault bosses: structure unknown until an account with progress is probed. Parse leniently, hide when missing.
+- [ ] HSR path names from `base_type`, ZZZ element codes beyond `202` / `205`.
+- [ ] Theater "Fantasia" and battle-time units; GI "Chests" definition.
+- [ ] Design fields the API does not return: HSR relic **set names** (pieces only), ZZZ **friendship** (already hidden in the design).
