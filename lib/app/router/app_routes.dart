@@ -34,8 +34,9 @@ abstract final class AppRoutes {
       '$widgetEditorPath?$widgetIdParam=$widgetId&$widgetSizeParam=${size.name}';
   static const gallery = '/gallery';
   static const apiDebug = '/debug/api';
+  static const chronicleProbe = '/debug/chronicle';
 
-  static const devTools = {gallery, apiDebug};
+  static const devTools = {gallery, apiDebug, chronicleProbe};
   static const entryFlow = {splash, onboarding, addAccount};
 
   static const gameParam = 'game';

@@ -26,6 +26,28 @@ class CheckInEndpoint {
   Uri get awardUri => Uri.https(host, '$basePath/award');
 }
 
+enum ChronicleMethod { get, post }
+
+class ChronicleEndpoint {
+  const ChronicleEndpoint({
+    required this.key,
+    required this.game,
+    required this.path,
+    this.method = ChronicleMethod.get,
+    this.params = const {},
+    this.uidRegionParams = false,
+    this.needsAgentId = false,
+  });
+
+  final String key;
+  final Game game;
+  final String path;
+  final ChronicleMethod method;
+  final Map<String, String> params;
+  final bool uidRegionParams;
+  final bool needsAgentId;
+}
+
 abstract final class HoyolabConfig {
   static const gameRecordHost = 'bbs-api-os.hoyoverse.com';
   static const zzzRecordHost = 'sg-act-nap-api.hoyolab.com';
@@ -200,6 +222,144 @@ abstract final class HoyolabConfig {
   static const genshinNotePath = '/game_record/genshin/api/dailyNote';
   static const starRailNotePath = '/game_record/hkrpg/api/note';
   static const zzzNotePath = '/event/game_record_zzz/api/zzz/note';
+
+  static const chronicleEndpoints = <ChronicleEndpoint>[
+    ChronicleEndpoint(
+      key: 'gi.index',
+      game: Game.genshin,
+      path: '/game_record/genshin/api/index',
+      params: {'avatar_list_type': '0'},
+    ),
+    ChronicleEndpoint(
+      key: 'gi.characters',
+      game: Game.genshin,
+      path: '/game_record/genshin/api/character/list',
+      method: ChronicleMethod.post,
+    ),
+    ChronicleEndpoint(
+      key: 'gi.abyss.current',
+      game: Game.genshin,
+      path: '/game_record/genshin/api/spiralAbyss',
+      params: {'schedule_type': '1'},
+    ),
+    ChronicleEndpoint(
+      key: 'gi.abyss.previous',
+      game: Game.genshin,
+      path: '/game_record/genshin/api/spiralAbyss',
+      params: {'schedule_type': '2'},
+    ),
+    ChronicleEndpoint(
+      key: 'gi.theater',
+      game: Game.genshin,
+      path: '/game_record/genshin/api/role_combat',
+      params: {'need_detail': 'true'},
+    ),
+    ChronicleEndpoint(
+      key: 'gi.onslaught',
+      game: Game.genshin,
+      path: '/game_record/genshin/api/hard_challenge',
+      params: {'need_detail': 'true'},
+    ),
+    ChronicleEndpoint(
+      key: 'hsr.index',
+      game: Game.starRail,
+      path: '/game_record/hkrpg/api/index',
+    ),
+    ChronicleEndpoint(
+      key: 'hsr.basicInfo',
+      game: Game.starRail,
+      path: '/game_record/hkrpg/api/role/basicInfo',
+    ),
+    ChronicleEndpoint(
+      key: 'hsr.characters',
+      game: Game.starRail,
+      path: '/game_record/hkrpg/api/avatar/info',
+      params: {'need_wiki': 'true'},
+    ),
+    ChronicleEndpoint(
+      key: 'hsr.chaos.current',
+      game: Game.starRail,
+      path: '/game_record/hkrpg/api/challenge',
+      params: {'schedule_type': '1', 'need_all': 'true'},
+    ),
+    ChronicleEndpoint(
+      key: 'hsr.chaos.previous',
+      game: Game.starRail,
+      path: '/game_record/hkrpg/api/challenge',
+      params: {'schedule_type': '2', 'need_all': 'true'},
+    ),
+    ChronicleEndpoint(
+      key: 'hsr.fiction.current',
+      game: Game.starRail,
+      path: '/game_record/hkrpg/api/challenge_story',
+      params: {'schedule_type': '1', 'need_all': 'true'},
+    ),
+    ChronicleEndpoint(
+      key: 'hsr.shadow.current',
+      game: Game.starRail,
+      path: '/game_record/hkrpg/api/challenge_boss',
+      params: {'schedule_type': '1', 'need_all': 'true'},
+    ),
+    ChronicleEndpoint(
+      key: 'hsr.arbitration.current',
+      game: Game.starRail,
+      path: '/game_record/hkrpg/api/challenge_peak',
+      params: {'schedule_type': '1'},
+    ),
+    ChronicleEndpoint(
+      key: 'hsr.arbitration.recent',
+      game: Game.starRail,
+      path: '/game_record/hkrpg/api/challenge_peak',
+      params: {'schedule_type': '3'},
+    ),
+    ChronicleEndpoint(
+      key: 'zzz.index',
+      game: Game.zzz,
+      path: '/event/game_record_zzz/api/zzz/index',
+    ),
+    ChronicleEndpoint(
+      key: 'zzz.agents',
+      game: Game.zzz,
+      path: '/event/game_record_zzz/api/zzz/avatar/basic',
+    ),
+    ChronicleEndpoint(
+      key: 'zzz.agentDetail',
+      game: Game.zzz,
+      path: '/event/game_record_zzz/api/zzz/avatar/info',
+      needsAgentId: true,
+    ),
+    ChronicleEndpoint(
+      key: 'zzz.bangboo',
+      game: Game.zzz,
+      path: '/event/game_record_zzz/api/zzz/buddy/info',
+    ),
+    ChronicleEndpoint(
+      key: 'zzz.shiyu.current',
+      game: Game.zzz,
+      path: '/event/game_record_zzz/api/zzz/hadal_info_v2',
+      params: {'schedule_type': '1'},
+    ),
+    ChronicleEndpoint(
+      key: 'zzz.shiyu.previous',
+      game: Game.zzz,
+      path: '/event/game_record_zzz/api/zzz/hadal_info_v2',
+      params: {'schedule_type': '2'},
+    ),
+    ChronicleEndpoint(
+      key: 'zzz.assault.current',
+      game: Game.zzz,
+      path: '/event/game_record_zzz/api/zzz/hadal_mem_detail_v2',
+      params: {'schedule_type': '1'},
+      uidRegionParams: true,
+    ),
+    ChronicleEndpoint(
+      key: 'zzz.assault.previous',
+      game: Game.zzz,
+      path: '/event/game_record_zzz/api/zzz/hadal_mem_detail_v2',
+      params: {'schedule_type': '2'},
+      uidRegionParams: true,
+    ),
+  ];
 
   static const checkIn = <Game, CheckInEndpoint>{
     Game.genshin: CheckInEndpoint(

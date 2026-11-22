@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hoyo_aio/app/app_settings_provider.dart';
+import 'package:hoyo_aio/app/flavor_provider.dart';
 import 'package:hoyo_aio/app/router/app_routes.dart';
 import 'package:hoyo_aio/core/design_system/components/app_badge.dart';
 import 'package:hoyo_aio/core/design_system/components/settings_row.dart';
@@ -94,6 +95,12 @@ class SettingsScreen extends ConsumerWidget {
                 ),
               ),
               const BackupRow(),
+              if (ref.watch(flavorProvider).galleryEnabled)
+                SettingsRow(
+                  icon: LucideIcons.flaskConical,
+                  title: 'Chronicle Probe',
+                  onTap: () => context.push(AppRoutes.chronicleProbe),
+                ),
             ],
           ),
           _SectionLabel(l10n.settingsAboutSection),

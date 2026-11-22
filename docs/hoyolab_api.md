@@ -638,3 +638,39 @@ Expected `data.list[]` item: `uid`, `gacha_type`, `item_id`, `name`, `item_type`
 - Record `time` is server time; GI global servers use the region's offset ⚠️ VERIFY before computing local dates.
 
 - **50/50 (app logic):** on the limited character banners (GI `301`, HSR `11`, ZZZ `2`) a 5★ whose name is in `HoyolabConfig.gachaStandardPool` counts as a lost 50/50; the next 5★ is "guaranteed". The standard-pool lists are hand-kept ⚠️ VERIFY after every version that adds a standard character (GI's "Capturing Radiance" is not modelled).
+
+---
+
+## 14. Battle Chronicle (Phase 11) ⚠️ paths from the reference client, live samples pending
+
+Source for **paths and parameters only** (no code copied): the community client `thesadru/genshin.py`, `genshin/client/components/chronicle/{genshin,starrail,zzz}.py` (checked 2026-11-22). Everything below is `⚠️ VERIFY` until a live response from the owner's account is recorded here (run **Settings › Chronicle Probe** in the dev build; output file `chronicle_probe.json`, IDs and names masked).
+
+Common to every request: query `role_id=<role uid>&server=<role server>`, cookie of the account, language header `en-us`. GI / HSR hosts and headers = notes (§4, `HeaderProfile.gameRecord`, with DS); ZZZ = `zzzRecordHost` with `HeaderProfile.zzzNotes` (no DS). Hosts stay on the existing allowlist. Config: `HoyolabConfig.chronicleEndpoints`.
+
+| Key | Method + path (after the game prefix) | Extra params | Notes |
+|---|---|---|---|
+| `gi.index` | GET `/game_record/genshin/api/index` | `avatar_list_type=0` | summary: stats (active days, achievements, characters, chests, waypoints, domains), world exploration |
+| `gi.characters` | POST `/game_record/genshin/api/character/list` | body `{role_id, server}` | roster incl. weapon, constellations, relics |
+| `gi.abyss.current` / `.previous` | GET `/game_record/genshin/api/spiralAbyss` | `schedule_type=1` / `2` | |
+| `gi.theater` | GET `/game_record/genshin/api/role_combat` | `need_detail=true` | Imaginarium Theater; one call returns recent runs |
+| `gi.onslaught` | GET `/game_record/genshin/api/hard_challenge` | `need_detail=true` | Stygian Onslaught |
+| `hsr.index` / `hsr.basicInfo` | GET `/game_record/hkrpg/api/index`, `/role/basicInfo` | | summary |
+| `hsr.characters` | GET `/game_record/hkrpg/api/avatar/info` | `need_wiki=true` | roster (eidolon, light cone, relics) |
+| `hsr.chaos.current` / `.previous` | GET `/game_record/hkrpg/api/challenge` | `schedule_type=1` / `2`, `need_all=true` | Memory of Chaos |
+| `hsr.fiction.current` | GET `/game_record/hkrpg/api/challenge_story` | `schedule_type=1`, `need_all=true` | Pure Fiction |
+| `hsr.shadow.current` | GET `/game_record/hkrpg/api/challenge_boss` | `schedule_type=1`, `need_all=true` | Apocalyptic Shadow |
+| `hsr.arbitration.current` / `.recent` | GET `/game_record/hkrpg/api/challenge_peak` | `schedule_type=1` (current run) / `3` (three most recent runs) | Anomaly Arbitration. The client notes the API changed on 2026-04-24; the `previous` toggle in the design maps to the recent-runs call |
+| `zzz.index` | GET `/event/game_record_zzz/api/zzz/index` | | summary |
+| `zzz.agents` | GET `/event/game_record_zzz/api/zzz/avatar/basic` | | agent list (rank S / A, mindscape, element) |
+| `zzz.agentDetail` | GET `/event/game_record_zzz/api/zzz/avatar/info` | `id_list[]=<agent id>` | W-Engine, drive discs; one agent per call |
+| `zzz.bangboo` | GET `/event/game_record_zzz/api/zzz/buddy/info` | | |
+| `zzz.shiyu.current` / `.previous` | GET `/event/game_record_zzz/api/zzz/hadal_info_v2` | `schedule_type=1` / `2` | Shiyu Defense; response has `hadal_ver` (`v1` or `v2`) |
+| `zzz.assault.current` / `.previous` | GET `/event/game_record_zzz/api/zzz/hadal_mem_detail_v2` | **`uid` + `region`** instead of `role_id` + `server`; `schedule_type=1` / `2` | Deadly Assault |
+
+Open points for the live check (fill in, with samples):
+
+- [ ] Does every endpoint answer with the existing headers (DS on GI / HSR, none on ZZZ)? Which retcode does a **private** chronicle give (expected `10102` "Data is not public for the user")?
+- [ ] Field names for: character list (rarity, level, constellation / eidolon / mindscape, element / path / attribute, weapon / light cone / W-Engine incl. refinement / superimposition / phase, friendship, relic / artifact / drive disc sets with piece counts), endgame floors / nodes / lineups / stars / score, `begin_time` / `end_time` (time zone) for reset countdowns.
+- [ ] Image host names of the returned icon URLs (to add to the image allowlist, D12) and whether they need no cookie.
+- [ ] HSR Anomaly Arbitration: shape of `challenge_peak` for `schedule_type` 1 vs 3.
+- [ ] Which design fields are **not** returned (design rule: hide them, never show empty).

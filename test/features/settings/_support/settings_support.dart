@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hoyo_aio/app/app_settings_provider.dart';
+import 'package:hoyo_aio/app/flavor.dart';
+import 'package:hoyo_aio/app/flavor_provider.dart';
 import 'package:hoyo_aio/app/router/app_routes.dart';
 import 'package:hoyo_aio/core/database/app_database.dart';
 import 'package:hoyo_aio/core/database/database_enums.dart';
@@ -194,6 +196,7 @@ List<Override> settingsOverrides({
   FakeSettingsActions? actions,
   BackupService? backup,
 }) => [
+  flavorProvider.overrideWithValue(Flavor.prod),
   accountsProvider.overrideWith(
     (_) => Stream.value(accounts ?? defaultAccounts),
   ),
