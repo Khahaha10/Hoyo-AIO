@@ -79,6 +79,9 @@ enum EndgameStatKind {
   score,
   stars,
   bosses,
+  frontiers,
+  cleared,
+  bestScore,
 }
 
 class EndgameStat {
@@ -134,19 +137,41 @@ class TeamMember {
 enum EndgameTeamLabel { first, second, node1, node2, node3, cast, squad }
 
 class EndgameTeam {
-  const EndgameTeam(this.label, this.members);
+  const EndgameTeam(
+    this.label,
+    this.members, {
+    this.rounds,
+    this.score,
+    this.note,
+  });
 
   final EndgameTeamLabel label;
   final List<TeamMember> members;
+  final int? rounds;
+  final int? score;
+  final String? note;
+
+  bool get hasDetails => rounds != null || score != null || note != null;
 }
 
-enum EndgameRowKind { chamber, act, floor, challenge, boss, frontier, record }
+enum EndgameRowKind {
+  chamber,
+  act,
+  floor,
+  challenge,
+  boss,
+  knight,
+  bossKnight,
+  frontier,
+  record,
+}
 
 class EndgameRow {
   const EndgameRow({
     required this.kind,
     this.index,
     this.title,
+    this.subtitle,
     this.stars,
     this.maxStars,
     this.rating,
@@ -159,6 +184,7 @@ class EndgameRow {
   final EndgameRowKind kind;
   final int? index;
   final String? title;
+  final String? subtitle;
   final int? stars;
   final int? maxStars;
   final String? rating;

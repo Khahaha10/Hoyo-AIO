@@ -1615,7 +1615,7 @@
     }
   },
   "databookEndgameFailed": "Couldn't load this endgame.",
-  "databookStatName": "{kind, select, deepest{Deepest} battles{Battles} wins{Wins} maxFloor{Max floor} cycles{Cycles} medals{Medals} actReached{Act reached} battleTime{Battle time} difficulty{Difficulty} bestTime{Fastest} rating{Rating} score{Total score} stars{Total stars} bosses{Bosses} other{Stat}}",
+  "databookStatName": "{kind, select, deepest{Deepest} battles{Battles} wins{Wins} maxFloor{Max floor} cycles{Cycles} medals{Medals} actReached{Act reached} battleTime{Battle time} difficulty{Difficulty} bestTime{Fastest} rating{Rating} score{Total score} stars{Total stars} bosses{Bosses} frontiers{Frontier} cleared{Cleared} bestScore{Best} other{Stat}}",
   "@databookStatName": {
     "placeholders": {
       "kind": {
@@ -1631,7 +1631,7 @@
       }
     }
   },
-  "databookRowTitle": "{kind, select, chamber{Chamber {index}} act{Act {index}} floor{Floor {index}} frontier{Frontier {index}} challenge{Challenge {index}} boss{Boss {index}} record{Record {index}} other{Entry {index}}}",
+  "databookRowTitle": "{kind, select, chamber{Chamber {index}} act{Act {index}} floor{Floor {index}} frontier{Frontier {index}} challenge{Challenge {index}} boss{Boss {index}} knight{Knight {index}} record{Record {index}} other{Entry {index}}}",
   "@databookRowTitle": {
     "placeholders": {
       "kind": {
@@ -1642,7 +1642,7 @@
       }
     }
   },
-  "databookRowPlain": "{kind, select, chamber{Chamber} act{Act} floor{Floor} frontier{Frontier} challenge{Challenge} boss{Boss} record{Record} other{Entry}}",
+  "databookRowPlain": "{kind, select, chamber{Chamber} act{Act} floor{Floor} frontier{Frontier} challenge{Challenge} boss{Boss} knight{Knight} record{Record} other{Entry}}",
   "@databookRowPlain": {
     "placeholders": {
       "kind": {
@@ -1650,7 +1650,7 @@
       }
     }
   },
-  "databookRowPlural": "{kind, select, chamber{Chambers} act{Acts} floor{Floors} frontier{Frontiers} challenge{Challenges} boss{Bosses} record{Records} other{Entries}}",
+  "databookRowPlural": "{kind, select, chamber{Chambers} act{Acts} floor{Floors} frontier{Frontiers} challenge{Challenges} boss{Bosses} knight{Knights} bossKnight{Boss & Knights} record{Records} other{Entries}}",
   "@databookRowPlural": {
     "placeholders": {
       "kind": {
@@ -1674,5 +1674,65 @@
       }
     }
   },
-  "databookNotAttemptedPrevious": "Not attempted in the previous cycle"
+  "databookNotAttemptedPrevious": "Not attempted in the previous cycle",
+  "databookRange": "{label} {from}–{to}",
+  "@databookRange": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      }
+    }
+  },
+  "databookAllRating": "All {rating}",
+  "@databookAllRating": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "databookMedalCount": "{count, plural, =1{1 medal} other{{count} medals}}",
+  "@databookMedalCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifyEndgameReset": "{mode} resets in 24 h · {stars}/{max} ★",
+  "@notifyEndgameReset": {
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      },
+      "stars": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "notifyEndgameLeft": "{count, plural, =1{1 star left} other{{count} stars left}} · {name}",
+  "@notifyEndgameLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationChannelEndgameReset": "Endgame Reset",
+  "notificationChannelEndgameResetDescription": "Reminder 24 hours before an endgame mode resets while you still have stars left.",
+  "notificationsEndgameReset": "Endgame Reset",
+  "notificationsEndgameResetBody": "24 h before reset, if you still have stars left",
+  "widgetItemAbyss": "Abyss"
 }

@@ -712,3 +712,4 @@ Common to every request: query `role_id=<role uid>&server=<role server>`, cookie
 - [ ] HSR path names from `base_type`, ZZZ element codes beyond `202` / `205`.
 - [ ] Theater "Fantasia" and battle-time units; GI "Chests" definition.
 - [ ] Design fields the API does not return: HSR relic **set names** (pieces only), ZZZ **friendship** (already hidden in the design).
+- [ ] ⚠️ VERIFY ZZZ Shiyu / Deadly Assault parsing (11.5): written from community API shapes, not a live response. Shiyu: `hadal_info_v2.{fitfh,fourth}_layer_detail.layer_item_list[]` with `layer_id`, `rating`, `battle_time` / `challenge_time` (s), `node_1.avatars` / `node_2.avatars` or `avatar_list`. Assault: `list[]` / `hard_list[]` with `boss[0].name`, `score`, `star`, `avatar_list`. Avatar id from `id` or `avatar_id`, icon from `role_square_url`. Probe an account with progress and fix the keys.

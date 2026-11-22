@@ -585,7 +585,7 @@
     }
   },
   "databookEndgameFailed": "Gagal memuat endgame ini.",
-  "databookStatName": "{kind, select, deepest{Terdalam} battles{Pertarungan} wins{Menang} maxFloor{Lantai maks} cycles{Siklus} medals{Medali} actReached{Babak dicapai} battleTime{Waktu bertarung} difficulty{Kesulitan} bestTime{Tercepat} rating{Rating} score{Total skor} stars{Total bintang} bosses{Boss} other{Statistik}}",
+  "databookStatName": "{kind, select, deepest{Terdalam} battles{Pertarungan} wins{Menang} maxFloor{Lantai maks} cycles{Siklus} medals{Medali} actReached{Babak dicapai} battleTime{Waktu bertarung} difficulty{Kesulitan} bestTime{Tercepat} rating{Rating} score{Total skor} stars{Total bintang} bosses{Boss} frontiers{Frontier} cleared{Selesai} bestScore{Terbaik} other{Statistik}}",
   "@databookStatName": {
     "placeholders": {
       "kind": {
@@ -601,7 +601,7 @@
       }
     }
   },
-  "databookRowTitle": "{kind, select, chamber{Ruang {index}} act{Babak {index}} floor{Lantai {index}} frontier{Frontier {index}} challenge{Tantangan {index}} boss{Boss {index}} record{Rekor {index}} other{Entri {index}}}",
+  "databookRowTitle": "{kind, select, chamber{Ruang {index}} act{Babak {index}} floor{Lantai {index}} frontier{Frontier {index}} challenge{Tantangan {index}} boss{Boss {index}} knight{Knight {index}} record{Rekor {index}} other{Entri {index}}}",
   "@databookRowTitle": {
     "placeholders": {
       "kind": {
@@ -612,7 +612,7 @@
       }
     }
   },
-  "databookRowPlain": "{kind, select, chamber{Ruang} act{Babak} floor{Lantai} frontier{Frontier} challenge{Tantangan} boss{Boss} record{Rekor} other{Entri}}",
+  "databookRowPlain": "{kind, select, chamber{Ruang} act{Babak} floor{Lantai} frontier{Frontier} challenge{Tantangan} boss{Boss} knight{Knight} bossKnight{Boss & Knight} record{Rekor} other{Entri}}",
   "@databookRowPlain": {
     "placeholders": {
       "kind": {
@@ -620,7 +620,7 @@
       }
     }
   },
-  "databookRowPlural": "{kind, select, chamber{Ruang} act{Babak} floor{Lantai} frontier{Frontier} challenge{Tantangan} boss{Boss} record{Rekor} other{Entri}}",
+  "databookRowPlural": "{kind, select, chamber{Ruang} act{Babak} floor{Lantai} frontier{Frontier} challenge{Tantangan} boss{Boss} knight{Knight} bossKnight{Boss & Knight} record{Rekor} other{Entri}}",
   "@databookRowPlural": {
     "placeholders": {
       "kind": {
@@ -644,5 +644,65 @@
       }
     }
   },
-  "databookNotAttemptedPrevious": "Belum dicoba di siklus sebelumnya"
+  "databookNotAttemptedPrevious": "Belum dicoba di siklus sebelumnya",
+  "databookRange": "{label} {from}–{to}",
+  "@databookRange": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      }
+    }
+  },
+  "databookAllRating": "Semua {rating}",
+  "@databookAllRating": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "databookMedalCount": "{count} medali",
+  "@databookMedalCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifyEndgameReset": "{mode} reset dalam 24 jam · {stars}/{max} ★",
+  "@notifyEndgameReset": {
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      },
+      "stars": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "notifyEndgameLeft": "{count} bintang tersisa · {name}",
+  "@notifyEndgameLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationChannelEndgameReset": "Reset Endgame",
+  "notificationChannelEndgameResetDescription": "Pengingat 24 jam sebelum mode endgame reset selama bintangmu belum penuh.",
+  "notificationsEndgameReset": "Reset Endgame",
+  "notificationsEndgameResetBody": "24 jam sebelum reset, jika bintang belum penuh",
+  "widgetItemAbyss": "Abyss"
 }

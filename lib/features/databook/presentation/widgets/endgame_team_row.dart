@@ -1,52 +1,113 @@
 import 'package:hoyo_aio/core/design_system/theme/theme_context.dart';
+import 'package:hoyo_aio/core/design_system/tokens/app_radius.dart';
 import 'package:hoyo_aio/core/design_system/tokens/app_spacing.dart';
 import 'package:hoyo_aio/core/design_system/tokens/app_text_styles.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
+import 'package:hoyo_aio/features/dashboard/presentation/dashboard_format.dart';
+import 'package:hoyo_aio/features/databook/domain/chronicle_models.dart';
 import 'package:hoyo_aio/features/databook/domain/endgame_models.dart';
 import 'package:hoyo_aio/features/databook/presentation/endgame_format.dart';
 import 'package:hoyo_aio/features/databook/presentation/widgets/chronicle_avatar.dart';
 import 'package:material_ui/material_ui.dart';
 
-class EndgameTeamRow extends StatelessWidget {
-  const EndgameTeamRow({required this.team, required this.names, super.key});
+class EndgameTeams extends StatelessWidget {
+  const EndgameTeams({required this.teams, required this.roster, super.key});
 
-  static const double _avatar = 24;
-  static const double _labelWidth = 48;
+  static const double _compactAvatar = 24;
+  static const double _panelAvatar = 32;
 
-  final EndgameTeam team;
-  final Map<int, String> names;
+  final List<EndgameTeam> teams;
+  final Map<int, ChronicleCharacter> roster;
+
+  Widget _avatars(EndgameTeam team, double size) => Wrap(
+    spacing: AppSpacing.s4,
+    runSpacing: AppSpacing.s4,
+    children: [
+      for (final member in team.members)
+        ChronicleAvatar(
+          name: member.name ?? roster[member.id]?.name ?? '',
+          element: member.element ?? roster[member.id]?.element,
+          imageUrl: memberIcon(member.iconUrl, roster[member.id]),
+          rarity: member.rarity ?? roster[member.id]?.rarity,
+          size: size,
+        ),
+    ],
+  );
+
+  String _details(AppLocalizations l10n, EndgameTeam team) => [
+    if (team.rounds case final rounds?) l10n.databookRounds(rounds),
+    if (team.score case final score?)
+      l10n.databookScoreValue(l10n.number(score)),
+  ].join(' · ');
+
+  Widget _panel(BuildContext context, EndgameTeam team) {
+    final colors = context.colors;
+    final l10n = context.l10n;
+    final details = _details(l10n, team);
+    final note = team.note;
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.s12),
+      decoration: BoxDecoration(
+        color: colors.surface2,
+        borderRadius: BorderRadius.circular(AppRadius.iconTile),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: AppSpacing.s8,
+        children: [
+          Row(
+            spacing: AppSpacing.s8,
+            children: [
+              Text(
+                l10n.teamLabel(team.label),
+                style: AppTextStyles.label.copyWith(color: colors.text),
+              ),
+              Expanded(
+                child: Text(
+                  details,
+                  textAlign: TextAlign.end,
+                  style: AppTextStyles.tabular(AppTextStyles.label)
+                      .copyWith(color: colors.text2),
+                ),
+              ),
+            ],
+          ),
+          if (note != null)
+            Text(
+              note,
+              style: AppTextStyles.caption.copyWith(color: colors.text2),
+            ),
+          _avatars(team, _panelAvatar),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final style = AppTextStyles.caption.copyWith(color: context.colors.text3);
-    return Row(
-      spacing: AppSpacing.s4,
+    final l10n = context.l10n;
+    if (teams.any((team) => team.hasDetails)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: AppSpacing.s8,
+        children: [for (final team in teams) _panel(context, team)],
+      );
+    }
+    return Wrap(
+      spacing: AppSpacing.s12,
+      runSpacing: AppSpacing.s4,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        SizedBox(
-          width: _labelWidth,
-          child: Text(
-            context.l10n.teamLabel(team.label),
-            style: style,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Expanded(
-          child: Wrap(
+        for (final team in teams)
+          Row(
+            mainAxisSize: MainAxisSize.min,
             spacing: AppSpacing.s4,
-            runSpacing: AppSpacing.s4,
             children: [
-              for (final member in team.members)
-                ChronicleAvatar(
-                  name: member.name ?? names[member.id] ?? '',
-                  element: member.element,
-                  imageUrl: member.iconUrl,
-                  rarity: member.rarity,
-                  size: _avatar,
-                ),
+              Text(l10n.teamLabel(team.label), style: style),
+              _avatars(team, _compactAvatar),
             ],
           ),
-        ),
       ],
     );
   }

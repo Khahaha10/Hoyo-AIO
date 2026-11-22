@@ -228,7 +228,13 @@ abstract final class StarRailChronicleMapper {
       teams: [
         for (final (label, node) in nodes)
           if (node['avatars'].items.isNotEmpty)
-            EndgameTeam(label, _members(node['avatars'])),
+            EndgameTeam(
+              label,
+              _members(node['avatars']),
+              rounds: _positive(node['round_num'].intOrNull),
+              score: _positive(node['score'].intOrNull),
+              note: node['buff']['name_mi18n'].stringOrNull,
+            ),
       ],
     );
   }
@@ -295,7 +301,7 @@ abstract final class StarRailChronicleMapper {
       if (boss['has_challenge_record'].boolValue)
         EndgameRow(
           kind: EndgameRowKind.boss,
-          title: record['boss_info']['name_mi18n'].stringOrNull,
+          subtitle: record['boss_info']['name_mi18n'].stringOrNull,
           stars: boss['star_num'].intOrNull,
           maxStars: _starsPerFloor,
           teams: [
@@ -305,8 +311,9 @@ abstract final class StarRailChronicleMapper {
       for (final (i, mob) in record['mob_records'].items.indexed)
         if (mob['has_challenge_record'].boolValue)
           EndgameRow(
-            kind: EndgameRowKind.record,
-            title: i < infos.length ? infos[i]['name'].stringOrNull : null,
+            kind: EndgameRowKind.knight,
+            index: i + 1,
+            subtitle: i < infos.length ? infos[i]['name'].stringOrNull : null,
             stars: mob['star_num'].intOrNull,
             maxStars: _starsPerFloor,
             teams: [
@@ -324,7 +331,7 @@ abstract final class StarRailChronicleMapper {
       ],
       sections: [
         if (rows.isNotEmpty)
-          EndgameSection(kind: EndgameRowKind.boss, rows: rows),
+          EndgameSection(kind: EndgameRowKind.bossKnight, rows: rows),
       ],
     );
   }

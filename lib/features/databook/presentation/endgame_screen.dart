@@ -37,8 +37,6 @@ class EndgameScreen extends ConsumerStatefulWidget {
 }
 
 class _EndgameScreenState extends ConsumerState<EndgameScreen> {
-  static const int _openSections = 2;
-
   var _previous = false;
 
   @override
@@ -54,7 +52,7 @@ class _EndgameScreenState extends ConsumerState<EndgameScreen> {
     final characters =
         ref.watch(databookProvider(role)).value?.characters?.data ??
         const <ChronicleCharacter>[];
-    final names = {for (final c in characters) c.id: c.name};
+    final roster = {for (final c in characters) c.id: c};
     final detail = ref.watch(
       endgameDetailProvider(role, widget.mode, _previous),
     );
@@ -141,8 +139,7 @@ class _EndgameScreenState extends ConsumerState<EndgameScreen> {
                       role: role,
                       now: now,
                       previous: _previous,
-                      names: names,
-                      openSections: _openSections,
+                      roster: roster,
                       onViewPrevious: () => setState(() => _previous = true),
                     ),
                     AsyncError(:final error) => DashboardError(
@@ -167,8 +164,7 @@ class _Body extends StatelessWidget {
     required this.role,
     required this.now,
     required this.previous,
-    required this.names,
-    required this.openSections,
+    required this.roster,
     required this.onViewPrevious,
   });
 
@@ -176,8 +172,7 @@ class _Body extends StatelessWidget {
   final SavedRole role;
   final DateTime now;
   final bool previous;
-  final Map<int, String> names;
-  final int openSections;
+  final Map<int, ChronicleCharacter> roster;
   final VoidCallback onViewPrevious;
 
   @override
@@ -198,12 +193,13 @@ class _Body extends StatelessWidget {
       children: [
         _PeriodRow(summary: summary, now: now, previous: previous),
         EndgameStatsCard(detail: detail),
-        EndgameHighlightsCard(highlights: detail.highlights, names: names),
-        for (final (index, section) in sections.indexed)
-          EndgameSectionCard(
-            section: section,
-            names: names,
-            initiallyOpen: sections.length == 1 || index < openSections,
+        EndgameHighlightsCard(highlights: detail.highlights, roster: roster),
+        if (sections.isNotEmpty)
+          EndgameSectionCard(section: sections.first, roster: roster),
+        if (sections.length > 1)
+          EndgameSectionFolds(
+            sections: sections.skip(1).toList(),
+            roster: roster,
           ),
       ],
     );
@@ -250,11 +246,20 @@ class _PeriodRow extends StatelessWidget {
           )
         else
           const Spacer(),
-        if (left != null)
+        if (left != null) ...[
+          AppIcon(
+            LucideIcons.clock,
+            size: AppIconSize.badge,
+            color: colors.warning,
+          ),
           Text(
             l10n.databookResetsIn(l10n.duration(left)),
-            style: style.copyWith(color: colors.warning),
+            style: style.copyWith(
+              color: colors.warning,
+              fontWeight: FontWeight.w600,
+            ),
           ),
+        ],
       ],
     );
   }
