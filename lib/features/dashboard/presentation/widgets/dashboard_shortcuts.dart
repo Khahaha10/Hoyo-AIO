@@ -26,11 +26,22 @@ class DashboardShortcuts extends ConsumerWidget {
     final l10n = context.l10n;
     final unread = ref.watch(unreadCodesProvider);
     final unreadEvents = ref.watch(unreadEventsProvider);
-    final game = ref.watch(selectedRoleProvider)?.game ?? Game.genshin;
+    final role = ref.watch(selectedRoleProvider);
+    final game = role?.game ?? Game.genshin;
     final banner = HoyolabConfig.gachaBanners[game]?.first ?? '';
     final hasRecords =
         ref.watch(gachaRecordsProvider(game)).value?.isNotEmpty ?? false;
     final pity = ref.watch(bannerPityProvider(game, banner));
+    final warp = role != null && game == Game.starRail && !hasRecords
+        ? ref.watch(warpPityProvider(role, banner))
+        : null;
+    final subtitle = switch (warp) {
+      AsyncData(value: final stats?) when stats.total > 0 =>
+        l10n.trackerPityShort(stats.pity5),
+      AsyncLoading() => '…',
+      _ when hasRecords => l10n.trackerPityShort(pity.pity5),
+      _ => l10n.trackerImportShort,
+    };
     return Row(
       spacing: AppSpacing.s8,
       children: [
@@ -56,9 +67,7 @@ class DashboardShortcuts extends ConsumerWidget {
             title: game == Game.zzz
                 ? l10n.dashboardSignalsShortcut
                 : l10n.trackerChip(game),
-            subtitle: hasRecords
-                ? l10n.trackerPityShort(pity.pity5)
-                : l10n.trackerImportShort,
+            subtitle: subtitle,
             onTap: () => context.push(AppRoutes.trackerFor(game)),
           ),
         ),
