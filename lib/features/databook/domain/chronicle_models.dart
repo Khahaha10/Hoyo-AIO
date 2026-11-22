@@ -76,3 +76,18 @@ class ChronicleResult<T> {
   final DateTime fetchedAt;
   final bool isStale;
 }
+
+class GearGroup {
+  const GearGroup({required this.name, this.pieces, this.upgrade});
+
+  final String name;
+  final int? pieces;
+  final int? upgrade;
+}
+
+class CharacterDetail {
+  const CharacterDetail({this.weapon, this.gear = const []});
+
+  final ChronicleWeapon? weapon;
+  final List<GearGroup> gear;
+}

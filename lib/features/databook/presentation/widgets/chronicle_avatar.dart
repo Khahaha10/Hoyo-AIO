@@ -14,6 +14,7 @@ class ChronicleAvatar extends StatelessWidget {
     this.imageUrl,
     this.rarity,
     this.size = 42,
+    this.cornerRadius,
     super.key,
   });
 
@@ -26,6 +27,11 @@ class ChronicleAvatar extends StatelessWidget {
   final String? imageUrl;
   final int? rarity;
   final double size;
+  final double? cornerRadius;
+
+  static Widget _clip(double? radius, Widget child) => radius == null
+      ? ClipOval(child: child)
+      : ClipRRect(borderRadius: BorderRadius.circular(radius), child: child);
 
   static bool isAllowedImage(String? url) {
     final uri = url == null ? null : Uri.tryParse(url);
@@ -48,6 +54,8 @@ class ChronicleAvatar extends StatelessWidget {
       4 => context.gameAccent(Game.starRail).acc,
       _ => context.colors.surface3,
     };
+    final radius = cornerRadius;
+    final shape = radius == null ? BoxShape.circle : BoxShape.rectangle;
     return Semantics(
       image: true,
       label: name,
@@ -57,16 +65,18 @@ class ChronicleAvatar extends StatelessWidget {
         height: size,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
+            shape: shape,
+            borderRadius: radius == null ? null : BorderRadius.circular(radius),
             color: rarityTint.withValues(alpha: _tintAlpha),
           ),
-          child: ClipOval(
-            child: isAllowedImage(url)
+          child: _clip(
+            radius,
+            isAllowedImage(url)
                 ? CachedNetworkImage(
                     imageUrl: url!,
                     width: size,
                     height: size,
-                    fit: BoxFit.cover,
+                    fit: radius == null ? BoxFit.cover : BoxFit.contain,
                     fadeInDuration: _fade,
                     fadeOutDuration: _fade,
                     placeholder: (_, _) => fallback,

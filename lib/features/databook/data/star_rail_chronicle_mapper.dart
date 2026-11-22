@@ -89,6 +89,24 @@ abstract final class StarRailChronicleMapper {
     );
   }
 
+  static CharacterDetail characterDetail(Json data, int characterId) {
+    final avatar =
+        data['avatar_list'].items
+            .where((a) => a['id'].intOrNull == characterId)
+            .firstOrNull ??
+        const Json(null);
+    return CharacterDetail(
+      gear: [
+        for (final piece in [
+          ...avatar['relics'].items,
+          ...avatar['ornaments'].items,
+        ])
+          if (piece['name'].stringOrNull case final name?)
+            GearGroup(name: name, upgrade: piece['level'].intOrNull),
+      ],
+    );
+  }
+
   static EndgameSummary endgameSummary(
     EndgameMode mode,
     Json data,

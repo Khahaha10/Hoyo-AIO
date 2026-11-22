@@ -60,6 +60,43 @@ abstract final class ZenlessChronicleMapper {
     );
   }
 
+  static CharacterDetail characterDetail(Json data) {
+    final entry = data['avatar_list'].items.firstOrNull ?? const Json(null);
+    final suits = <int, (String, int)>{};
+    for (final disc in entry['equip'].items) {
+      final suit = disc['equip_suit'];
+      final id = suit['suit_id'].intOrNull;
+      final name = suit['name'].stringOrNull;
+      if (id == null || name == null) continue;
+      final owned = suit['own'].intValue;
+      final known = suits[id]?.$2 ?? 0;
+      suits[id] = (name, owned > known ? owned : known);
+    }
+    final weapon = entry['weapon'];
+    final weaponName = weapon['name'].stringOrNull;
+    return CharacterDetail(
+      weapon: weaponName == null
+          ? null
+          : ChronicleWeapon(
+              name: weaponName,
+              level: weapon['level'].intValue,
+              rarity: _rarityNumber(weapon['rarity'].stringValue),
+              refinement: weapon['star'].intOrNull,
+              iconUrl: weapon['icon'].stringOrNull,
+            ),
+      gear: [
+        for (final (name, pieces) in suits.values)
+          GearGroup(name: name, pieces: pieces),
+      ]..sort((a, b) => (b.pieces ?? 0).compareTo(a.pieces ?? 0)),
+    );
+  }
+
+  static int _rarityNumber(String rank) => switch (rank) {
+    'S' => 5,
+    'A' => 4,
+    _ => 3,
+  };
+
   static EndgameSummary endgameSummary(
     EndgameMode mode,
     Json data,

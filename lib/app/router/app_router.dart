@@ -18,6 +18,7 @@ import 'package:hoyo_aio/features/accounts/presentation/webview_login_screen.dar
 import 'package:hoyo_aio/features/checkin/presentation/check_in_screen.dart';
 import 'package:hoyo_aio/features/codes/presentation/codes_screen.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_screen.dart';
+import 'package:hoyo_aio/features/databook/presentation/characters_screen.dart';
 import 'package:hoyo_aio/features/databook/presentation/databook_screen.dart';
 import 'package:hoyo_aio/features/databook/presentation/debug/chronicle_probe_screen.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/home_widget_repositories.dart';
@@ -160,6 +161,10 @@ List<RouteBase> _routes(Flavor flavor) => [
     builder: (_, _) => const NotificationsScreen(),
   ),
   GoRoute(path: AppRoutes.about, builder: (_, _) => const AboutScreen()),
+  GoRoute(
+    path: AppRoutes.characters,
+    builder: (_, _) => const CharactersScreen(),
+  ),
   GoRoute(
     path: AppRoutes.inbox,
     builder: (_, _) => const NotificationLogScreen(),

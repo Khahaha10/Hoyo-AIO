@@ -166,6 +166,35 @@ class ChronicleRepositoryImpl implements ChronicleRepository {
   }
 
   @override
+  Future<ChronicleResult<CharacterDetail>> characterDetail(
+    SavedRole role,
+    int characterId, {
+    bool refresh = false,
+  }) async {
+    final id = '$characterId';
+    return switch (role.game) {
+      Game.genshin => _detailOf(
+        await _load(role, 'gi.characterDetail', refresh, entityId: id),
+        GenshinChronicleMapper.characterDetail,
+      ),
+      Game.starRail => _detailOf(
+        await _load(role, 'hsr.characters', refresh),
+        (data) => StarRailChronicleMapper.characterDetail(data, characterId),
+      ),
+      Game.zzz => _detailOf(
+        await _load(role, 'zzz.agentDetail', refresh, entityId: id),
+        ZenlessChronicleMapper.characterDetail,
+      ),
+      Game.hi3 => throw ArgumentError.value(role.game, 'game'),
+    };
+  }
+
+  ChronicleResult<CharacterDetail> _detailOf(
+    _Loaded loaded,
+    CharacterDetail Function(Json data) map,
+  ) => _result(loaded, map(loaded.data));
+
+  @override
   Future<void> makePublic(SavedRole role) async {
     await _remote.makePublic(role);
     await (_db.delete(
@@ -217,8 +246,14 @@ class ChronicleRepositoryImpl implements ChronicleRepository {
     }
   }
 
-  Future<_Loaded> _load(SavedRole role, String key, bool refresh) async {
-    final cached = await _readCache(role, key);
+  Future<_Loaded> _load(
+    SavedRole role,
+    String key,
+    bool refresh, {
+    String? entityId,
+  }) async {
+    final cacheKey = entityId == null ? key : '$key:$entityId';
+    final cached = await _readCache(role, cacheKey);
     final now = _now();
     if (!refresh &&
         cached != null &&
@@ -226,8 +261,8 @@ class ChronicleRepositoryImpl implements ChronicleRepository {
       return _Loaded(Json(cached.data), cached.fetchedAt, false);
     }
     try {
-      final fresh = await _remote.fetch(role, key);
-      await _writeCache(role, key, fresh.raw, now);
+      final fresh = await _remote.fetch(role, key, entityId: entityId);
+      await _writeCache(role, cacheKey, fresh.raw, now);
       return _Loaded(fresh, now, false);
     } on AppException {
       if (cached == null) rethrow;

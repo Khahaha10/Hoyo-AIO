@@ -1363,5 +1363,187 @@
       }
     }
   },
-  "databookNoData": "No Battle Chronicle data to show yet."
+  "databookNoData": "No Battle Chronicle data to show yet.",
+  "databookCharactersTitle": "Characters",
+  "databookAgentsTitle": "Agents",
+  "databookRosterCharacters": "{count} characters · {fiveStars} ★5",
+  "@databookRosterCharacters": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "fiveStars": {
+        "type": "int"
+      }
+    }
+  },
+  "databookRosterAgents": "{count} agents · {sRank} S-Rank",
+  "@databookRosterAgents": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "sRank": {
+        "type": "int"
+      }
+    }
+  },
+  "databookSearch": "Search",
+  "databookSearchHint": "Search by name",
+  "databookFilterAll": "All",
+  "databookFilterName": "{game, select, genshin{Weapon} starRail{Element} zzz{W-Engine} other{Filter}}",
+  "@databookFilterName": {
+    "placeholders": {
+      "game": {
+        "type": "String"
+      }
+    }
+  },
+  "databookFilterWith": "{name}: {value}",
+  "@databookFilterWith": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "databookSortLabel": "{sort, select, level{Level} rarity{Rarity} constellationGenshin{Constellation} constellationStarRail{Eidolon} constellationZzz{Mindscape} friendship{Friendship} other{Sort}}",
+  "@databookSortLabel": {
+    "placeholders": {
+      "sort": {
+        "type": "String"
+      }
+    }
+  },
+  "databookRankChip": "{rank}-Rank",
+  "@databookRankChip": {
+    "placeholders": {
+      "rank": {
+        "type": "String"
+      }
+    }
+  },
+  "databookRarityChip": "{rarity}★",
+  "@databookRarityChip": {
+    "placeholders": {
+      "rarity": {
+        "type": "int"
+      }
+    }
+  },
+  "databookElementName": "{element, select, pyro{Pyro} hydro{Hydro} anemo{Anemo} electro{Electro} dendro{Dendro} cryo{Cryo} geo{Geo} physical{Physical} fire{Fire} ice{Ice} lightning{Lightning} electric{Electric} wind{Wind} quantum{Quantum} imaginary{Imaginary} ether{Ether} other{{element}}}",
+  "@databookElementName": {
+    "placeholders": {
+      "element": {
+        "type": "String"
+      }
+    }
+  },
+  "databookKindName": "{kind, select, sword{Sword} catalyst{Catalyst} claymore{Claymore} bow{Bow} polearm{Polearm} destruction{Destruction} hunt{Hunt} erudition{Erudition} harmony{Harmony} nihility{Nihility} preservation{Preservation} abundance{Abundance} remembrance{Remembrance} elation{Elation} attack{Attack} stun{Stun} anomaly{Anomaly} support{Support} defense{Defense} rupture{Rupture} other{{kind}}}",
+  "@databookKindName": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "databookNoMatches": "No characters match these filters.",
+  "databookLevelOf": "Lv {level} / {max}",
+  "@databookLevelOf": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "databookLevelShort": "Lv {level}",
+  "@databookLevelShort": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "databookConstellationName": "{game, select, genshin{Constellation} starRail{Eidolon} zzz{Mindscape} other{Rank}}",
+  "@databookConstellationName": {
+    "placeholders": {
+      "game": {
+        "type": "String"
+      }
+    }
+  },
+  "databookWeaponHeading": "{game, select, genshin{Weapon} starRail{Light Cone} zzz{W-Engine} other{Weapon}}",
+  "@databookWeaponHeading": {
+    "placeholders": {
+      "game": {
+        "type": "String"
+      }
+    }
+  },
+  "databookUpgradeName": "{game, select, genshin{Refinement} starRail{Superimposition} zzz{Phase} other{Rank}}",
+  "@databookUpgradeName": {
+    "placeholders": {
+      "game": {
+        "type": "String"
+      }
+    }
+  },
+  "databookWeaponMeta": "{kind} · {upgradeName} {upgrade} · Lv {level}",
+  "@databookWeaponMeta": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      },
+      "upgradeName": {
+        "type": "String"
+      },
+      "upgrade": {
+        "type": "int"
+      },
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "databookFriendship": "Friendship",
+  "databookFriendshipValue": "{level} / 10",
+  "@databookFriendshipValue": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "databookGearHeading": "{game, select, genshin{Artifact Sets} starRail{Relics} zzz{Drive Discs} other{Gear}}",
+  "@databookGearHeading": {
+    "placeholders": {
+      "game": {
+        "type": "String"
+      }
+    }
+  },
+  "databookPieces": "{count} pc",
+  "@databookPieces": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "databookUpgradeLevel": "+{level}",
+  "@databookUpgradeLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "databookGearFailed": "Couldn't load gear details.",
+  "databookClose": "Close"
 }

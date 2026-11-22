@@ -82,6 +82,23 @@ abstract final class GenshinChronicleMapper {
     );
   }
 
+  static CharacterDetail characterDetail(Json data) {
+    final entry = data['list'].items.firstOrNull ?? const Json(null);
+    final sets = <int, (String, int)>{};
+    for (final relic in entry['relics'].items) {
+      final set = relic['set'];
+      final id = set['id'].intOrNull;
+      final name = set['name'].stringOrNull;
+      if (id == null || name == null) continue;
+      sets[id] = (name, (sets[id]?.$2 ?? 0) + 1);
+    }
+    final groups = [
+      for (final (name, pieces) in sets.values)
+        GearGroup(name: name, pieces: pieces),
+    ]..sort((a, b) => (b.pieces ?? 0).compareTo(a.pieces ?? 0));
+    return CharacterDetail(weapon: _weapon(entry['weapon']), gear: groups);
+  }
+
   static EndgameSummary endgameSummary(
     EndgameMode mode,
     Json data,

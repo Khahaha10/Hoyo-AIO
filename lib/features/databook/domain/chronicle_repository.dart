@@ -31,5 +31,11 @@ abstract interface class ChronicleRepository {
     bool refresh = false,
   });
 
+  Future<ChronicleResult<CharacterDetail>> characterDetail(
+    SavedRole role,
+    int characterId, {
+    bool refresh = false,
+  });
+
   Future<void> makePublic(SavedRole role);
 }

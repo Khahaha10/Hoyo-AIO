@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hoyo_aio/app/router/app_routes.dart';
 import 'package:hoyo_aio/core/design_system/components/app_snackbar.dart';
 import 'package:hoyo_aio/core/design_system/icons/app_icon.dart';
 import 'package:hoyo_aio/core/design_system/theme/theme_context.dart';
@@ -190,7 +192,11 @@ class _Content extends StatelessWidget {
       children: [
         if (summary != null) SummaryCard(summary: summary),
         if (characters.isNotEmpty)
-          CharactersCard(game: role.game, characters: characters),
+          CharactersCard(
+            game: role.game,
+            characters: characters,
+            onSeeAll: () => context.push(AppRoutes.characters),
+          ),
         if (endgame.isNotEmpty) ...[
           Padding(
             padding: const EdgeInsets.only(
