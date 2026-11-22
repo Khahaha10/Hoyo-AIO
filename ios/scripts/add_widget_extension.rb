@@ -20,8 +20,8 @@ group.new_reference('Info.plist')
 group.new_reference("#{NAME}.entitlements")
 
 flutter_group = project.main_group['Flutter']
-generated = flutter_group.files.find { |file| file.path == 'Generated.xcconfig' } ||
-            flutter_group.new_reference('Generated.xcconfig')
+generated = project.files.find { |file| file.path == 'Flutter/Generated.xcconfig' } ||
+            flutter_group.new_reference('Flutter/Generated.xcconfig')
 
 widget.build_configurations.each do |config|
   config.base_configuration_reference = generated

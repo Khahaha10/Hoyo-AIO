@@ -37,11 +37,14 @@ void main() {
       'ltuid_v2=800000001; ltoken_v2=fake',
     );
     await tester.tap(find.text('Fetch Game Record Card'));
-    await tester.runAsync(
-      () => Future<void>.delayed(const Duration(milliseconds: 500)),
-    );
-    await tester.pump();
+    final failed = find.textContaining('Failed:');
+    for (var i = 0; i < 50 && failed.evaluate().isEmpty; i++) {
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 100)),
+      );
+      await tester.pump(const Duration(seconds: 1));
+    }
 
-    expect(find.textContaining('Failed:'), findsOneWidget);
+    expect(failed, findsOneWidget);
   });
 }
