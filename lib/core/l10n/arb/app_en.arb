@@ -1238,5 +1238,130 @@
   "aboutLicenses": "Open-Source Licenses",
   "dashboardSignalsShortcut": "Signals",
   "inboxTitle": "Notification Log",
-  "inboxEmpty": "Notifications the app sends will show up here."
+  "inboxEmpty": "Notifications the app sends will show up here.",
+  "navDatabook": "Databook",
+  "databookStatActiveDays": "Active days",
+  "databookStatAchievements": "Achievements",
+  "databookStatCharacters": "Characters",
+  "databookStatChests": "Chests",
+  "databookStatWaypoints": "Waypoints",
+  "databookStatDomains": "Domains",
+  "databookStatAgents": "Agents",
+  "databookStatBangboo": "Bangboo",
+  "databookSpiralDeepest": "Spiral Abyss · deepest",
+  "databookCharactersLabel": "characters",
+  "databookAgentsLabel": "agents",
+  "databookSeeAll": "See all",
+  "databookRarityBadge": "{rarity}★ · {count}",
+  "@databookRarityBadge": {
+    "placeholders": {
+      "rarity": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "databookRankBadge": "{rank}-Rank · {count}",
+  "@databookRankBadge": {
+    "placeholders": {
+      "rank": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "databookEndgameSection": "Endgame · Current Cycle",
+  "databookModeName": "{mode, select, spiralAbyss{Spiral Abyss} imaginariumTheater{Imaginarium Theater} stygianOnslaught{Stygian Onslaught} memoryOfChaos{Memory of Chaos} pureFiction{Pure Fiction} apocalypticShadow{Apocalyptic Shadow} anomalyArbitration{Anomaly Arbitration} shiyuDefense{Shiyu Defense} deadlyAssault{Deadly Assault} other{Endgame}}",
+  "@databookModeName": {
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      }
+    }
+  },
+  "databookResetsIn": "Resets in {time}",
+  "@databookResetsIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "databookCycleEnded": "Cycle ended",
+  "databookNotAttempted": "Not attempted this cycle",
+  "databookActMedals": "Act {act} · {medals, plural, =1{1 medal} other{{medals} medals}}",
+  "@databookActMedals": {
+    "placeholders": {
+      "act": {
+        "type": "int"
+      },
+      "medals": {
+        "type": "int"
+      }
+    }
+  },
+  "databookRating": "Rating {rating}",
+  "@databookRating": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "databookDifficulty": "Difficulty {level}",
+  "@databookDifficulty": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "databookStarsValue": "{stars} / {max} ★",
+  "@databookStarsValue": {
+    "placeholders": {
+      "stars": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "databookStarsOnly": "{stars} ★",
+  "@databookStarsOnly": {
+    "placeholders": {
+      "stars": {
+        "type": "int"
+      }
+    }
+  },
+  "databookScoreValue": "{score} pts",
+  "@databookScoreValue": {
+    "placeholders": {
+      "score": {
+        "type": "String"
+      }
+    }
+  },
+  "databookPrivateTitle": "Your Battle Chronicle is private",
+  "databookPrivateBody": "Making it public lets HoYo AIO read your stats, characters and endgame records. Other HoYoLAB users can see them too.",
+  "databookMakePublic": "Make Public",
+  "databookNotNow": "Not Now",
+  "databookPrivateFootnote": "You can switch it back to private on HoYoLAB at any time.",
+  "databookMadePublic": "Battle Chronicle is now public",
+  "databookMakePublicFailed": "Couldn't make it public. Try again or change it on HoYoLAB.",
+  "databookCouldntRefresh": "Couldn't refresh",
+  "databookShowingFrom": "Showing data from {time}",
+  "@databookShowingFrom": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "databookNoData": "No Battle Chronicle data to show yet."
 }

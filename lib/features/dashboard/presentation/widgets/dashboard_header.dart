@@ -20,8 +20,9 @@ class DashboardHeader extends StatelessWidget {
     required this.onSelectGame,
     required this.onSwitchRole,
     required this.onRefresh,
-    required this.onOpenInbox,
-    required this.unreadCount,
+    this.onOpenInbox,
+    this.unreadCount = 0,
+    this.onOpenDatabook,
     super.key,
   });
 
@@ -37,8 +38,9 @@ class DashboardHeader extends StatelessWidget {
   final ValueChanged<Game> onSelectGame;
   final VoidCallback? onSwitchRole;
   final VoidCallback? onRefresh;
-  final VoidCallback onOpenInbox;
+  final VoidCallback? onOpenInbox;
   final int unreadCount;
+  final VoidCallback? onOpenDatabook;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,11 @@ class DashboardHeader extends StatelessWidget {
               Row(
                 spacing: AppSpacing.s12,
                 children: [
-                  _Avatar(name: role.nickname, game: role.game),
+                  _Avatar(
+                    name: role.nickname,
+                    game: role.game,
+                    onTap: onOpenDatabook,
+                  ),
                   Expanded(
                     child: Semantics(
                       button: onSwitchRole != null,
@@ -120,11 +126,12 @@ class DashboardHeader extends StatelessWidget {
                       ),
                     ),
                   ),
-                  _BellButton(
-                    count: unreadCount,
-                    label: l10n.inboxTitle,
-                    onPressed: onOpenInbox,
-                  ),
+                  if (onOpenInbox case final openInbox?)
+                    _BellButton(
+                      count: unreadCount,
+                      label: l10n.inboxTitle,
+                      onPressed: openInbox,
+                    ),
                   AppIconButton(
                     icon: LucideIcons.refreshCw,
                     semanticLabel: l10n.dashboardRefresh,
@@ -153,10 +160,11 @@ class DashboardHeader extends StatelessWidget {
 }
 
 class _Avatar extends StatelessWidget {
-  const _Avatar({required this.name, required this.game});
+  const _Avatar({required this.name, required this.game, this.onTap});
 
   final String name;
   final Game game;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +172,7 @@ class _Avatar extends StatelessWidget {
     final initial = name.isEmpty
         ? '?'
         : String.fromCharCode(name.runes.first).toUpperCase();
-    return Container(
+    final avatar = Container(
       width: DashboardHeader._avatar,
       height: DashboardHeader._avatar,
       alignment: Alignment.center,
@@ -181,6 +189,18 @@ class _Avatar extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
+      ),
+    );
+    final onTap = this.onTap;
+    if (onTap == null) return avatar;
+    return Semantics(
+      button: true,
+      label: context.l10n.navDatabook,
+      excludeSemantics: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: avatar,
       ),
     );
   }

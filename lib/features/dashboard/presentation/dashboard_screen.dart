@@ -147,6 +147,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 )
               : null,
           onRefresh: notes.isLoading ? null : notifier.refresh,
+          onOpenDatabook: () => context.go(AppRoutes.databook),
           onOpenInbox: () => context.push(AppRoutes.inbox),
           unreadCount: ref.watch(unreadNotificationCountProvider),
         ),

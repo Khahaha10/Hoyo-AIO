@@ -223,6 +223,7 @@ abstract final class HoyolabConfig {
   static const starRailNotePath = '/game_record/hkrpg/api/note';
   static const zzzNotePath = '/event/game_record_zzz/api/zzz/note';
   static const chronicleSwitchId = 1;
+  static const chronicleImageHosts = {'act-webstatic.hoyoverse.com'};
 
   static const chronicleEndpoints = <ChronicleEndpoint>[
     ChronicleEndpoint(

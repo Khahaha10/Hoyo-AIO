@@ -18,6 +18,7 @@ import 'package:hoyo_aio/features/accounts/presentation/webview_login_screen.dar
 import 'package:hoyo_aio/features/checkin/presentation/check_in_screen.dart';
 import 'package:hoyo_aio/features/codes/presentation/codes_screen.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_screen.dart';
+import 'package:hoyo_aio/features/databook/presentation/databook_screen.dart';
 import 'package:hoyo_aio/features/databook/presentation/debug/chronicle_probe_screen.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/home_widget_repositories.dart';
 import 'package:hoyo_aio/features/home_widgets/presentation/widget_editor_screen.dart';
@@ -90,6 +91,7 @@ List<RouteBase> _routes(Flavor flavor) => [
         );
       }),
       _branch(AppRoutes.checkIn, (_, _) => const CheckInScreen()),
+      _branch(AppRoutes.databook, (_, _) => const DatabookScreen()),
       _branch(AppRoutes.widgets, (_, _) => const WidgetGalleryScreen()),
       _branch(AppRoutes.settings, (_, _) => const SettingsScreen()),
     ],
