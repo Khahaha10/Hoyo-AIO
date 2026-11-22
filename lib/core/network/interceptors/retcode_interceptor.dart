@@ -36,7 +36,9 @@ class RetcodeInterceptor extends Interceptor {
       return;
     }
     final accountId = response.requestOptions.hoyolabAccountId;
-    if (error is CookieExpiredException && accountId != null) {
+    if (error is CookieExpiredException &&
+        accountId != null &&
+        !response.requestOptions.hoyolabKeepAccountOnExpired) {
       onCookieExpired?.call(accountId);
     }
     handler.reject(

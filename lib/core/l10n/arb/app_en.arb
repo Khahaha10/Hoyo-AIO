@@ -1734,5 +1734,7 @@
   "notificationChannelEndgameResetDescription": "Reminder 24 hours before an endgame mode resets while you still have stars left.",
   "notificationsEndgameReset": "Endgame Reset",
   "notificationsEndgameResetBody": "24 h before reset, if you still have stars left",
-  "widgetItemAbyss": "Abyss"
+  "widgetItemAbyss": "Abyss",
+  "trackerWarpSource": "From HoYoLAB · updates 1–2 h late. Import a link for the full history.",
+  "trackerWarpFailed": "Couldn't load warp stats from HoYoLAB."
 }

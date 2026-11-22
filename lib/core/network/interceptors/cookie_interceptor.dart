@@ -42,7 +42,10 @@ class CookieInterceptor extends Interceptor {
       );
       return;
     }
-    options.headers['Cookie'] = cookie;
+    final extra = options.hoyolabExtraCookie;
+    options.headers['Cookie'] = extra == null || extra.isEmpty
+        ? cookie
+        : '$cookie; $extra';
     handler.next(options);
   }
 }

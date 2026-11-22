@@ -22,6 +22,7 @@ class HoyolabHeadersInterceptor extends Interceptor {
       HeaderProfile.zzzNotes => _zzzNotesHeaders(),
       HeaderProfile.checkIn => _checkInHeaders(options),
       HeaderProfile.community => _communityHeaders(),
+      HeaderProfile.warpRecords => _warpHeaders(),
       null => const <String, String>{},
     };
     options.headers.addAll(headers);
@@ -43,6 +44,15 @@ class HoyolabHeadersInterceptor extends Interceptor {
     'Origin': HoyolabConfig.hoyolabWebUrl,
     'Referer': HoyolabConfig.hoyolabHomeUrl,
     'x-rpc-client_type': HoyolabConfig.clientTypeGameRecord,
+    'x-rpc-language': language(),
+  };
+
+  Map<String, String> _warpHeaders() => {
+    'Accept': 'application/json, text/plain, */*',
+    'Content-Type': 'application/json',
+    'Origin': HoyolabConfig.actOrigin,
+    'Referer': HoyolabConfig.actReferer,
+    'x-rpc-lang': language(),
     'x-rpc-language': language(),
   };
 

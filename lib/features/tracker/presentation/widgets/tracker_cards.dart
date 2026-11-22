@@ -46,6 +46,7 @@ class PityHeroCard extends StatelessWidget {
     required this.game,
     required this.banner,
     required this.pity,
+    this.showFourStar = true,
     super.key,
   });
 
@@ -57,6 +58,7 @@ class PityHeroCard extends StatelessWidget {
   final Game game;
   final String banner;
   final BannerPity pity;
+  final bool showFourStar;
 
   @override
   Widget build(BuildContext context) {
@@ -168,9 +170,10 @@ class PityHeroCard extends StatelessWidget {
           Row(
             spacing: AppSpacing.s12,
             children: [
-              Expanded(
-                child: _FourStarCard(pity: pity, game: game),
-              ),
+              if (showFourStar)
+                Expanded(
+                  child: _FourStarCard(pity: pity, game: game),
+                ),
               Expanded(
                 child: _EstimateCard(
                   game: game,

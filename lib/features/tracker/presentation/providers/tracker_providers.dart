@@ -2,7 +2,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/core/hoyolab/hoyolab_config.dart';
 import 'package:hoyo_aio/core/time/clock.dart';
+import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
 import 'package:hoyo_aio/features/tracker/data/gacha_repository_impl.dart';
+import 'package:hoyo_aio/features/tracker/data/warp_stats_repository.dart';
 import 'package:hoyo_aio/features/tracker/domain/gacha_record.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -24,6 +26,10 @@ BannerPity bannerPity(Ref ref, Game game, String banner) {
       if (record.banner == banner) record,
   ], standardPool: limited ? HoyolabConfig.gachaStandardPool[game] : null);
 }
+
+@riverpod
+Future<BannerPity?> warpPity(Ref ref, SavedRole role, String banner) =>
+    ref.watch(warpStatsRepositoryProvider).banner(role, banner);
 
 @riverpod
 Future<DateTime?> gachaLinkExpiry(Ref ref, Game game) {

@@ -704,5 +704,7 @@
   "notificationChannelEndgameResetDescription": "Pengingat 24 jam sebelum mode endgame reset selama bintangmu belum penuh.",
   "notificationsEndgameReset": "Reset Endgame",
   "notificationsEndgameResetBody": "24 jam sebelum reset, jika bintang belum penuh",
-  "widgetItemAbyss": "Abyss"
+  "widgetItemAbyss": "Abyss",
+  "trackerWarpSource": "Dari HoYoLAB · telat 1–2 jam. Impor tautan untuk riwayat lengkap.",
+  "trackerWarpFailed": "Gagal memuat statistik warp dari HoYoLAB."
 }

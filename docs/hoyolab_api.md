@@ -641,6 +641,16 @@ Expected `data.list[]` item: `uid`, `gacha_type`, `item_id`, `name`, `item_type`
 
 ---
 
+### 13.x HSR warp stats via the HoYoLAB tool (8.6) ⚠️ VERIFY
+
+Source: genshin.py PR #314 (`HSRWarpRecordsClient`, `BadgeLoginClient`); not yet live-checked on the owner's account.
+
+1. **Badge login:** `POST https://sg-act-public-api.hoyolab.com/common/badge/v1/login/account`, JSON body `{game_biz: "hkrpg_global", lang, region: <role.server>, uid}`, normal HoYoLAB cookie, **no** `x-rpc-device_id`. The response sets `e_hkrpg_token` (about 48 h), `e_lrsag`, `SERVERID`, `SERVERCORSID`; the app keeps them in memory only and sends them as extra cookies. A `-100` answer means "log in again", never "cookie expired" for the account.
+2. **Data:** `GET https://sg-act-public-api.hoyolab.com/event/rpg_gacha_record/{brief|pool_stat|five_star_list}?game_biz=hkrpg_global&region=&uid=&gacha_type=`; `gacha_type` is `GachaType_AvatarUp` (event character, `11`), `_EquipmentUp` (light cone, `12`), `_Standard` (`1`), `_Newbie` (`2`).
+3. **`five_star_list`:** `list[]` rows `{id, uuid, item{item_id, name, icon, big_icon, item_type, rarity}, is_up, gacha_count, got_item}`; paging with `has_more`, `version_id`, `next_max_id` (send `version_id` and `max_id`). The row with `got_item == false` is the running streak: its `gacha_count` is the current pity. `is_up` drives won / lost 50/50.
+4. **`pool_stat`:** `cards[]` `{gacha_id, version, pool_name, total_count, up_count, up_item}` (not shown in the UI yet).
+5. **Limits (HoYoLAB page):** 1–2 h delay, warp counts for the last 3 versions, 5★ list for 12 months, no per-pull history, no 4★ pity.
+
 ## 14. Battle Chronicle (Phase 11) ✅ live-checked 2026-11-22 (owner's account), gaps marked
 
 Source for **paths and parameters only** (no code copied): the community client `thesadru/genshin.py`, `genshin/client/components/chronicle/{genshin,starrail,zzz}.py` (checked 2026-11-22). Live check: **Settings › Chronicle Probe** in the dev build called every endpoint with the stored cookie; all returned `retcode 0` with the existing headers (DS on GI / HSR, none on ZZZ). Output stays in the app cache (`chronicle_probe.json`, IDs and names masked, lists trimmed to 2 items). The field lists below are what those responses contained; ⚠️ marks what they could not show.

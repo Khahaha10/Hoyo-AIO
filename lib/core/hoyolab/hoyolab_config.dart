@@ -54,6 +54,22 @@ abstract final class HoyolabConfig {
   static const genshinEventHost = 'sg-hk4e-api.hoyolab.com';
   static const publicEventHost = 'sg-public-api.hoyolab.com';
   static const communityHost = 'bbs-api-os.hoyolab.com';
+  static const warpHost = 'sg-act-public-api.hoyolab.com';
+  static const badgeLoginPath = '/common/badge/v1/login/account';
+  static const warpRecordsPath = '/event/rpg_gacha_record';
+  static const warpGameBiz = 'hkrpg_global';
+  static const warpTokenCookies = {
+    'e_hkrpg_token',
+    'e_lrsag',
+    'SERVERID',
+    'SERVERCORSID',
+  };
+  static const warpGachaTypes = <String, String>{
+    '11': 'GachaType_AvatarUp',
+    '12': 'GachaType_EquipmentUp',
+    '1': 'GachaType_Standard',
+    '2': 'GachaType_Newbie',
+  };
   static const gachaHosts = <Game, String>{
     Game.genshin: 'public-operation-hk4e-sg.hoyoverse.com',
     Game.starRail: 'public-operation-hkrpg-sg.hoyoverse.com',
@@ -66,6 +82,7 @@ abstract final class HoyolabConfig {
     genshinEventHost,
     publicEventHost,
     communityHost,
+    warpHost,
     ...gachaHosts.values,
   };
 

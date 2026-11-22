@@ -17,6 +17,9 @@ abstract final class Redactor {
     'account_mid_v2',
     'mid',
     'stoken',
+    'e_hkrpg_token',
+    'e_lrsag',
+    'e_nap_token',
     'authkey',
     'ds',
   ];
