@@ -18,10 +18,12 @@ import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/core/time/clock.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_format.dart';
+import 'package:hoyo_aio/features/databook/presentation/widgets/chronicle_avatar.dart';
 import 'package:hoyo_aio/features/tracker/domain/gacha_record.dart';
 import 'package:hoyo_aio/features/tracker/presentation/providers/tracker_providers.dart';
 import 'package:hoyo_aio/features/tracker/presentation/tracker_labels.dart';
 import 'package:hoyo_aio/features/tracker/presentation/widgets/import_sheet.dart';
+import 'package:hoyo_aio/features/tracker/presentation/widgets/pity_body.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
@@ -362,11 +364,12 @@ class _GroupHeader extends StatelessWidget {
   }
 }
 
-class _RecordRow extends StatelessWidget {
+class _RecordRow extends ConsumerWidget {
   const _RecordRow({required this.record, required this.pity});
 
   static const double _height = 56;
   static const double _pillWidth = 44;
+  static const double _avatar = 32;
   static const _clockStart = 11;
   static const _clockEnd = 16;
 
@@ -374,9 +377,11 @@ class _RecordRow extends StatelessWidget {
   final BannerPity pity;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
     final l10n = context.l10n;
+    final icons =
+        ref.watch(trackerIconsProvider(record.game)).value ?? const {};
     final five = record.rank >= BannerPity.fiveStar;
     final four = record.rank == BannerPity.fourStar;
     final rowPity = pity.rowPity[record.id];
@@ -415,6 +420,14 @@ class _RecordRow extends StatelessWidget {
               style: AppTextStyles.label.copyWith(color: pillFg),
             ),
           ),
+          if (record.rank >= BannerPity.fourStar)
+            ChronicleAvatar(
+              name: record.name,
+              element: null,
+              imageUrl: memberIcon(record.iconUrl, icons[record.name]),
+              rarity: record.rank,
+              size: _avatar,
+            ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

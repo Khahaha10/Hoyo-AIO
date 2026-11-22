@@ -62,6 +62,7 @@ class WarpStatsRepository {
             itemType: item['item_type'].stringValue,
             rank: BannerPity.fiveStar,
             time: '',
+            iconUrl: item['icon'].stringOrNull,
           ),
           pulls: row['gacha_count'].intValue,
           fiftyFifty: result,

@@ -9,6 +9,7 @@ import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/core/hoyolab/hoyolab_config.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_format.dart';
+import 'package:hoyo_aio/features/databook/presentation/widgets/chronicle_avatar.dart';
 import 'package:hoyo_aio/features/tracker/domain/gacha_record.dart';
 import 'package:hoyo_aio/features/tracker/presentation/tracker_labels.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -301,6 +302,7 @@ class FiveStarRow extends StatelessWidget {
     required this.pull,
     required this.game,
     required this.hard,
+    this.iconUrl,
     super.key,
   });
 
@@ -309,6 +311,7 @@ class FiveStarRow extends StatelessWidget {
   final FiveStarPull pull;
   final Game game;
   final int hard;
+  final String? iconUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -325,18 +328,12 @@ class FiveStarRow extends StatelessWidget {
       child: Row(
         spacing: AppSpacing.s12,
         children: [
-          Container(
-            width: _avatar,
-            height: _avatar,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: colors.warningBg,
-              shape: BoxShape.circle,
-            ),
-            child: Text(
-              name.isEmpty ? '?' : name.characters.first.toUpperCase(),
-              style: AppTextStyles.label.copyWith(color: colors.warning),
-            ),
+          ChronicleAvatar(
+            name: name,
+            element: null,
+            imageUrl: iconUrl,
+            rarity: BannerPity.fiveStar,
+            size: _avatar,
           ),
           Expanded(
             child: Column(

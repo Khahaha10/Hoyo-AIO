@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hoyo_aio/core/design_system/components/app_card.dart';
 import 'package:hoyo_aio/core/design_system/theme/theme_context.dart';
 import 'package:hoyo_aio/core/design_system/tokens/app_spacing.dart';
@@ -5,12 +6,17 @@ import 'package:hoyo_aio/core/design_system/tokens/app_text_styles.dart';
 import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_format.dart';
+import 'package:hoyo_aio/features/databook/presentation/widgets/chronicle_avatar.dart';
 import 'package:hoyo_aio/features/tracker/domain/gacha_record.dart';
+import 'package:hoyo_aio/features/tracker/presentation/providers/tracker_providers.dart';
 import 'package:hoyo_aio/features/tracker/presentation/widgets/tracker_cards.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 
-class PityBody extends StatelessWidget {
+String? memberIcon(String? own, String? fallback) =>
+    ChronicleAvatar.isAllowedImage(own) ? own : fallback;
+
+class PityBody extends ConsumerWidget {
   const PityBody({
     required this.game,
     required this.banner,
@@ -30,8 +36,9 @@ class PityBody extends StatelessWidget {
   final VoidCallback? onOpenHistory;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final icons = ref.watch(trackerIconsProvider(game)).value ?? const {};
     final colors = context.colors;
     final (hard, _) = pityLimits(game, banner);
     final shown = pity.fiveStars
@@ -121,7 +128,15 @@ class PityBody extends StatelessWidget {
                 ),
               for (final (index, pull) in shown.indexed) ...[
                 if (index > 0) Divider(height: 1, color: colors.border),
-                FiveStarRow(pull: pull, game: game, hard: hard),
+                FiveStarRow(
+                  pull: pull,
+                  game: game,
+                  hard: hard,
+                  iconUrl: memberIcon(
+                    pull.record.iconUrl,
+                    icons[pull.record.name],
+                  ),
+                ),
               ],
             ],
           ),

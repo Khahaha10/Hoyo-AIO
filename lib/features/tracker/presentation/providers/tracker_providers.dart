@@ -3,6 +3,8 @@ import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/core/hoyolab/hoyolab_config.dart';
 import 'package:hoyo_aio/core/time/clock.dart';
 import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
+import 'package:hoyo_aio/features/accounts/presentation/providers/selected_role_provider.dart';
+import 'package:hoyo_aio/features/databook/data/chronicle_repository_impl.dart';
 import 'package:hoyo_aio/features/tracker/data/gacha_repository_impl.dart';
 import 'package:hoyo_aio/features/tracker/data/warp_stats_repository.dart';
 import 'package:hoyo_aio/features/tracker/domain/gacha_record.dart';
@@ -30,6 +32,26 @@ BannerPity bannerPity(Ref ref, Game game, String banner) {
 @riverpod
 Future<BannerPity?> warpPity(Ref ref, SavedRole role, String banner) =>
     ref.watch(warpStatsRepositoryProvider).banner(role, banner);
+
+@riverpod
+Future<Map<String, String>> trackerIcons(Ref ref, Game game) async {
+  final role = ref
+      .watch(dashboardRolesProvider)
+      .where((role) => role.game == game)
+      .firstOrNull;
+  if (role == null) return const {};
+  try {
+    final characters = await ref
+        .watch(chronicleRepositoryProvider)
+        .characters(role);
+    return {
+      for (final character in characters.data)
+        character.name: ?character.iconUrl,
+    };
+  } on Exception {
+    return const {};
+  }
+}
 
 @riverpod
 Future<DateTime?> gachaLinkExpiry(Ref ref, Game game) {

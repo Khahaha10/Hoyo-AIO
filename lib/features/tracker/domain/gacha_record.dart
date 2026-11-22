@@ -16,6 +16,7 @@ abstract class GachaRecord with _$GachaRecord {
     required String itemType,
     required int rank,
     required String time,
+    String? iconUrl,
   }) = _GachaRecord;
 }
 
