@@ -11,6 +11,7 @@ enum PlannedAlert {
   currencyFull,
   transformerReady,
   dailyReminder,
+  endgameReset,
 }
 
 @freezed
@@ -24,6 +25,7 @@ abstract class PlannedNotification with _$PlannedNotification {
     String? roleName,
     int? value,
     int? max,
+    String? mode,
   }) = _PlannedNotification;
 
   const PlannedNotification._();
@@ -35,5 +37,6 @@ abstract class PlannedNotification with _$PlannedNotification {
     PlannedAlert.currencyFull => NotificationKind.currency,
     PlannedAlert.transformerReady => NotificationKind.transformer,
     PlannedAlert.dailyReminder => NotificationKind.dailyReminder,
+    PlannedAlert.endgameReset => NotificationKind.endgameReset,
   };
 }

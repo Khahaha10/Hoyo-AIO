@@ -8,7 +8,8 @@ enum NotificationKind {
   cookieExpired,
   newCodes,
   newEvents,
-  eventEnding;
+  eventEnding,
+  endgameReset;
 
   String get channelId => 'hoyo_aio_$name';
 }

@@ -19,6 +19,7 @@ import 'package:hoyo_aio/features/codes/data/codes_repository_impl.dart';
 import 'package:hoyo_aio/features/codes/domain/redeem_code.dart';
 import 'package:hoyo_aio/features/codes/presentation/code_format.dart';
 import 'package:hoyo_aio/features/dashboard/data/notes_repository_impl.dart';
+import 'package:hoyo_aio/features/databook/data/chronicle_repository_impl.dart';
 import 'package:hoyo_aio/features/events/data/events_repository_impl.dart';
 import 'package:hoyo_aio/features/events/domain/web_event.dart';
 import 'package:hoyo_aio/features/home_widgets/data/widget_labels.dart';
@@ -40,6 +41,7 @@ class BackgroundJobs {
   static const _eventIdBase = 400000;
   static const _endingIdBase = 500000;
   static const _endingWindow = Duration(days: 1);
+  static const _chronicleRefreshAge = Duration(days: 1);
 
   final ProviderContainer _container;
 
@@ -210,6 +212,7 @@ class BackgroundJobs {
   Future<void> _afterJob(List<AccountSummary> before) async {
     final after = await _accounts();
     await _notifyNewlyExpired(before, after);
+    await _refreshChronicle(after);
     await _reschedule(after);
     await _updateWidgets(after);
   }
@@ -245,6 +248,29 @@ class BackgroundJobs {
       db.appSettings,
     )..where((s) => s.id.equals(1))).getSingleOrNull();
     return row?.localeCode;
+  }
+
+  Future<void> _refreshChronicle(List<AccountSummary> accounts) async {
+    final settings = await _container
+        .read(notificationSettingsRepositoryProvider)
+        .read();
+    if (!settings.enabled || !settings.endgameReset) return;
+    final chronicle = _container.read(chronicleRepositoryProvider);
+    final now = _container.read(clockProvider)();
+    for (final role in _dashboardRoles(accounts)) {
+      final cached = await chronicle.cachedEndgameOverview(role);
+      if (cached != null &&
+          now.difference(cached.fetchedAt) < _chronicleRefreshAge) {
+        continue;
+      }
+      try {
+        await chronicle.endgameOverview(role, refresh: true);
+      } on AppException catch (error) {
+        _container
+            .read(appLoggerProvider)
+            .warning('chronicle refresh failed: ${error.runtimeType}');
+      }
+    }
   }
 
   Future<void> _reschedule(List<AccountSummary> accounts) async {

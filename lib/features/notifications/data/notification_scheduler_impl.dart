@@ -61,11 +61,22 @@ class NotificationSchedulerImpl implements NotificationScheduler {
         PlannedAlert.currencyFull => l10n.notifyCurrencyFull,
         PlannedAlert.transformerReady => l10n.notifyTransformerReady,
         PlannedAlert.dailyReminder => l10n.notifyDailyReminder,
+        PlannedAlert.endgameReset => l10n.notifyEndgameReset(
+          l10n.databookModeName(item.mode ?? ''),
+          item.value ?? 0,
+          item.max ?? 0,
+        ),
       };
 
   static String _body(PlannedNotification item, AppLocalizations l10n) {
     final game = item.game;
     if (game == null) return l10n.notifyDailyReminderBody;
+    if (item.alert == PlannedAlert.endgameReset) {
+      return l10n.notifyEndgameLeft(
+        (item.max ?? 0) - (item.value ?? 0),
+        item.roleName ?? '',
+      );
+    }
     return l10n.notifyRoleLine(item.roleName ?? '', l10n.gameName(game));
   }
 

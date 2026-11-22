@@ -24,6 +24,10 @@ abstract interface class ChronicleRepository {
     bool refresh = false,
   });
 
+  Future<ChronicleResult<List<EndgameSummary>>?> cachedEndgameOverview(
+    SavedRole role,
+  );
+
   Future<ChronicleResult<EndgameDetail>> endgameDetail(
     SavedRole role,
     EndgameMode mode, {

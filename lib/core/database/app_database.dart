@@ -82,6 +82,9 @@ class AppDatabase extends _$AppDatabase {
   Stream<Set<TableUpdate>> noteSnapshotChanges() =>
       tableUpdates(TableUpdateQuery.onTable(noteSnapshots));
 
+  Stream<Set<TableUpdate>> chronicleCacheChanges() =>
+      tableUpdates(TableUpdateQuery.onTable(chronicleCache));
+
   static QueryExecutor _openDefault() => driftDatabase(
     name: fileName,
     native: const DriftNativeOptions(shareAcrossIsolates: true),

@@ -235,6 +235,10 @@ class NotificationService {
       l10n.notificationChannelNewEvents,
       l10n.notificationChannelNewEventsDescription,
     ),
+    NotificationKind.endgameReset => (
+      l10n.notificationChannelEndgameReset,
+      l10n.notificationChannelEndgameResetDescription,
+    ),
     NotificationKind.eventEnding => (
       l10n.notificationChannelEventEnding,
       l10n.notificationChannelEventEndingDescription,

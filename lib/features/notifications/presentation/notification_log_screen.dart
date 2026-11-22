@@ -120,6 +120,7 @@ class _NotificationLogScreenState extends ConsumerState<NotificationLogScreen> {
     NotificationKind.expeditions => LucideIcons.compass,
     NotificationKind.currency => LucideIcons.coins,
     NotificationKind.transformer => LucideIcons.repeat,
+    NotificationKind.endgameReset => LucideIcons.trophy,
     NotificationKind.dailyReminder => LucideIcons.listChecks,
     NotificationKind.checkInResult => LucideIcons.calendarCheck,
     NotificationKind.cookieExpired => LucideIcons.cookie,

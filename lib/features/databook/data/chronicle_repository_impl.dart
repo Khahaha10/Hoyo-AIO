@@ -131,6 +131,25 @@ class ChronicleRepositoryImpl implements ChronicleRepository {
   }
 
   @override
+  Future<ChronicleResult<List<EndgameSummary>>?> cachedEndgameOverview(
+    SavedRole role,
+  ) async {
+    final now = _now();
+    final summaries = <EndgameSummary>[];
+    DateTime? oldest;
+    for (final mode in EndgameMode.forGame(role.game)) {
+      final cached = await _readCache(role, _key(_currentKeys, mode));
+      if (cached == null) continue;
+      summaries.add(_mapSummary(mode, role, Json(cached.data), now));
+      if (oldest == null || cached.fetchedAt.isBefore(oldest)) {
+        oldest = cached.fetchedAt;
+      }
+    }
+    if (oldest == null) return null;
+    return ChronicleResult(data: summaries, fetchedAt: oldest);
+  }
+
+  @override
   Future<ChronicleResult<EndgameDetail>> endgameDetail(
     SavedRole role,
     EndgameMode mode, {

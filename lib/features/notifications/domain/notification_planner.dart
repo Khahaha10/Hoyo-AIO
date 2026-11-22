@@ -1,6 +1,7 @@
 import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
 import 'package:hoyo_aio/features/dashboard/domain/expedition.dart';
 import 'package:hoyo_aio/features/dashboard/domain/game_note.dart';
+import 'package:hoyo_aio/features/databook/domain/endgame_models.dart';
 import 'package:hoyo_aio/features/notifications/domain/notification_settings.dart';
 import 'package:hoyo_aio/features/notifications/domain/planned_notification.dart';
 
@@ -9,6 +10,12 @@ abstract final class NotificationPlanner {
   static const _roleIdBase = 1000;
   static const _slotsPerRole = 10;
   static const _percent = 100;
+  static const _endgameIdBase = 200000;
+  static const _endgameSlotsPerRole = 100;
+  static const endgameLead = Duration(hours: 24);
+
+  static int endgameNotificationId(int roleId, EndgameMode mode) =>
+      _endgameIdBase + roleId * _endgameSlotsPerRole + mode.index;
 
   static int roleNotificationId(int roleId, PlannedAlert alert) =>
       _roleIdBase + roleId * _slotsPerRole + alert.index;
@@ -17,10 +24,14 @@ abstract final class NotificationPlanner {
     required List<(SavedRole, GameNote)> notes,
     required NotificationSettings settings,
     required DateTime now,
+    List<(SavedRole, List<EndgameSummary>)> endgame = const [],
   }) {
     if (!settings.enabled) return const [];
     final planned = [
       for (final (role, note) in notes) ..._forRole(role, note, settings),
+      if (settings.endgameReset)
+        for (final (role, summaries) in endgame)
+          for (final summary in summaries) ?_endgameReset(role, summary),
       if (settings.dailyReminder)
         PlannedNotification(
           id: dailyReminderId,
@@ -83,6 +94,27 @@ abstract final class NotificationPlanner {
           when settings.transformer)
         item(PlannedAlert.transformerReady, transformerReadyAt),
     ];
+  }
+
+  static PlannedNotification? _endgameReset(
+    SavedRole role,
+    EndgameSummary summary,
+  ) {
+    final end = summary.endsAt;
+    final max = summary.maxStars;
+    final stars = summary.stars ?? 0;
+    if (end == null || max == null || stars >= max) return null;
+    return PlannedNotification(
+      id: endgameNotificationId(role.id, summary.mode),
+      alert: PlannedAlert.endgameReset,
+      at: end.subtract(endgameLead),
+      game: role.game,
+      roleUid: role.uid,
+      roleName: role.nickname,
+      value: stars,
+      max: max,
+      mode: summary.mode.name,
+    );
   }
 
   static PlannedNotification? _applyQuietHours(

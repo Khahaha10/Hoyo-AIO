@@ -192,6 +192,16 @@ class _AlertsCard extends StatelessWidget {
           ),
         ),
         SettingsRow(
+          icon: LucideIcons.trophy,
+          title: l10n.notificationsEndgameReset,
+          subtitle: l10n.notificationsEndgameResetBody,
+          trailing: toggle(
+            l10n.notificationsEndgameReset,
+            value: settings.endgameReset,
+            onSet: (v) => onChanged(settings.copyWith(endgameReset: v)),
+          ),
+        ),
+        SettingsRow(
           icon: LucideIcons.listChecks,
           title: l10n.notificationsDailyReminder,
           subtitle: l10n.notificationsDailyReminderBody,

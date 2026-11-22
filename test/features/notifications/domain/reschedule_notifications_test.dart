@@ -8,6 +8,7 @@ import 'package:hoyo_aio/features/notifications/domain/notification_settings.dar
 import 'package:hoyo_aio/features/notifications/domain/planned_notification.dart';
 import 'package:hoyo_aio/features/notifications/domain/reschedule_notifications.dart';
 
+import '../../databook/_support/no_chronicle.dart';
 import '../_support/notes.dart';
 
 class _CachedNotes implements NotesRepository {
@@ -38,6 +39,7 @@ void main() {
     final scheduler = _RecordingScheduler();
     final reschedule = RescheduleNotifications(
       _CachedNotes({1: NoteResult(note: genshinNote())}),
+      const NoChronicle(),
       scheduler,
       () => fetchedAt,
     );
@@ -58,6 +60,7 @@ void main() {
     final scheduler = _RecordingScheduler();
     final reschedule = RescheduleNotifications(
       _CachedNotes({1: NoteResult(note: genshinNote())}),
+      const NoChronicle(),
       scheduler,
       () => fetchedAt,
     );

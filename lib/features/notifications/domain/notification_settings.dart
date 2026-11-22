@@ -17,6 +17,7 @@ abstract class NotificationSettings with _$NotificationSettings {
     @Default(true) bool checkInResult,
     @Default(true) bool codes,
     @Default(true) bool events,
+    @Default(false) bool endgameReset,
     @Default(false) bool quietHours,
     @Default(23 * 60) int quietStartMinutes,
     @Default(7 * 60) int quietEndMinutes,
@@ -33,6 +34,7 @@ abstract class NotificationSettings with _$NotificationSettings {
     checkInResult,
     codes,
     events,
+    endgameReset,
     true,
   ].where((on) => on).length;
 
