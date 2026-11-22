@@ -5,7 +5,7 @@
 <h1 align="center">HoYo AIO</h1>
 
 <p align="center">
-  <b>Your HoYoverse game notes, check-ins, codes and pity in one place.</b>
+  <b>Your HoYoverse game notes, check-ins, codes, pity and Battle Chronicle in one place.</b>
 </p>
 
 <p align="center">
@@ -31,10 +31,11 @@ A companion app for **Genshin Impact**, **Honkai: Star Rail**, **Zenless Zone Ze
 | ----------------------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | "Is my Resin / Power / Battery full yet?" | **Dashboard**                   | Stamina ring with time-to-full, currencies, dailies, weeklies and expeditions / assignments with live countdowns. Works offline from the last refresh.        |
 | "Did I check in today?"                   | **Daily check-in**              | This month's reward calendar for all four games, a Check In Now button and **auto check-in** at a time you pick, with a history of every run.                |
-| "Tell me before it overflows."            | **Notifications**               | Stamina threshold and full, expeditions done, Realm Currency, Transformer, daily reminder, check-in result, cookie expired. Quiet hours included.            |
+| "Tell me before it overflows."            | **Notifications**               | Stamina threshold and full, expeditions done, Realm Currency, Transformer, daily reminder, check-in result, cookie expired and **endgame reset** (24 h before, if you still have stars left). Quiet hours included. |
 | "Any new codes or events?"                | **Codes & events**              | New redeem codes and web events from HoYoLAB, with one tap to copy a code and open the official redeem page. No automatic redeeming.                         |
-| "How close am I to pity?"                 | **Wish / warp / signal tracker** | Paste your in-game history link once and see pity per banner, 5★ history with pull counts and your 50/50 record. History is kept on the device.             |
-| "I want it on my home screen."            | **Widgets**                     | Small 2×1, Medium 2×2 and Large 4×2 widgets with theme, opacity, accent, font size and visible items. Stamina keeps counting up between refreshes.          |
+| "How close am I to pity?"                 | **Wish / warp / signal tracker** | Pity per banner, 5★ history with pull counts and your 50/50 record. Star Rail reads pity straight from HoYoLAB with no link to paste; for the full history of any game, paste your in-game history link once. History is kept on the device. |
+| "How is my account doing?"                | **Databook** (Battle Chronicle) | Per role for Genshin, Star Rail and ZZZ: profile stats, a character roster with filters and a detail sheet (constellation, weapon, gear), and endgame progress for the current and previous cycle: Spiral Abyss, Imaginarium Theater, Stygian Onslaught, Memory of Chaos, Pure Fiction, Apocalyptic Shadow, Anomaly Arbitration, Shiyu Defense and Deadly Assault, with teams and reset countdowns. Read-only. |
+| "I want it on my home screen."            | **Widgets**                     | Small 2×1, Medium 2×2 and Large 4×2 widgets with theme, opacity, accent, font size and visible items (including Spiral Abyss stars). Stamina keeps counting up between refreshes. |
 
 Every notification the app sends is also kept in a **notification log** behind the bell on the dashboard.
 
@@ -76,7 +77,7 @@ Updates install over the old version and keep your data, as long as they come fr
 - **No backend, no account, no analytics, no ads.** The only servers the app talks to are official HoYoLAB / HoYoverse hosts.
 - **Your cookie never leaves the phone** except inside requests to those hosts. It is encrypted twice: by Android Keystore / iOS Keychain, and again with AES-256-GCM before it is stored.
 - A network guard rejects any request to a host that is not on the allowlist, before the cookie is even read.
-- Logs strip cookies, tokens and the gacha `authkey`, and shorten UIDs to their last 3 digits.
+- Logs strip cookies, tokens (including the short-lived HoYoLAB warp token) and the gacha `authkey`, and shorten UIDs to their last 3 digits.
 - **Backups** (Settings › Backup) contain settings, accounts, roles and widget layouts, never cookies. Imported accounts ask you to log in again.
 - Android cloud backup is turned off for the app, so its data is not copied off the device.
 
@@ -127,7 +128,7 @@ hoyo-aio/
 │   │                   database, errors, logging, translations
 │   └── features/       accounts, dashboard, checkin, notifications,
 │                       background, home_widgets, codes, events,
-│                       tracker, settings, onboarding
+│                       tracker, databook, settings, onboarding
 ├── android/            Android app + Glance widgets (Kotlin)
 ├── ios/                iOS app + WidgetKit extension (Swift)
 ├── test/               ~900 unit, widget and golden tests
@@ -167,8 +168,8 @@ The **dev** flavor installs as "HoYo Dev" next to the normal app and adds a comp
 
 ## Releasing a new version
 
-1. Raise `version:` in `pubspec.yaml` (for example `1.0.1+2`) and commit.
-2. Tag and push: `git tag v1.0.1 && git push origin v1.0.1`.
+1. Raise `version:` in `pubspec.yaml` (for example `1.1.1+3`; the number after `+` must go up so the APK installs as an update) and commit.
+2. Tag and push: `git tag v1.1.1 && git push origin v1.1.1`.
 3. The **Release** workflow builds a signed APK and publishes it with release notes and a checksum.
 
 Signing uses four repository secrets: `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD`. For signed builds on your own computer, put the same values in `android/key.properties` (never committed).
@@ -185,5 +186,7 @@ Signing uses four repository secrets: `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTO
 - [x] Redeem codes, web events, wish / warp / signal tracker
 - [x] English and Bahasa Indonesia, light / dark / dynamic color, backup
 - [x] Signed Android release on GitHub
+- [x] Battle Chronicle (Databook): profile, characters, endgame, reset reminder
+- [x] Star Rail warp stats from HoYoLAB without an import link
 - [ ] Performance and accessibility pass (TalkBack, large text, small screens)
 - [ ] iOS tested on a real device
