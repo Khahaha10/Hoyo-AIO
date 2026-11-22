@@ -49,7 +49,7 @@ void main() {
       expect(settings.onboardingSeen, isFalse);
       expect(settings.accent, 'lime');
       expect(settings.refreshIntervalMinutes, 30);
-      expect(db.schemaVersion, 7);
+      expect(db.schemaVersion, 8);
     });
 
     test('account CRUD and role defaults', () async {

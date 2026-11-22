@@ -222,6 +222,7 @@ abstract final class HoyolabConfig {
   static const genshinNotePath = '/game_record/genshin/api/dailyNote';
   static const starRailNotePath = '/game_record/hkrpg/api/note';
   static const zzzNotePath = '/event/game_record_zzz/api/zzz/note';
+  static const chronicleSwitchId = 1;
 
   static const chronicleEndpoints = <ChronicleEndpoint>[
     ChronicleEndpoint(
@@ -302,10 +303,22 @@ abstract final class HoyolabConfig {
       params: {'schedule_type': '1', 'need_all': 'true'},
     ),
     ChronicleEndpoint(
+      key: 'hsr.fiction.previous',
+      game: Game.starRail,
+      path: '/game_record/hkrpg/api/challenge_story',
+      params: {'schedule_type': '2', 'need_all': 'true'},
+    ),
+    ChronicleEndpoint(
       key: 'hsr.shadow.current',
       game: Game.starRail,
       path: '/game_record/hkrpg/api/challenge_boss',
       params: {'schedule_type': '1', 'need_all': 'true'},
+    ),
+    ChronicleEndpoint(
+      key: 'hsr.shadow.previous',
+      game: Game.starRail,
+      path: '/game_record/hkrpg/api/challenge_boss',
+      params: {'schedule_type': '2', 'need_all': 'true'},
     ),
     ChronicleEndpoint(
       key: 'hsr.arbitration.current',

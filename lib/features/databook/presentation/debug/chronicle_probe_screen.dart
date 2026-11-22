@@ -6,6 +6,7 @@ import 'package:hoyo_aio/core/design_system/tokens/app_text_styles.dart';
 import 'package:hoyo_aio/core/network/hoyolab_dio_provider.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/selected_role_provider.dart';
 import 'package:hoyo_aio/features/databook/data/chronicle_probe.dart';
+import 'package:hoyo_aio/features/databook/data/chronicle_remote_source.dart';
 import 'package:material_ui/material_ui.dart';
 
 class ChronicleProbeScreen extends ConsumerStatefulWidget {
@@ -23,8 +24,9 @@ class _ChronicleProbeScreenState extends ConsumerState<ChronicleProbeScreen> {
   Future<void> _run() async {
     setState(() => _busy = true);
     final roles = ref.read(dashboardRolesProvider);
-    final results = await ChronicleProbe(ref.read(hoyolabDioProvider))
-        .run(roles);
+    final results = await ChronicleProbe(
+      ChronicleRemoteSource(ref.read(hoyolabDioProvider)),
+    ).run(roles);
     final lines = <String>[
       for (final MapEntry(key: game, value: endpoints) in results.entries)
         if (endpoints is Map)

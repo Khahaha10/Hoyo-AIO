@@ -1,16 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:hoyo_aio/core/error/app_exception.dart';
 import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/core/hoyolab/hoyolab_config.dart';
-import 'package:hoyo_aio/core/network/hoyolab_dio.dart';
-import 'package:hoyo_aio/core/network/hoyolab_request.dart';
 import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
+import 'package:hoyo_aio/features/databook/data/chronicle_remote_source.dart';
 
 class ChronicleProbe {
-  const ChronicleProbe(this._dio);
+  const ChronicleProbe(this._remote);
 
   static const fileName = 'chronicle_probe.json';
   static const _sampleItems = 2;
@@ -27,7 +25,7 @@ class ChronicleProbe {
     'introduce',
   };
 
-  final Dio _dio;
+  final ChronicleRemoteSource _remote;
 
   static File get outputFile => File('${Directory.systemTemp.path}/$fileName');
 
@@ -64,15 +62,12 @@ class ChronicleProbe {
     String? entityId,
   }) async {
     try {
-      final response = await guardHoyolab(
-        () => _request(role, endpoint, entityId),
-      );
-      final body = response.data;
-      final data = body?['data'];
+      final body = await _remote.fetchBody(role, endpoint, entityId: entityId);
+      final data = body['data'];
       final lengths = <String, int>{};
       return (
         summary: {
-          'retcode': body?['retcode'],
+          'retcode': body['retcode'],
           'data': _sanitize(data, lengths, ''),
           'listLengths': lengths,
         },
@@ -81,53 +76,6 @@ class ChronicleProbe {
     } on AppException catch (e) {
       return (summary: {'error': _describe(e)}, raw: null);
     }
-  }
-
-  Future<Response<Map<String, dynamic>>> _request(
-    SavedRole role,
-    ChronicleEndpoint endpoint,
-    String? entityId,
-  ) {
-    final host = role.game == Game.zzz
-        ? HoyolabConfig.zzzRecordHost
-        : HoyolabConfig.gameRecordHost;
-    final profile = role.game == Game.zzz
-        ? HeaderProfile.zzzNotes
-        : HeaderProfile.gameRecord;
-    final query = <String, String>{
-      if (endpoint.uidRegionParams) ...{
-        'uid': role.uid,
-        'region': role.server,
-      } else ...{
-        'role_id': role.uid,
-        'server': role.server,
-      },
-      ...endpoint.params,
-      if (endpoint.method == ChronicleMethod.get &&
-          endpoint.idParam != null &&
-          entityId != null)
-        endpoint.idParam!: entityId,
-    };
-    final options = hoyolabOptions(
-      accountId: role.accountId,
-      profile: profile,
-      game: role.game,
-    );
-    return switch (endpoint.method) {
-      ChronicleMethod.get => _dio.getUri<Map<String, dynamic>>(
-        Uri.https(host, endpoint.path, query),
-        options: options,
-      ),
-      ChronicleMethod.post => _dio.postUri<Map<String, dynamic>>(
-        Uri.https(host, endpoint.path),
-        data: {
-          ...query,
-          if (endpoint.idParam case final param? when entityId != null)
-            param: [int.tryParse(entityId) ?? entityId],
-        },
-        options: options,
-      ),
-    };
   }
 
   static String? _firstEntityId(Object? data) {

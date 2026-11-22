@@ -12,17 +12,17 @@ void main() {
 
   setUpAll(() => verifier = SchemaVerifier(GeneratedHelper()));
 
-  for (var from = 1; from < 7; from++) {
-    test('upgrades from v$from to v7 with the exported schema', () async {
+  for (var from = 1; from < 8; from++) {
+    test('upgrades from v$from to v8 with the exported schema', () async {
       final schema = await verifier.schemaAt(from);
       final db = AppDatabase(schema.newConnection());
       addTearDown(db.close);
 
-      await verifier.migrateAndValidate(db, 7);
+      await verifier.migrateAndValidate(db, 8);
     });
   }
 
-  test('v1 to v7 keeps accounts and settings and adds defaults', () async {
+  test('v1 to v8 keeps accounts and settings and adds defaults', () async {
     final schema = await verifier.schemaAt(1);
     schema.rawDatabase
       ..execute(
@@ -37,7 +37,7 @@ void main() {
     final db = AppDatabase(schema.newConnection());
     addTearDown(db.close);
 
-    await verifier.migrateAndValidate(db, 7);
+    await verifier.migrateAndValidate(db, 8);
 
     final account = await db.select(db.accounts).getSingle();
     final settings = await db.select(db.appSettings).getSingle();

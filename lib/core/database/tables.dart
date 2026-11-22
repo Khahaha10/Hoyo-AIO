@@ -161,3 +161,15 @@ class NotificationLog extends Table {
   DateTimeColumn get at => dateTime()();
   BoolColumn get read => boolean().withDefault(const Constant(false))();
 }
+
+@DataClassName('ChronicleCacheRow')
+class ChronicleCache extends Table {
+  IntColumn get roleId =>
+      integer().references(GameRoles, #id, onDelete: KeyAction.cascade)();
+  TextColumn get key => text()();
+  TextColumn get payload => text()();
+  DateTimeColumn get fetchedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {roleId, key};
+}
