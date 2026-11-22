@@ -211,7 +211,12 @@ class _Content extends StatelessWidget {
             ),
           ),
           for (final summary in endgame)
-            EndgameCard(summary: summary, now: now),
+            EndgameCard(
+              summary: summary,
+              now: now,
+              onTap: () =>
+                  context.push('${AppRoutes.endgame}/${summary.mode.name}'),
+            ),
         ],
       ],
     );

@@ -515,5 +515,134 @@
   "databookPieces": "{count} pc",
   "databookUpgradeLevel": "+{level}",
   "databookGearFailed": "Gagal memuat detail perlengkapan.",
-  "databookClose": "Tutup"
+  "databookClose": "Tutup",
+  "databookCurrent": "Saat Ini",
+  "databookPrevious": "Sebelumnya",
+  "databookViewPrevious": "Lihat Siklus Sebelumnya",
+  "databookEmptyLeft": "Kamu masih punya {time} untuk mencobanya.",
+  "@databookEmptyLeft": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "databookEmptyEnded": "Siklus ini sudah berakhir.",
+  "databookPeriod": "{start} – {end}",
+  "@databookPeriod": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "databookShowMore": "Tampilkan {count} lagi",
+  "@databookShowMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "databookShowLess": "Tampilkan lebih sedikit",
+  "databookHighlights": "Sorotan",
+  "databookTotalOf": "/ {max}",
+  "@databookTotalOf": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "databookSecondsShort": "{seconds}d",
+  "@databookSecondsShort": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "databookMinutesSeconds": "{minutes}m {seconds}d",
+  "@databookMinutesSeconds": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "databookMinutesOnly": "{minutes}m",
+  "@databookMinutesOnly": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "databookEndgameFailed": "Gagal memuat endgame ini.",
+  "databookStatName": "{kind, select, deepest{Terdalam} battles{Pertarungan} wins{Menang} maxFloor{Lantai maks} cycles{Siklus} medals{Medali} actReached{Babak dicapai} battleTime{Waktu bertarung} difficulty{Kesulitan} bestTime{Tercepat} rating{Rating} score{Total skor} stars{Total bintang} bosses{Boss} other{Statistik}}",
+  "@databookStatName": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "databookHighlightName": "{kind, select, mostUsed{Paling sering dipakai} mostDefeats{Kekalahan terbanyak} strongestStrike{Serangan tunggal terkuat} mostDamageTaken{Damage diterima terbanyak} skillsCast{Skill elemen digunakan} burstsUnleashed{Burst elemen dilepaskan} other{Sorotan}}",
+  "@databookHighlightName": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "databookRowTitle": "{kind, select, chamber{Ruang {index}} act{Babak {index}} floor{Lantai {index}} frontier{Frontier {index}} challenge{Tantangan {index}} boss{Boss {index}} record{Rekor {index}} other{Entri {index}}}",
+  "@databookRowTitle": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      },
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "databookRowPlain": "{kind, select, chamber{Ruang} act{Babak} floor{Lantai} frontier{Frontier} challenge{Tantangan} boss{Boss} record{Rekor} other{Entri}}",
+  "@databookRowPlain": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "databookRowPlural": "{kind, select, chamber{Ruang} act{Babak} floor{Lantai} frontier{Frontier} challenge{Tantangan} boss{Boss} record{Rekor} other{Entri}}",
+  "@databookRowPlural": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "databookTeamLabel": "{kind, select, first{Ke-1} second{Ke-2} node1{Node 1} node2{Node 2} node3{Node 3} cast{Pemeran} squad{Tim} other{Tim}}",
+  "@databookTeamLabel": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "databookRounds": "{count} siklus",
+  "@databookRounds": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "databookNotAttemptedPrevious": "Belum dicoba di siklus sebelumnya"
 }

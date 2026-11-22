@@ -3,6 +3,8 @@ abstract final class AppRoutes {
   static const checkIn = '/check-in';
   static const databook = '/databook';
   static const characters = '/databook/characters';
+  static const endgame = '/databook/endgame';
+  static const modeParam = 'mode';
   static const widgets = '/widgets';
   static const settings = '/settings';
   static const splash = '/splash';

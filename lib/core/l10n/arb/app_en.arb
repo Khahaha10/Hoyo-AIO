@@ -1545,5 +1545,134 @@
     }
   },
   "databookGearFailed": "Couldn't load gear details.",
-  "databookClose": "Close"
+  "databookClose": "Close",
+  "databookCurrent": "Current",
+  "databookPrevious": "Previous",
+  "databookViewPrevious": "View Previous Cycle",
+  "databookEmptyLeft": "You still have {time} to try it.",
+  "@databookEmptyLeft": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "databookEmptyEnded": "This cycle has ended.",
+  "databookPeriod": "{start} – {end}",
+  "@databookPeriod": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "databookShowMore": "Show {count} more",
+  "@databookShowMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "databookShowLess": "Show less",
+  "databookHighlights": "Highlights",
+  "databookTotalOf": "/ {max}",
+  "@databookTotalOf": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "databookSecondsShort": "{seconds}s",
+  "@databookSecondsShort": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "databookMinutesSeconds": "{minutes}m {seconds}s",
+  "@databookMinutesSeconds": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "databookMinutesOnly": "{minutes}m",
+  "@databookMinutesOnly": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "databookEndgameFailed": "Couldn't load this endgame.",
+  "databookStatName": "{kind, select, deepest{Deepest} battles{Battles} wins{Wins} maxFloor{Max floor} cycles{Cycles} medals{Medals} actReached{Act reached} battleTime{Battle time} difficulty{Difficulty} bestTime{Fastest} rating{Rating} score{Total score} stars{Total stars} bosses{Bosses} other{Stat}}",
+  "@databookStatName": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "databookHighlightName": "{kind, select, mostUsed{Most used} mostDefeats{Most defeats} strongestStrike{Strongest single strike} mostDamageTaken{Most damage taken} skillsCast{Elemental skills cast} burstsUnleashed{Elemental bursts unleashed} other{Highlight}}",
+  "@databookHighlightName": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "databookRowTitle": "{kind, select, chamber{Chamber {index}} act{Act {index}} floor{Floor {index}} frontier{Frontier {index}} challenge{Challenge {index}} boss{Boss {index}} record{Record {index}} other{Entry {index}}}",
+  "@databookRowTitle": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      },
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "databookRowPlain": "{kind, select, chamber{Chamber} act{Act} floor{Floor} frontier{Frontier} challenge{Challenge} boss{Boss} record{Record} other{Entry}}",
+  "@databookRowPlain": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "databookRowPlural": "{kind, select, chamber{Chambers} act{Acts} floor{Floors} frontier{Frontiers} challenge{Challenges} boss{Bosses} record{Records} other{Entries}}",
+  "@databookRowPlural": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "databookTeamLabel": "{kind, select, first{1st} second{2nd} node1{Node 1} node2{Node 2} node3{Node 3} cast{Cast} squad{Squad} other{Team}}",
+  "@databookTeamLabel": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "databookRounds": "{count, plural, =1{1 cycle} other{{count} cycles}}",
+  "@databookRounds": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "databookNotAttemptedPrevious": "Not attempted in the previous cycle"
 }
