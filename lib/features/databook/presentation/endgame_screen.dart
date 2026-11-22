@@ -179,6 +179,8 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final summary = detail.summary;
     final sections = detail.sections;
+    final foldRest =
+        sections.length > 1 && sections.first.kind == EndgameRowKind.floor;
     if (!summary.attempted) {
       return EndgameEmpty(
         summary: summary,
@@ -194,13 +196,15 @@ class _Body extends StatelessWidget {
         _PeriodRow(summary: summary, now: now, previous: previous),
         EndgameStatsCard(detail: detail),
         EndgameHighlightsCard(highlights: detail.highlights, roster: roster),
-        if (sections.isNotEmpty)
+        if (foldRest) ...[
           EndgameSectionCard(section: sections.first, roster: roster),
-        if (sections.length > 1)
           EndgameSectionFolds(
             sections: sections.skip(1).toList(),
             roster: roster,
           ),
+        ] else
+          for (final section in sections)
+            EndgameSectionCard(section: section, roster: roster),
       ],
     );
   }

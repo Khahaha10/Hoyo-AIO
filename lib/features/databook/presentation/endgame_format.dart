@@ -21,6 +21,9 @@ extension EndgameFormat on AppLocalizations {
 
   String sectionTitle(EndgameSection section) {
     final index = section.index;
+    if (index == null && section.rows.length == 1) {
+      return databookRowPlain(section.kind.name);
+    }
     if (index == null) return databookRowPlural(section.kind.name);
     return databookRowTitle(section.kind.name, index);
   }

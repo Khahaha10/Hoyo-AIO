@@ -612,7 +612,7 @@
       }
     }
   },
-  "databookRowPlain": "{kind, select, chamber{Ruang} act{Babak} floor{Lantai} frontier{Frontier} challenge{Tantangan} boss{Boss} knight{Knight} bossKnight{Boss & Knight} record{Rekor} other{Entri}}",
+  "databookRowPlain": "{kind, select, chamber{Ruang} act{Babak} floor{Lantai} frontier{Frontier} challenge{Tantangan} boss{Boss} knight{Knight} record{Rekor} other{Entri}}",
   "@databookRowPlain": {
     "placeholders": {
       "kind": {
@@ -620,7 +620,7 @@
       }
     }
   },
-  "databookRowPlural": "{kind, select, chamber{Ruang} act{Babak} floor{Lantai} frontier{Frontier} challenge{Tantangan} boss{Boss} knight{Knight} bossKnight{Boss & Knight} record{Rekor} other{Entri}}",
+  "databookRowPlural": "{kind, select, chamber{Ruang} act{Babak} floor{Lantai} frontier{Frontier} challenge{Tantangan} boss{Boss} knight{Knight} record{Rekor} other{Entri}}",
   "@databookRowPlural": {
     "placeholders": {
       "kind": {

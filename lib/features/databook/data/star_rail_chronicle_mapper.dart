@@ -194,8 +194,6 @@ abstract final class StarRailChronicleMapper {
       summary: _floorsSummary(mode, d, offset, maxStars),
       stats: [
         EndgameStat(EndgameStatKind.stars, number: d['star_num'].intValue),
-        if (d['max_floor'].stringOrNull case final floor?)
-          EndgameStat(EndgameStatKind.maxFloor, text: floor),
         EndgameStat(EndgameStatKind.battles, number: d['battle_num'].intValue),
       ],
       sections: [
@@ -297,7 +295,7 @@ abstract final class StarRailChronicleMapper {
   static EndgameDetail _arbitrationDetail(Json record, Duration offset) {
     final boss = record['boss_record'];
     final infos = record['mob_infos'].items;
-    final rows = <EndgameRow>[
+    final bossRows = <EndgameRow>[
       if (boss['has_challenge_record'].boolValue)
         EndgameRow(
           kind: EndgameRowKind.boss,
@@ -308,6 +306,8 @@ abstract final class StarRailChronicleMapper {
             EndgameTeam(EndgameTeamLabel.squad, _members(boss['avatars'])),
           ],
         ),
+    ];
+    final knightRows = <EndgameRow>[
       for (final (i, mob) in record['mob_records'].items.indexed)
         if (mob['has_challenge_record'].boolValue)
           EndgameRow(
@@ -330,8 +330,10 @@ abstract final class StarRailChronicleMapper {
         ),
       ],
       sections: [
-        if (rows.isNotEmpty)
-          EndgameSection(kind: EndgameRowKind.bossKnight, rows: rows),
+        if (bossRows.isNotEmpty)
+          EndgameSection(kind: EndgameRowKind.boss, rows: bossRows),
+        if (knightRows.isNotEmpty)
+          EndgameSection(kind: EndgameRowKind.knight, rows: knightRows),
       ],
     );
   }

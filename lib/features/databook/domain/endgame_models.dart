@@ -150,8 +150,6 @@ class EndgameTeam {
   final int? rounds;
   final int? score;
   final String? note;
-
-  bool get hasDetails => rounds != null || score != null || note != null;
 }
 
 enum EndgameRowKind {
@@ -161,7 +159,6 @@ enum EndgameRowKind {
   challenge,
   boss,
   knight,
-  bossKnight,
   frontier,
   record,
 }

@@ -13,7 +13,6 @@ import 'package:material_ui/material_ui.dart';
 class EndgameTeams extends StatelessWidget {
   const EndgameTeams({required this.teams, required this.roster, super.key});
 
-  static const double _compactAvatar = 24;
   static const double _panelAvatar = 32;
 
   final List<EndgameTeam> teams;
@@ -84,31 +83,9 @@ class EndgameTeams extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final style = AppTextStyles.caption.copyWith(color: context.colors.text3);
-    final l10n = context.l10n;
-    if (teams.any((team) => team.hasDetails)) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: AppSpacing.s8,
-        children: [for (final team in teams) _panel(context, team)],
-      );
-    }
-    return Wrap(
-      spacing: AppSpacing.s12,
-      runSpacing: AppSpacing.s4,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: [
-        for (final team in teams)
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            spacing: AppSpacing.s4,
-            children: [
-              Text(l10n.teamLabel(team.label), style: style),
-              _avatars(team, _compactAvatar),
-            ],
-          ),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    spacing: AppSpacing.s8,
+    children: [for (final team in teams) _panel(context, team)],
+  );
 }
