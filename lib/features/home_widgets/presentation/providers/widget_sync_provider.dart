@@ -6,6 +6,7 @@ import 'package:hoyo_aio/features/background/background_dispatcher.dart';
 import 'package:hoyo_aio/features/checkin/data/check_in_history_repository_impl.dart';
 import 'package:hoyo_aio/features/checkin/presentation/providers/check_in_provider.dart';
 import 'package:hoyo_aio/features/dashboard/data/notes_repository_impl.dart';
+import 'package:hoyo_aio/features/databook/data/chronicle_repository_impl.dart';
 import 'package:hoyo_aio/features/home_widgets/data/home_widget_bridge_impl.dart';
 import 'package:hoyo_aio/features/home_widgets/data/widget_config_repository_impl.dart';
 import 'package:hoyo_aio/features/home_widgets/data/widget_labels.dart';
@@ -20,6 +21,7 @@ part 'widget_sync_provider.g.dart';
 @Riverpod(keepAlive: true)
 UpdateHomeWidgets updateHomeWidgets(Ref ref) => UpdateHomeWidgets(
   ref.watch(notesRepositoryProvider),
+  ref.watch(chronicleRepositoryProvider),
   ref.watch(checkInHistoryRepositoryProvider),
   ref.watch(widgetConfigRepositoryProvider),
   ref.watch(homeWidgetBridgeProvider),
@@ -38,6 +40,7 @@ Future<WidgetSnapshot?> widgetSync(Ref ref) async {
   final gamesWithRoles = ref.watch(checkInGamesProvider).toSet();
   ref
     ..watch(noteSnapshotVersionProvider)
+    ..watch(chronicleCacheVersionProvider)
     ..watch(checkInRunsProvider)
     ..watch(widgetConfigsProvider);
   final locale = ref.watch(appPreferencesProvider).value?.locale;

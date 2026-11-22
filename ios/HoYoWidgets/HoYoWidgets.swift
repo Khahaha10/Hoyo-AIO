@@ -88,6 +88,11 @@ enum WidgetFormat {
             return item.state == "done" ? snapshot.label("done") : "0/1"
         case "realm":
             return NumberFormatter.localizedString(from: NSNumber(value: item.value ?? 0), number: .decimal)
+        case "abyss":
+            let base = "\(item.value ?? 0)/\(max)"
+            guard let doneAt = item.doneAt, doneAt > now else { return base }
+            let hours = Int(doneAt.timeIntervalSince(now) / 3600)
+            return hours >= 24 ? "\(base) · \(hours / 24)d" : "\(base) · \(hours)h"
         case "transformer":
             guard let doneAt = item.doneAt, !allBack else { return snapshot.label("ready") }
             return time(doneAt)

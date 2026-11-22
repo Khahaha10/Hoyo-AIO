@@ -377,10 +377,20 @@ private fun itemValue(snapshot: WidgetSnapshot, item: WidgetItem, now: Instant):
         item.key == "videoStore" && state != null -> snapshot.label("videoStore.$state")
         item.key == "scratchCard" -> if (state == "done") snapshot.label("done") else "0/1"
         item.key == "realm" -> NumberFormat.getIntegerInstance().format(item.value ?: 0)
+        item.key == "abyss" -> abyssText(item, now)
         item.key == "transformer" && (doneAt == null || allBack) -> snapshot.label("ready")
         item.key == "transformer" && doneAt != null -> WidgetSnapshot.clockTime(doneAt)
         item.key == "expeditions" || item.key == "assignments" ->
             "${if (allBack) max else item.value ?: 0}/$max"
         else -> "${item.value ?: 0}/$max"
     }
+}
+
+private fun abyssText(item: WidgetItem, now: Instant): String {
+    val base = "${item.value ?: 0}/${item.max ?: 0}"
+    val doneAt = item.doneAt
+    if (doneAt == null || !doneAt.isAfter(now)) return base
+    val left = java.time.Duration.between(now, doneAt)
+    val span = if (left.toDays() > 0) "${left.toDays()}d" else "${left.toHours()}h"
+    return "$base · $span"
 }

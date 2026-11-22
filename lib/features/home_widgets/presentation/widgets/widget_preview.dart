@@ -115,12 +115,21 @@ class WidgetPreview extends StatelessWidget {
       ),
       'scratchCard' => item.state == 'done' ? _label('done') : '0/1',
       'realm' => _number(item.value ?? 0),
+      'abyss' => _abyss(item, doneAt),
       'transformer' when doneAt == null || allBack => _label('ready'),
       'transformer' => _clock(doneAt ?? now),
       'expeditions' ||
       'assignments' => '${allBack ? max : item.value ?? 0}/$max',
       _ => '${item.value ?? 0}/$max',
     };
+  }
+
+  String _abyss(WidgetItem item, DateTime? doneAt) {
+    final base = '${item.value ?? 0}/${item.max ?? 0}';
+    if (doneAt == null || !doneAt.isAfter(now)) return base;
+    final left = doneAt.difference(now);
+    final span = left.inDays > 0 ? '${left.inDays}d' : '${left.inHours}h';
+    return '$base · $span';
   }
 
   Widget _dotView(Color color) => Container(

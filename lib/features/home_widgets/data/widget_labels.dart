@@ -10,6 +10,7 @@ Map<String, String> widgetLabels(AppLocalizations l10n) => {
   'commissions': l10n.widgetItemCommissions,
   'weeklyBosses': l10n.genshinWeeklyBosses,
   'transformer': l10n.genshinTransformer,
+  'abyss': l10n.widgetItemAbyss,
   'expeditions': l10n.genshinExpeditions,
   'reservedPower': l10n.starRailReservedPower,
   'dailyTraining': l10n.starRailDailyTraining,

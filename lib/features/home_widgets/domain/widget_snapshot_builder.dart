@@ -5,6 +5,7 @@ import 'package:hoyo_aio/features/dashboard/domain/game_note.dart';
 import 'package:hoyo_aio/features/dashboard/domain/note_result.dart';
 import 'package:hoyo_aio/features/dashboard/domain/stamina.dart';
 import 'package:hoyo_aio/features/dashboard/domain/task_progress.dart';
+import 'package:hoyo_aio/features/databook/domain/endgame_models.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/widget_snapshot.dart';
 
 abstract final class WidgetSnapshotBuilder {
@@ -18,10 +19,13 @@ abstract final class WidgetSnapshotBuilder {
     required List<WidgetConfigSnapshot> widgets,
     required Map<String, String> labels,
     required DateTime now,
+    Map<int, EndgameSummary> abyss = const {},
   }) => WidgetSnapshot(
     version: version,
     generatedAt: now.toUtc(),
-    roles: [for (final (role, result) in notes) _role(role, result)],
+    roles: [
+      for (final (role, result) in notes) _role(role, result, abyss[role.id]),
+    ],
     checkIn: WidgetCheckIn(
       day: day,
       done: {
@@ -34,7 +38,11 @@ abstract final class WidgetSnapshotBuilder {
     labels: labels,
   );
 
-  static WidgetRoleSnapshot _role(SavedRole role, NoteResult result) {
+  static WidgetRoleSnapshot _role(
+    SavedRole role,
+    NoteResult result,
+    EndgameSummary? abyss,
+  ) {
     final note = result.note;
     return WidgetRoleSnapshot(
       roleId: role.id,
@@ -44,7 +52,18 @@ abstract final class WidgetSnapshotBuilder {
       fetchedAt: note.fetchedAt.toUtc(),
       stale: result.isStale,
       stamina: _stamina(_staminaKey(note), note.stamina),
-      items: _items(note),
+      items: [..._items(note), ?_abyss(abyss)],
+    );
+  }
+
+  static WidgetItem? _abyss(EndgameSummary? summary) {
+    final max = summary?.maxStars;
+    if (summary == null || max == null) return null;
+    return WidgetItem(
+      key: 'abyss',
+      value: summary.stars ?? 0,
+      max: max,
+      doneAt: summary.endsAt?.toUtc(),
     );
   }
 

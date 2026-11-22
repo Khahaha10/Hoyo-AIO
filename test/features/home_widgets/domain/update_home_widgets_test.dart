@@ -4,6 +4,7 @@ import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:hoyo_aio/features/dashboard/domain/note_result.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/update_home_widgets.dart';
 
+import '../../databook/_support/no_chronicle.dart';
 import '../_support/widget_fixtures.dart';
 
 void main() {
@@ -14,6 +15,7 @@ void main() {
     final bridge = FakeHomeWidgetBridge();
     final update = UpdateHomeWidgets(
       FakeNotesRepository({1: NoteResult(note: genshinNote)}),
+      const NoChronicle(),
       history,
       FakeWidgetConfigRepository([config()]),
       bridge,

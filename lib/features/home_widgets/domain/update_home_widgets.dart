@@ -4,6 +4,8 @@ import 'package:hoyo_aio/features/checkin/domain/check_in_history_repository.dar
 import 'package:hoyo_aio/features/checkin/domain/run_auto_checkin.dart';
 import 'package:hoyo_aio/features/dashboard/domain/note_result.dart';
 import 'package:hoyo_aio/features/dashboard/domain/notes_repository.dart';
+import 'package:hoyo_aio/features/databook/domain/chronicle_repository.dart';
+import 'package:hoyo_aio/features/databook/domain/endgame_models.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/home_widget_repositories.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/widget_snapshot.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/widget_snapshot_builder.dart';
@@ -11,6 +13,7 @@ import 'package:hoyo_aio/features/home_widgets/domain/widget_snapshot_builder.da
 class UpdateHomeWidgets {
   const UpdateHomeWidgets(
     this._notes,
+    this._chronicle,
     this._history,
     this._configs,
     this._bridge,
@@ -18,6 +21,7 @@ class UpdateHomeWidgets {
   );
 
   final NotesRepository _notes;
+  final ChronicleRepository _chronicle;
   final CheckInHistoryRepository _history;
   final WidgetConfigRepository _configs;
   final HomeWidgetBridge _bridge;
@@ -34,8 +38,18 @@ class UpdateHomeWidgets {
       for (final role in roles)
         if (await _notes.cached(role) case final cached?) (role, cached),
     ];
+    final abyss = <int, EndgameSummary>{};
+    for (final (role, _) in notes) {
+      if (role.game != Game.genshin) continue;
+      final cached = await _chronicle.cachedEndgameOverview(role);
+      final summary = cached?.data
+          .where((s) => s.mode == EndgameMode.spiralAbyss)
+          .firstOrNull;
+      if (summary != null) abyss[role.id] = summary;
+    }
     final snapshot = WidgetSnapshotBuilder.build(
       notes: notes,
+      abyss: abyss,
       checkInToday: await _history.recordsOn(day),
       day: day,
       checkInTotal: checkInGames.length,
