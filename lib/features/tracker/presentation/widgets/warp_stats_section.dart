@@ -13,6 +13,7 @@ import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
 import 'package:hoyo_aio/features/tracker/presentation/providers/tracker_providers.dart';
 import 'package:hoyo_aio/features/tracker/presentation/widgets/pity_body.dart';
 import 'package:hoyo_aio/features/tracker/presentation/widgets/tracker_cards.dart';
+import 'package:hoyo_aio/features/tracker/presentation/widgets/warp_stats_skeleton.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -94,10 +95,7 @@ class WarpStatsSection extends ConsumerWidget {
           ],
         ),
       ),
-      _ => const Padding(
-        padding: EdgeInsets.symmetric(vertical: AppSpacing.s24),
-        child: LinearProgressIndicator(),
-      ),
+      _ => const WarpStatsSkeleton(),
     };
   }
 }

@@ -280,11 +280,15 @@ class StatCard extends StatelessWidget {
             maxLines: 1,
             style: AppTextStyles.label.copyWith(color: colors.text2),
           ),
-          Text(
-            value,
-            maxLines: 1,
-            style: AppTextStyles.tabular(AppTextStyles.titleL)
-                .copyWith(color: colors.text),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              value,
+              maxLines: 1,
+              style: AppTextStyles.tabular(AppTextStyles.titleL)
+                  .copyWith(color: colors.text),
+            ),
           ),
         ],
       ),
