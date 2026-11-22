@@ -31,7 +31,6 @@ enum WidgetTokens {
         "zzz": Color(argb: 0xFFF5C518),
         "hi3": Color(argb: 0xFFE94B6A),
     ]
-    ]
     static let light = WidgetPalette(
         background: Color(argb: 0xF0FFFFFF),
         border: Color(argb: 0x140F1115),

@@ -51,9 +51,7 @@ String _swift() {
   for (final MapEntry(:key, :value) in WidgetTokens.accents.entries) {
     buffer.writeln('        "$key": ${_swiftColor(value)},');
   }
-  buffer
-    ..writeln('    ]')
-    ..writeln('    ]');
+  buffer.writeln('    ]');
   for (final MapEntry(:key, :value) in WidgetTokens.themes.entries) {
     buffer
       ..writeln('    static let $key = WidgetPalette(')

@@ -101,17 +101,11 @@ void main() {
     expect(swift, expected);
   });
 
-  test(
-    'Swift WidgetTokens.swift has balanced brackets',
-    () {
-      final swift = File(_swiftPath).readAsStringSync();
+  test('Swift WidgetTokens.swift has balanced brackets', () {
+    final swift = File(_swiftPath).readAsStringSync();
 
-      expect(_balance(swift, '[', ']'), 0);
-      expect(_balance(swift, '(', ')'), 0);
-      expect(_balance(swift, '{', '}'), 0);
-    },
-    skip:
-        'BUG: tool/generate_widget_tokens.dart:56 writes a second "]" after '
-        'the accents dictionary, so WidgetTokens.swift does not compile',
-  );
+    expect(_balance(swift, '[', ']'), 0);
+    expect(_balance(swift, '(', ')'), 0);
+    expect(_balance(swift, '{', '}'), 0);
+  });
 }
