@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart'
     show LicenseEntryWithLineBreaks, LicenseRegistry;
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart'
+    show DeviceOrientation, SystemChrome, rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hoyo_aio/app/app.dart';
 import 'package:hoyo_aio/app/flavor.dart';
@@ -24,8 +25,9 @@ void registerBundledLicenses() {
   });
 }
 
-void bootstrap(Flavor flavor) {
+Future<void> bootstrap(Flavor flavor) async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   registerBundledLicenses();
   runApp(
     ProviderScope(

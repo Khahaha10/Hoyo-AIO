@@ -8,9 +8,10 @@ import 'package:hoyo_aio/core/hoyolab/game.dart';
 import 'package:material_ui/material_ui.dart';
 
 class AppMark extends StatelessWidget {
-  const AppMark({this.size = 104, super.key});
+  const AppMark({this.size = 104, this.rounded = true, super.key});
 
   final double size;
+  final bool rounded;
 
   @override
   Widget build(BuildContext context) {
@@ -19,23 +20,35 @@ class AppMark extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         color: BrandColors.ink,
-        borderRadius: BorderRadius.circular(
-          AppRadius.illustration * size / 104,
-        ),
-        border: Border.all(color: context.colors.border),
+        borderRadius: rounded
+            ? BorderRadius.circular(AppRadius.illustration * size / 104)
+            : null,
+        border: rounded ? Border.all(color: context.colors.border) : null,
       ),
-      child: CustomPaint(
-        painter: _MarkPainter(
-          arcs: [
-            for (final game in const [
-              Game.genshin,
-              Game.starRail,
-              Game.zzz,
-              Game.hi3,
-            ])
-              GameColors.light.of(game).acc,
-          ],
-        ),
+      child: AppMarkGlyph(size: size),
+    );
+  }
+}
+
+class AppMarkGlyph extends StatelessWidget {
+  const AppMarkGlyph({required this.size, super.key});
+
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: Size.square(size),
+      painter: _MarkPainter(
+        arcs: [
+          for (final game in const [
+            Game.genshin,
+            Game.starRail,
+            Game.zzz,
+            Game.hi3,
+          ])
+            GameColors.light.of(game).acc,
+        ],
       ),
     );
   }
