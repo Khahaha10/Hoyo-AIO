@@ -45,14 +45,14 @@ class ChronicleProbe {
 
   Future<Map<String, Object?>> _probeRole(SavedRole role) async {
     final results = <String, Object?>{};
-    String? firstAgentId;
+    String? firstId;
     for (final endpoint in HoyolabConfig.chronicleEndpoints) {
       if (endpoint.game != role.game) continue;
-      if (endpoint.needsAgentId && firstAgentId == null) continue;
-      final outcome = await _call(role, endpoint, agentId: firstAgentId);
+      if (endpoint.idParam != null && firstId == null) continue;
+      final outcome = await _call(role, endpoint, entityId: firstId);
       results[endpoint.key] = outcome.summary;
-      if (endpoint.key == 'zzz.agents') {
-        firstAgentId = _firstAgentId(outcome.raw);
+      if (endpoint.key == 'zzz.agents' || endpoint.key == 'gi.characters') {
+        firstId = _firstEntityId(outcome.raw);
       }
     }
     return results;
@@ -61,11 +61,11 @@ class ChronicleProbe {
   Future<({Map<String, Object?> summary, Object? raw})> _call(
     SavedRole role,
     ChronicleEndpoint endpoint, {
-    String? agentId,
+    String? entityId,
   }) async {
     try {
       final response = await guardHoyolab(
-        () => _request(role, endpoint, agentId),
+        () => _request(role, endpoint, entityId),
       );
       final body = response.data;
       final data = body?['data'];
@@ -86,7 +86,7 @@ class ChronicleProbe {
   Future<Response<Map<String, dynamic>>> _request(
     SavedRole role,
     ChronicleEndpoint endpoint,
-    String? agentId,
+    String? entityId,
   ) {
     final host = role.game == Game.zzz
         ? HoyolabConfig.zzzRecordHost
@@ -103,7 +103,10 @@ class ChronicleProbe {
         'server': role.server,
       },
       ...endpoint.params,
-      'id_list[]': ?agentId,
+      if (endpoint.method == ChronicleMethod.get &&
+          endpoint.idParam != null &&
+          entityId != null)
+        endpoint.idParam!: entityId,
     };
     final options = hoyolabOptions(
       accountId: role.accountId,
@@ -117,14 +120,18 @@ class ChronicleProbe {
       ),
       ChronicleMethod.post => _dio.postUri<Map<String, dynamic>>(
         Uri.https(host, endpoint.path),
-        data: query,
+        data: {
+          ...query,
+          if (endpoint.idParam case final param? when entityId != null)
+            param: [int.tryParse(entityId) ?? entityId],
+        },
         options: options,
       ),
     };
   }
 
-  static String? _firstAgentId(Object? data) {
-    final list = data is Map ? data['avatar_list'] : null;
+  static String? _firstEntityId(Object? data) {
+    final list = data is Map ? (data['avatar_list'] ?? data['list']) : null;
     final first = list is List && list.isNotEmpty ? list.first : null;
     final id = first is Map ? first['id'] : null;
     return id?.toString();

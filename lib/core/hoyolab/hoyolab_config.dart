@@ -36,7 +36,7 @@ class ChronicleEndpoint {
     this.method = ChronicleMethod.get,
     this.params = const {},
     this.uidRegionParams = false,
-    this.needsAgentId = false,
+    this.idParam,
   });
 
   final String key;
@@ -45,7 +45,7 @@ class ChronicleEndpoint {
   final ChronicleMethod method;
   final Map<String, String> params;
   final bool uidRegionParams;
-  final bool needsAgentId;
+  final String? idParam;
 }
 
 abstract final class HoyolabConfig {
@@ -237,6 +237,13 @@ abstract final class HoyolabConfig {
       method: ChronicleMethod.post,
     ),
     ChronicleEndpoint(
+      key: 'gi.characterDetail',
+      game: Game.genshin,
+      path: '/game_record/genshin/api/character/detail',
+      method: ChronicleMethod.post,
+      idParam: 'character_ids',
+    ),
+    ChronicleEndpoint(
       key: 'gi.abyss.current',
       game: Game.genshin,
       path: '/game_record/genshin/api/spiralAbyss',
@@ -326,7 +333,7 @@ abstract final class HoyolabConfig {
       key: 'zzz.agentDetail',
       game: Game.zzz,
       path: '/event/game_record_zzz/api/zzz/avatar/info',
-      needsAgentId: true,
+      idParam: 'id_list[]',
     ),
     ChronicleEndpoint(
       key: 'zzz.bangboo',
