@@ -97,6 +97,7 @@ void main() {
         'sg-hk4e-api.hoyolab.com',
         'sg-public-api.hoyolab.com',
         'bbs-api-os.hoyolab.com',
+        'sg-act-public-api.hoyolab.com',
         'public-operation-hk4e-sg.hoyoverse.com',
         'public-operation-hkrpg-sg.hoyoverse.com',
         'public-operation-nap-sg.hoyoverse.com',

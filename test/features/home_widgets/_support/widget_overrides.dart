@@ -9,6 +9,7 @@ import 'package:hoyo_aio/features/checkin/domain/check_in_record.dart';
 import 'package:hoyo_aio/features/checkin/presentation/providers/check_in_provider.dart';
 import 'package:hoyo_aio/features/dashboard/data/notes_repository_impl.dart';
 import 'package:hoyo_aio/features/dashboard/domain/note_result.dart';
+import 'package:hoyo_aio/features/databook/data/chronicle_repository_impl.dart';
 import 'package:hoyo_aio/features/home_widgets/data/home_widget_bridge_impl.dart';
 import 'package:hoyo_aio/features/home_widgets/data/widget_config_repository_impl.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/home_widget_repositories.dart';
@@ -16,6 +17,7 @@ import 'package:hoyo_aio/features/home_widgets/presentation/providers/widget_syn
 import 'package:hoyo_aio/features/notifications/presentation/providers/notification_sync_provider.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../databook/_support/no_chronicle.dart';
 import 'widget_fixtures.dart';
 
 final widgetNow = fetchedAt.add(const Duration(minutes: 40));
@@ -45,6 +47,8 @@ List<Override> widgetOverrides({
         : const Stream.empty(),
   ),
   noteSnapshotVersionProvider.overrideWith((_) => Stream.value(0)),
+  chronicleCacheVersionProvider.overrideWith((_) => Stream.value(0)),
+  chronicleRepositoryProvider.overrideWithValue(const NoChronicle()),
   checkInRunsProvider.overrideWith((_) => Stream.value(const [])),
   appPreferencesProvider.overrideWith(
     (_) => Stream.value(
