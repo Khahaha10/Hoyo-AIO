@@ -149,3 +149,15 @@ class GachaRecords extends Table {
   @override
   Set<Column<Object>> get primaryKey => {game, id};
 }
+
+@DataClassName('NotificationLogRow')
+@TableIndex(name: 'notification_log_at', columns: {#at})
+class NotificationLog extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get kind => text()();
+  TextColumn get title => text()();
+  TextColumn get body => text()();
+  TextColumn get payload => text().nullable()();
+  DateTimeColumn get at => dateTime()();
+  BoolColumn get read => boolean().withDefault(const Constant(false))();
+}

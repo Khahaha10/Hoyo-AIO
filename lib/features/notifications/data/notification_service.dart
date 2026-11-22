@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hoyo_aio/core/l10n/l10n.dart';
+import 'package:hoyo_aio/features/notifications/data/notification_log_repository_impl.dart';
 import 'package:hoyo_aio/features/notifications/domain/notification_kind.dart';
+import 'package:hoyo_aio/features/notifications/domain/notification_log_entry.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -27,11 +29,12 @@ class ScheduledMessage {
 }
 
 class NotificationService {
-  NotificationService(this._plugin);
+  NotificationService(this._plugin, [this._log]);
 
   static const androidIcon = 'ic_notification';
 
   final FlutterLocalNotificationsPlugin _plugin;
+  final NotificationLogRepository? _log;
   final _taps = StreamController<String?>.broadcast();
   Future<void>? _initialized;
 
@@ -134,6 +137,16 @@ class NotificationService {
         payload: message.payload,
       );
     }
+    await _log?.replaceUpcoming([
+      for (final message in messages)
+        NotificationLogEntry(
+          kind: message.kind,
+          title: message.title,
+          body: message.body,
+          payload: message.payload,
+          at: message.at,
+        ),
+    ]);
   }
 
   Future<void> showNow({
@@ -164,6 +177,15 @@ class NotificationService {
           ],
         ),
         iOS: const DarwinNotificationDetails(),
+      ),
+    );
+    await _log?.recordSent(
+      NotificationLogEntry(
+        kind: kind,
+        title: title,
+        body: body,
+        payload: payload,
+        at: DateTime.now(),
       ),
     );
   }
@@ -221,5 +243,7 @@ class NotificationService {
 }
 
 @Riverpod(keepAlive: true)
-NotificationService notificationService(Ref ref) =>
-    NotificationService(FlutterLocalNotificationsPlugin());
+NotificationService notificationService(Ref ref) => NotificationService(
+  FlutterLocalNotificationsPlugin(),
+  ref.watch(notificationLogRepositoryProvider),
+);

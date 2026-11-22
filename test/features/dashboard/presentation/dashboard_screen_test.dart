@@ -344,7 +344,7 @@ void main() {
       expect(find.text('Alt'), findsOneWidget);
     });
 
-    testWidgets('opens codes from the bell', (tester) async {
+    testWidgets('opens the notification log from the bell', (tester) async {
       cacheAll();
       await pumpDashboard(
         tester,
@@ -352,10 +352,10 @@ void main() {
         repository: repository,
       );
 
-      await tester.tap(find.bySemanticsLabel(RegExp(l10n.codesTitle)).first);
+      await tester.tap(find.bySemanticsLabel(RegExp(l10n.inboxTitle)).first);
       await tester.pumpAndSettle();
 
-      expect(find.text('route:codes'), findsOneWidget);
+      expect(find.text('route:inbox'), findsOneWidget);
     });
 
     testWidgets('opens the tracker from the shortcut row', (tester) async {

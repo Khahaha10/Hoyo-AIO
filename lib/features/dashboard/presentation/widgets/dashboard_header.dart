@@ -20,7 +20,7 @@ class DashboardHeader extends StatelessWidget {
     required this.onSelectGame,
     required this.onSwitchRole,
     required this.onRefresh,
-    required this.onOpenCodes,
+    required this.onOpenInbox,
     required this.unreadCount,
     super.key,
   });
@@ -37,7 +37,7 @@ class DashboardHeader extends StatelessWidget {
   final ValueChanged<Game> onSelectGame;
   final VoidCallback? onSwitchRole;
   final VoidCallback? onRefresh;
-  final VoidCallback onOpenCodes;
+  final VoidCallback onOpenInbox;
   final int unreadCount;
 
   @override
@@ -122,8 +122,8 @@ class DashboardHeader extends StatelessWidget {
                   ),
                   _BellButton(
                     count: unreadCount,
-                    label: l10n.codesTitle,
-                    onPressed: onOpenCodes,
+                    label: l10n.inboxTitle,
+                    onPressed: onOpenInbox,
                   ),
                   AppIconButton(
                     icon: LucideIcons.refreshCw,

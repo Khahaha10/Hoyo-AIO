@@ -18,6 +18,7 @@ part 'app_database.g.dart';
     SeenCodes,
     SeenEvents,
     GachaRecords,
+    NotificationLog,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -26,7 +27,7 @@ class AppDatabase extends _$AppDatabase {
   static const fileName = 'hoyo_aio';
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -50,6 +51,10 @@ class AppDatabase extends _$AppDatabase {
       if (from < 6) {
         await m.createTable(gachaRecords);
         await m.createIndex(gachaRecordsBanner);
+      }
+      if (from < 7) {
+        await m.createTable(notificationLog);
+        await m.createIndex(notificationLogAt);
       }
     },
     beforeOpen: (details) async {

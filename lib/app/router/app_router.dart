@@ -21,6 +21,7 @@ import 'package:hoyo_aio/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:hoyo_aio/features/home_widgets/domain/home_widget_repositories.dart';
 import 'package:hoyo_aio/features/home_widgets/presentation/widget_editor_screen.dart';
 import 'package:hoyo_aio/features/home_widgets/presentation/widget_gallery_screen.dart';
+import 'package:hoyo_aio/features/notifications/presentation/notification_log_screen.dart';
 import 'package:hoyo_aio/features/notifications/presentation/notifications_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:hoyo_aio/features/onboarding/presentation/splash_screen.dart';
@@ -156,6 +157,10 @@ List<RouteBase> _routes(Flavor flavor) => [
     builder: (_, _) => const NotificationsScreen(),
   ),
   GoRoute(path: AppRoutes.about, builder: (_, _) => const AboutScreen()),
+  GoRoute(
+    path: AppRoutes.inbox,
+    builder: (_, _) => const NotificationLogScreen(),
+  ),
   GoRoute(
     path: AppRoutes.selectRoles,
     builder: (_, _) => const SelectRolesScreen(),

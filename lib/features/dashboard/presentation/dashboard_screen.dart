@@ -14,7 +14,6 @@ import 'package:hoyo_aio/core/time/clock.dart';
 import 'package:hoyo_aio/features/accounts/domain/saved_role.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/accounts_provider.dart';
 import 'package:hoyo_aio/features/accounts/presentation/providers/selected_role_provider.dart';
-import 'package:hoyo_aio/features/codes/data/codes_repository_impl.dart';
 import 'package:hoyo_aio/features/dashboard/domain/game_note.dart';
 import 'package:hoyo_aio/features/dashboard/domain/note_result.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/dashboard_format.dart';
@@ -29,7 +28,7 @@ import 'package:hoyo_aio/features/dashboard/presentation/states/dashboard_skelet
 import 'package:hoyo_aio/features/dashboard/presentation/states/refreshing_indicator.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/dashboard_header.dart';
 import 'package:hoyo_aio/features/dashboard/presentation/widgets/role_switcher_sheet.dart';
-import 'package:hoyo_aio/features/events/data/events_repository_impl.dart';
+import 'package:hoyo_aio/features/notifications/presentation/providers/notification_log_provider.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -148,9 +147,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 )
               : null,
           onRefresh: notes.isLoading ? null : notifier.refresh,
-          onOpenCodes: () => context.push(AppRoutes.codes),
-          unreadCount:
-              ref.watch(unreadCodesProvider) + ref.watch(unreadEventsProvider),
+          onOpenInbox: () => context.push(AppRoutes.inbox),
+          unreadCount: ref.watch(unreadNotificationCountProvider),
         ),
         Expanded(
           child: RefreshIndicator(

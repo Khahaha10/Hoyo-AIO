@@ -13,6 +13,7 @@ abstract final class AppRoutes {
   static const selectRoles = '/accounts/roles';
   static const notifications = '/notifications';
   static const about = '/about';
+  static const inbox = '/inbox';
   static const codes = '/codes';
   static const tracker = '/tracker';
   static const trackerHistoryPath = '/tracker/history';

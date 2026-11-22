@@ -449,5 +449,7 @@
   "aboutCreditReference": "Pengetahuan API HoYoLAB (endpoint, header, penandatanganan request) berasal dari android_genshin_resin_widget oleh Donggi Hong, Lisensi MIT. Tidak ada kode, nama, atau aset yang disalin.",
   "aboutCreditFont": "Font Inter oleh The Inter Project Authors, SIL Open Font License 1.1.",
   "aboutLicenses": "Lisensi Open Source",
-  "dashboardSignalsShortcut": "Signal"
+  "dashboardSignalsShortcut": "Signal",
+  "inboxTitle": "Log Notifikasi",
+  "inboxEmpty": "Notifikasi yang dikirim aplikasi akan muncul di sini."
 }

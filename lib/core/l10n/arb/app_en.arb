@@ -1236,5 +1236,7 @@
   "aboutCreditReference": "HoYoLAB API knowledge (endpoints, headers, request signing) comes from android_genshin_resin_widget by Donggi Hong, MIT License. No code, names or assets were copied.",
   "aboutCreditFont": "Inter typeface by The Inter Project Authors, SIL Open Font License 1.1.",
   "aboutLicenses": "Open-Source Licenses",
-  "dashboardSignalsShortcut": "Signals"
+  "dashboardSignalsShortcut": "Signals",
+  "inboxTitle": "Notification Log",
+  "inboxEmpty": "Notifications the app sends will show up here."
 }

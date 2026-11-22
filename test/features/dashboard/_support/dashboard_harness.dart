@@ -64,6 +64,7 @@ Future<void> pumpDashboard(
         ),
       ),
       GoRoute(path: AppRoutes.codes, builder: (_, _) => placeholder('codes')),
+      GoRoute(path: AppRoutes.inbox, builder: (_, _) => placeholder('inbox')),
       GoRoute(
         path: AppRoutes.addAccount,
         builder: (_, _) => placeholder('addAccount'),
